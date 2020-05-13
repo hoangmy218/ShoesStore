@@ -87,40 +87,19 @@
                                 <thead>
                                     <tr>
                                         <th>STT</th>
+                                        <th>Màu sắc</th>
                                         <th>Kích thước(Size)</th>
-                                        <th>Số lượng nhập</th>
                                         <th>Số lượng tồn</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $i=1; ?>
-                                    @foreach( $kichco as $key => $size)
+                                    @foreach( $data as $key => $dt)
                                     <tr>
                                         <th scope="row">{{$i}}</th>
-                                        <th scope="row">{{$size->ctsp_kichCo}}</th>
-                                        
-                                        @foreach($list as $key => $sp)
-                                        <?php 
-                                            $tslnhapsize= DB::table('chitietsanpham')->select(DB::raw("sum(ctsp_soLuongNhap) as tslnhap"))->where('ctsp_kichCo',$size->ctsp_kichCo)->where('sp_ma',$sp->sp_ma)->get();
-                                        ?>
-                                        @endforeach
-                                        
-                                       @foreach($tslnhapsize as $key =>$tn)
-                                        <th scope="row">{{$tn->tslnhap}}</th>
-                                        @endforeach
-
-                                        
-
-                                        @foreach($list as $key => $sp)
-                                        <?php 
-                                            $tsltonsize= DB::table('chitietsanpham')->select(DB::raw("sum(ctsp_soLuongTon) as tslton"))->where('ctsp_kichCo',$size->ctsp_kichCo)->where('sp_ma',$sp->sp_ma)->get();
-                                        ?>
-                                        @endforeach
-                                        
-                                        @foreach($tsltonsize as $key =>$tnn)
-                                        <th scope="row">{{$tnn->tslton}}</th>
-                                        @endforeach
-
+                                        <th scope="row">{{$dt->ms_ten}}</th>
+                                        <th scope="row">{{$dt->kc_ten}}</th>
+                                        <th scope="row">{{$dt->soLuongTon}}</th>
                                     </tr>
                                     <?php $i++; ?>
                                     @endforeach 
@@ -134,19 +113,19 @@
             <div class="col-4">
                  <div class="row">
                             <div class="col-12">
-                                <p class="lead">Tổng số lượng nhập:
+                                {{-- <p class="lead">Tổng số lượng nhập:
                                     @foreach( $tongslnhap as $key => $slnhap)
                                         <b>{{$slnhap->slnhap}}</b>
                                     @endforeach 
-                                </p> 
+                                </p>  --}}
                                 <p class="lead">Tổng số lượng tồn:
                                      @foreach( $tongslton as $key => $slton)
                                         <b>{{$slton->slton}}</b>   
                                     @endforeach 
                                 </p>
-                                <p class="lead">Ghi chú:
+                                <p class="lead">Mô tả:
                                      @foreach( $list as $key => $sp)
-                                        <b>{{$sp->sp_ghiChu}}</b>   
+                                        <b>{{$sp->sp_moTa}}</b>   
                                     @endforeach 
                                 </p>
                                         
