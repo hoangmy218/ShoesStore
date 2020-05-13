@@ -26,7 +26,10 @@ class ProductController extends Controller
         $this->authLogin();
         $list_brand = DB::table("danhmuc")->orderby('dm_ma','desc')->get();
         $list_cate = DB::table("thuonghieu")->orderby('th_ma','desc')->get();
-        return view('admin.add_product')->with('list_cate',$list_cate)->with('list_brand',$list_brand);
+        $list_km = DB::table("khuyenmai")->orderby('km_ma','desc')->get();
+        // $list_color = DB::table("mausac")->orderby('ms_ma','desc')->get();
+        // $list_size = DB::table("kichco")->orderby('kc_ma','desc')->get();
+        return view('admin.add_product')->with('list_cate',$list_cate)->with('list_brand',$list_brand)->with('list_km',$list_km)/*->with('list_color',$list_color)->with('list_size',$list_size)*/;
     	
     }
 
@@ -34,41 +37,64 @@ class ProductController extends Controller
         $data = array();
         $data['sp_ten'] = $request->pro_name;
         $data['sp_donGiaBan'] = $request->pro_price;
-        $data['sp_ghiChu'] = $request->pro_note;
+        $data['sp_moTa'] = $request->pro_des;
         $data['th_ma'] = $request->pro_brand;
         $data['dm_ma'] = $request->pro_cate;
-       
-        if($request->hasFile('product_image')) {
-            $sp_ma = DB::table('sanpham')->insertGetId($data);
-                // duyệt từng ảnh và thực hiện lưu
-                foreach ($request->product_image as $photo) {
-                    $get_image = $photo->getClientOriginalName();
-                    $destinationPath = public_path('upload/product');
-                    $photo->move($destinationPath, $get_image);
-                    $data_img = array();
-                    $data_img['sp_ma']=$sp_ma;
-                    $data_img['ha_ten']=$get_image;
-                    DB::table('hinhanh')->insert($data_img);
-                }
-                Session::put('message','Thêm sản phẩm thành công!');
-                return Redirect::to('/manage-product');
+        //$data['ms_ma'] = $request->pro_color;
+        //$data['sp_soLuongTon'] = 0;
+        $data['sp_trangThai'] = 1;
+        $data['km_ma'] =$request->pro_km;
+        // $data['kc_ma'] = 0;
+        try{
+                if($request->hasFile('product_image')) {
+                $sp_ma = DB::table('sanpham')->insertGetId($data);
+                    // duyệt từng ảnh và thực hiện lưu
+                    foreach ($request->product_image as $photo) {
+                        $get_image = $photo->getClientOriginalName();
+                        $destinationPath = public_path('upload/product');
+                        $photo->move($destinationPath, $get_image);
+                        $data_img = array();
+                        $data_img['sp_ma']=$sp_ma;
+                        $data_img['ha_ten']=$get_image;
+                        //$data['ms_ma'] = $request->pro_color;
+                        DB::table('hinhanh')->insert($data_img);
+                    }
+                    Session::put('success_message','Thêm sản phẩm thành công!');
+                    return Redirect::to('/manage-product');
+            }
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Thêm sản phẩm không thành công!');
+            return Redirect::to('/manage-product');
         }
 
     }
 
 
     public function showProduct(){
-        $this->authLogin();
-        
-    	$list_products = DB::table('sanpham')->join('thuonghieu','sanpham.th_ma','=','thuonghieu.th_ma')->join('danhmuc','danhmuc.dm_ma','=','sanpham.dm_ma')->orderby('sanpham.sp_ma','desc')->get();
-        
+       $this->authLogin();
+        $list_products = DB::table('sanpham')->join('thuonghieu','sanpham.th_ma','=','thuonghieu.th_ma')->join('danhmuc','danhmuc.dm_ma','=','sanpham.dm_ma')->orderby('sanpham.sp_ma','desc')->get();
         /*echo "<pre>";
         print_r($list_products);
         echo "</pre>";*/
-    	$manager_product = view('admin.manage_product')->with('list_pro', $list_products);
-    	return view('admin_layout')->with('admin.manage_product', $manager_product);
+        $manager_product = view('admin.manage_product')->with('list_pro', $list_products);
+        return view('admin_layout')->with('admin.manage_product', $manager_product);
     }
  
+    public function chitiet_sanpham($ct_id){
+        $tongslton= DB::table('cochitietsanpham')->select(DB::raw("sum(soLuongTon) as slton"))->where('sp_ma',$ct_id)->get();
+        // $tongslnhap= DB::table('cochitietsanpham')->select(DB::raw("sum(ctsp_soLuongNhap) as slnhap"))->where('sp_ma',$ct_id)->get();
+        $data= DB::table('cochitietsanpham')->join('kichco', 'kichco.kc_ma', '=','cochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma', '=','cochitietsanpham.ms_ma')->where('sp_ma',$ct_id)->get();
+
+
+        $list=DB::table('sanpham')->where('sanpham.sp_ma', $ct_id)->get();
+
+        $image = DB::table('hinhanh')->where('hinhanh.sp_ma','=',$ct_id)->get();
+        // $ton=DB::table('chitietsanpham')->where('sp_ma', $ct_id)->get();
+       
+        return view('admin.chitiet_sanpham')->with('list', $list)->with('tongslton', $tongslton)->with('hinh',$image)->with('data', $data);
+
+    }
+
     //Tien thêm getSlt xóa hàm getSlt bên SocksController 07/05
     public function getSlt(Request $request)
     {
@@ -82,6 +108,8 @@ class ProductController extends Controller
         $stocks = Stock::where('size_id',$request->size_id)->pluck('stock_number','stock_id');
         return json_encode($stocks);*/
     }
+
+
     public function details_product($product_id){
 
 
@@ -590,21 +618,21 @@ class ProductController extends Controller
         $list_brand = DB::table("thuonghieu")->orderby('th_ma','desc')->get();
         $hinh_anh=DB::table('hinhanh')->where('sp_ma', $chinhsua_sp_ma)->get();
         $edit_pro=DB::table('sanpham')->where('sp_ma',$chinhsua_sp_ma)->get();
-       
+        $list_km=DB::table('khuyenmai')->orderby('km_ma','desc')->get();
         // echo $hinh_anh;
-        return view('admin.edit_product')->with('edit_pro', $edit_pro)->with('list_brand', $list_brand)->with('list_cate', $list_cate)->with('hinh_anh', $hinh_anh);
+        return view('admin.edit_product')->with('edit_pro', $edit_pro)->with('list_brand', $list_brand)->with('list_cate', $list_cate)->with('hinh_anh', $hinh_anh)->with('list_km', $list_km);
     }
     
     public function capnhat_sanpham(Request $request, $chinhsua_sp_ma){
-        $data= array();
+         $data= array();
         $data['sp_ten']=$request->pro_name;
-        $data['sp_donGiaNhap']=$request->pro_pricegor;
+        // $data['sp_donGiaNhap']=$request->pro_pricegor;
         $data['sp_donGiaBan']=$request->pro_price;
-        $data['sp_ghiChu']=$request->pro_note;
+        $data['sp_moTa']=$request->pro_moTa;
         $data['th_ma']=$request->pro_brand;
         $data['dm_ma']=$request->pro_cate;
-
-        if($request->hasFile('product_image')) {
+        try{
+            if($request->hasFile('product_image')) {
             DB::table('sanpham')->where('sp_ma', $chinhsua_sp_ma)->update($data);
                 // duyệt từng ảnh và thực hiện lưu
                 foreach ($request->product_image as $photo) {
@@ -616,15 +644,81 @@ class ProductController extends Controller
                     $data_img['ha_ten']=$get_image;
                     DB::table('hinhanh')->insert($data_img);
                 }
-                Session::put('message','Cập nhật sản phẩm thành công!');
+                Session::put('success_message','Cập nhật sản phẩm thành công!');
                 return Redirect::to('/manage-product');
         }else{
             DB::table('sanpham')->where('sp_ma', $chinhsua_sp_ma)->update($data);
-        Session::put('message','Cập nhật sản phẩm thành công!');
+        Session::put('success_message','Cập nhật sản phẩm thành công!');
         return Redirect::to('/manage-product');
+        }
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Cập nhật sản phẩm thành công!');
         }
     }
 
+    public function xoa_sanpham($id_xoa){
+        $this->AuthLogin();
+        $data= DB::table('cochitietsanpham')->select(DB::raw("count(sp_ma) as slsp"))->where('sp_ma',$id_xoa)->get();
+        foreach ($data as $key => $value) {
+            $v=$value->slsp;
+        }
+        if($v>0){
+            Session::put('fail_message', 'Sản phẩm đang bán, không thể xóa!');
+           
+           
+            }else{
+                DB::table('hinhanh')->join('sanpham', 'sanpham.sp_ma', '=', 'hinhanh.sp_ma')->where('hinhanh.sp_ma',$id_xoa)->delete();
+                DB::table('sanpham')->where('sp_ma',$id_xoa)->delete();
+               
+                Session::put('success_message', 'Xóa sản phẩm ảnh thành công');
 
+            }      
+       
+    }
+
+    public function delete_image_product($ha_id){
+        try{
+        $this->AuthLogin();
+        DB::table('hinhanh')->where('ha_ma',$ha_id)->delete();
+        Session::put('success_message', 'Xóa hình ảnh thành công');
+        // return redirect()->back();
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Xóa hình ảnh không thành công!');
+            // return redirect()->back();
+        }
+       
+    }
+
+    public function unactive_product($Controll_sp_ma){
+        try{
+            //$this->AuthLogin();
+           DB::table('sanpham')->where('sp_ma', $Controll_sp_ma)->update(['sp_trangThai'=>1]);
+            Session::put('success_message', 'Ẩn sản phẩm thành công!');
+            // return Redirect::to('manage-product');
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Ẩn sản phẩm không thành công!');
+        }
+           
+    }
+
+    public function active_product($Controll_sp_ma){
+        $data= DB::table('cochitietsanpham')->select(DB::raw("count(sp_ma) as slsp"))->where('sp_ma',$Controll_sp_ma)->get();
+        foreach ($data as $key => $value) {
+            $v=$value->slsp;
+        }
+        if($v>0){
+                try{ //$this->AuthLogin();
+                DB::table('sanpham')->where('sp_ma', $Controll_sp_ma)->update(['sp_trangThai'=>0]);
+                Session::put('success_message', 'Hiển thị sản phẩm thành công!');
+                // return Redirect::to('manage-product');
+
+            }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Hiển thị sản phẩm không thành công!');
+            }
+        }else{
+            Session::put('fail_message','Sản phẩm hiện chưa nhập số lượng nên không thể hiển thị!');
+        }
+       
+    }
 
 }
