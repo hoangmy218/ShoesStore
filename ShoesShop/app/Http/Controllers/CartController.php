@@ -243,16 +243,20 @@ class CartController extends Controller
        
     }
 
-    public function update_qty(Request $request, $id)
+    public function update_qty(Request $request, $sp_ma)
     {
         $qty = $request->qty;
         $rowId = $request->rowId;
-        $ctsp_ma = $request->ctsp_ma;
-        $size = $request->size;
+        $kc_ma = $request->size;
+        $ms_ma = $request->color;
         $sp_ma = $request->sp_ma;
-        $newpro = DB::Table('cochitietsanpham')->where([['sp_ma',$sp_ma],['ctsp_kichCo',$size]])->first();
-        if ($ctsp_ma == $newpro->ctsp_ma) {//sp cu - khong doi kich co 
-            if ($qty > $newpro->ctsp_soLuongTon){ //chon qua so luong ton
+        $test = "qty: ".$qty." kc_ma:".$kc_ma." ms_ma:".$ms_ma." sp_ma:".$sp_ma;
+        $content = Cart::get($rowId);  
+        $newpro = DB::Table('cochitietsanpham')
+               ->where([['sp_ma',$sp_ma],['ms_ma',$ms_ma],['kc_ma',$kc_ma]])
+               ->first();
+        if (($content->options->mausac == $newpro->ms_ma) && ($content->options->size == $newpro->kc_ma)) {//sp cu - khong doi kich co 
+            if ($qty > $newpro->soLuongTon){ //chon qua so luong ton
                 $hang = DB::table('sanpham')->where('sp_ma',$sp_ma)->select('sp_ten')->first();
                 $tenhang = ' ';
                 $tenhang .= $hang->sp_ten;                
@@ -266,30 +270,33 @@ class CartController extends Controller
                 return view('pages.cart.upCart',compact('content'));
             }
         }else{
-            if ($qty > $newpro->ctsp_soLuongTon){
+            if ($qty > $newpro->soLuongTon){
                 $hang = DB::table('sanpham')->where('sp_ma',$sp_ma)->select('sp_ten')->first();
                 $tenhang = ' ';
                 $tenhang .= $hang->sp_ten;                
                 Session::put('fail_message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng'); 
                 $content = Cart::content();
-                return view('pages.cart.upCart',compact('content'));
-                
+                return view('pages.cart.upCart',compact('content'));                
             }else{
-                Cart::remove($rowId);
-                       
+                Session::put('fail_message','failed! deleted '.$test); 
+                //Cart::remove($rowId);
+               
                 $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first(); 
                 $sanpham = DB::table('sanpham')->where('sp_ma',$sp_ma)->first(); 
                 $data= array();
-                $data['id'] = $newpro->ctsp_ma;
+                $data['id'] = $sp_ma;
                 $data['qty'] = $qty;
                 $data['name'] = $sanpham->sp_ten;
                 $data['price'] = $sanpham->sp_donGiaBan;
                 $data['weight'] = 0;
                 $data['options']['image'] = $hinhanh->ha_ten;
-                $data['options']['size'] = $size;
-                
+                $data['options']['mausac'] = $ms_ma;
+                $data['options']['size'] = $kc_ma;
+                // Cart::update($rowId, [['qty'  => $qty],['options'  => ['size' => $kc_ma]],['options'  => ['mausac' => $ms_ma]]]);
+                // Session::put('fail_message','failed! deleted '.$test." data".$data); 
                 // return view("pages.cart.show_cart");
-                Cart::add($data);
+                //Cart::add($data);
+                Cart::update($rowId, $data);
                 Session::put('success_message','Cập nhật giỏ hàng thành công!');
                 $content = Cart::content();
                 return view('pages.cart.upCart',compact('content'));

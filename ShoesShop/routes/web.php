@@ -98,7 +98,9 @@ Route::post('/tim-kiem','HomeController@search');// Tiên 15/03
 //MY - select Size Stock
 Route::get('/index','StockController@index');
 /*Route::get('/getStock/{id}','StockController@getStock');*/
-Route::get('/getStockSize','StockController@getStockSize');
+Route::get('/getColor','StockController@getColor');
+Route::get('/getSize','StockController@getSize');
+Route::get('/getStock','StockController@getStock');
 /*trung tien, tien doi sang productController
 Route::get('/getSlt','StockController@getSlt');*/
 Route::post('/getAmount','StockController@getAmount');
@@ -139,7 +141,7 @@ Route::get('/view-history/{controll_nd_ma}', 'AdminController@view_history');
 Route::get('/show-cart','CartController@showCart');
 Route::get('/delete-to-cart/{rowId}','CartController@delete_to_cart');//Tien
 Route::post('/update-cart-quantity','CartController@update_cart_quantity');//Tien
-Route::get('/update-qty/{id}','CartController@update_qty');//My
+Route::get('/update-qty/{sp_ma}','CartController@update_qty');//My
 Route::post('/save-cart','CartController@save_cart');//Tien
 
 Route::get('/removeCart','CartController@removeCart'); //my

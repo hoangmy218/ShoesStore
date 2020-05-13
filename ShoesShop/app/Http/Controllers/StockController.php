@@ -22,17 +22,47 @@ class StockController extends Controller
     	$stocks = Stock::where('size_id',$id)->pluck('stock_number','stock_id');
     	return json_encode($stocks);
     }*/
-    public function getStockSize(Request $request)
+    public function getColor(Request $request)
     {
-    	$pro = DB::Table('cochitietsanpham')->where('sp_ma',$request->ctsp_ma)->first();
-    	$stocks = DB::Table('chitietsanpham')->select('ctsp_soLuongTon')->where([['sp_ma',$pro->sp_ma],['ctsp_kichCo',$request->size_id]])->first(); 
-    	return json_encode($stocks);
+    	$pro = DB::Table('cochitietsanpham')
+            ->join('mausac', 'mausac.ms_ma','=','cochitietsanpham.ms_ma')
+            ->where([['sp_ma',$request->sp_ma],['kc_ma',$request->size_id]])
+            ->distinct()
+            ->get();
+    	// $stocks = DB::Table('chitietsanpham')->select('ctsp_soLuongTon')->where([['sp_ma',$pro->sp_ma],['ctsp_kichCo',$request->size_id]])->first(); 
+    	return json_encode($pro);
     	/*
     	$stocks = DB::Table('chitietsanpham')->select('ctsp_soLuongTon')->where([['sp_ma',$request->sp_ma],['ctsp_kichCo',$request->size_id]])->first(); 
     	return json_encode($stocks);
 
     	$stocks = Stock::where('size_id',$request->size_id)->pluck('stock_number','stock_id');
     	return json_encode($stocks);*/
+    }
+
+    public function getSize(Request $request)
+    {
+        $pro = DB::Table('cochitietsanpham')
+            ->join('kichco', 'kichco.kc_ma','=','cochitietsanpham.kc_ma')
+            ->where([['sp_ma',$request->sp_ma],['ms_ma',$request->color_id]])
+            ->distinct()
+            ->get();
+        // $stocks = DB::Table('chitietsanpham')->select('ctsp_soLuongTon')->where([['sp_ma',$pro->sp_ma],['ctsp_kichCo',$request->size_id]])->first(); 
+        return json_encode($pro);
+        /*
+        $stocks = DB::Table('chitietsanpham')->select('ctsp_soLuongTon')->where([['sp_ma',$request->sp_ma],['ctsp_kichCo',$request->size_id]])->first(); 
+        return json_encode($stocks);
+
+        $stocks = Stock::where('size_id',$request->size_id)->pluck('stock_number','stock_id');
+        return json_encode($stocks);*/
+    }
+
+    public function getStock(Request $request)
+    {
+         $stocks = DB::Table('cochitietsanpham')
+                    ->select('soLuongTon')
+                    ->where([['sp_ma',$request->sp_ma],['ms_ma',$request->color_id],['kc_ma',$request->size_id]])
+                    ->first(); 
+        return json_encode($stocks);
     }
 
     /*public function getSlt(Request $request)

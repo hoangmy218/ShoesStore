@@ -1,6 +1,6 @@
 {{-- <div class="row">
 	<div class="col-md-12 ftco-animate"> --}}
-		<div class="cart-list">
+	<div class="cart-list">
 		<?php
 		            	$message = Session::get('fail_message');
 		            	if ($message){
@@ -17,6 +17,7 @@
 		            	$content = Cart::content();
 		            ?>
 			
+	    			
 	    				<table class="table">
 						    <thead class="thead-primary">
 							     <tr class="text-center">
@@ -37,7 +38,7 @@
 							    <tbody>
 								    <tr class="text-center">
 								      	<td class="product-price">
-								        	<h4>{{$count++}}</h4>
+								        	<h4>{{$count}}</h4>
 								        </td>
 								        <td class="product-id">
 								        	<h3>{{$v_content->id}}</h3>
@@ -78,9 +79,9 @@
 							                    {{-- @foreach($sizes as $key => $value) --}}
 							                    @foreach(array_unique($array) as $key => $val)
 							                    	@if ($v_content->options->mausac == $key )
-							                        <option value="{{$val}}" selected>{{$val}}</option>
+							                        <option value="{{$key}}" selected>{{$val}}</option>
 							                        @else
-							                        	<option value="{{$val}}">{{$val}}</option>
+							                        	<option value="{{$key}}">{{$val}}</option>
 							                        @endif
 							                    @endforeach
 							                </select>
@@ -108,9 +109,9 @@
 							                    {{-- @foreach($sizes as $key => $value) --}}
 							                    @foreach(array_unique($array) as $key => $val)
 							                    	@if ($v_content->options->size == $key )
-							                        <option value="{{$val}}" selected>{{$val}}</option>
+							                        <option value="{{$key}}" selected>{{$val}}</option>
 							                        @else
-							                        	<option value="{{$val}}">{{$val}}</option>
+							                        	<option value="{{$key}}">{{$val}}</option>
 							                        @endif
 							                    @endforeach
 							                </select>
@@ -149,24 +150,13 @@
 							         
 							      		</tr><!-- END TR-->
 							    	</tbody>
-							   
+							   <?php $count++; ?>
 							@endforeach 
 
 						</table>
 						<h3 class="billing-heading mb-4" align="right">{{ __('Tổng tiền') }}: &emsp;{{Cart::subtotal().' VND'}}</h3>	
 					</div>
-				{{-- 	</div>
 
-    		</div> --}}
-	    	{{-- <div class="row justify-content-start">
-	    		<div class="col-md-12 ftco-animate">
-	    			<div class="cart-total mb-3">
-	    				<h3 class="billing-heading mb-4" align="right">{{ __('Tổng tiền') }}: &emsp;{{Cart::subtotal().' '.'vnđ'}}</h3>		
-	    			</div>
-	    			<p class="text-center"><a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">{{ __('Mua sắm ngay') }}</a>
-	    			<a href="{{URL::to('/checkout')}}" class="btn btn-primary py-3 px-4">{{ __('Đặt hàng ngay') }}</a></p>
-	    		</div>
-	    	</div> --}}
 	  
 	<script src="http://www.codermen.com/js/jquery.js"></script>
     <script type="text/javascript">
@@ -179,13 +169,88 @@
 			
 			
         $(document).ready(function(){
+        	 //dat thi gian tat thong bao
+	        setTimeout(function(){
+	           $("span.alert").remove();
+	        }, 5000 ); // 5 secs
+
+
+        	$('select[name="color"]').on('change',function(){
+                var color_id = $(this).val();
+                console.log(color_id);
+                var sp_ma = $.trim(($(this).parent()).parent().children().eq(1).text());
+            		console.log(sp_ma,'sp_ma');
+                if(color_id){
+
+                    
+                    $.ajax({
+
+                        url: "{{url('getSize')}}",
+                        dataType: 'json',
+                        type: 'GET',
+                        data:{
+                        	color_id: color_id,
+                        	sp_ma: sp_ma
+                        },
+                        
+                        success: function(data){
+                            console.log(data,'getSize');
+                            
+                             $('select[name="size"]').empty();
+                             $.each(data, function(index, value){ 
+                                $('select[name="size"]').append('<option value="'+value['kc_ma']+'">'+value['kc_ten']+'</option>');
+								 /*$('input[name="quantity"]').replaceWith('<input type="number" onchange="this.form.submit()" name="quantity" class="quantity form-control input-number" value="1" min="1" max="'+stock+'">');*/
+								 /* $('input[name="quantity"]').replaceWith('<input type="number"  name="quantity" id="upCart" class="quantity form-control input-number" value="1" min="1" max="'+stock+'">');*/
+								/*--
+								  $('input[name="quantity"]').attr({
+								       "max" : stock,        // substitute your own
+								       "min" : 1          // values (or variables) here
+								    });
+                              --*/
+                             });
+                        }
+                    }); 
+                }else{
+                    $('select[name="size"]').empty();
+                }
+            });
+        	
             $('select[name="size"]').on('change',function(){
                 var size_id = $(this).val();
                 console.log(size_id);
-                var ctsp_ma = $.trim(($(this).parent()).parent().children().eq(1).text());
-            		console.log(ctsp_ma,'ctsp_ma');
+                var sp_ma = $.trim(($(this).parent()).parent().children().eq(1).text());
+            		console.log(sp_ma,'sp_ma');
                 if(size_id){
 
+                    $.ajax({
+
+                        url: "{{url('getColor')}}",
+                        dataType: 'json',
+                        type: 'GET',
+                        data:{
+                        	size_id: size_id,
+                        	sp_ma: sp_ma
+                        },
+                        
+                        success: function(data){
+                            console.log(data,'getColor');
+                             // $('select[name="color"]').empty();
+                            $.each(data, function(index, value){ 
+
+                                $('select[name="color"]').append('<option value="'+value['ms_ma']+'">'+value['ms_ten']+'</option>');
+								 /*$('input[name="quantity"]').replaceWith('<input type="number" onchange="this.form.submit()" name="quantity" class="quantity form-control input-number" value="1" min="1" max="'+stock+'">');*/
+								 /* $('input[name="quantity"]').replaceWith('<input type="number"  name="quantity" id="upCart" class="quantity form-control input-number" value="1" min="1" max="'+stock+'">');*/
+								  // $('input[name="quantity"]').attr({
+								  //      "max" : stock,        // substitute your own
+								  //      "min" : 1          // values (or variables) here
+								  //   });
+                              
+                             });
+                        }
+                    });
+                    var color_id = $.trim(($(this).parent()).parent().children().eq(4).children().val());
+                    console.log(color_id,'ms_ma');
+                    console.log(size_id,'kc_ma');
                     $.ajax({
 
                         url: "{{url('getStock')}}",
@@ -193,15 +258,15 @@
                         type: 'GET',
                         data:{
                         	size_id: size_id,
-                        	ctsp_ma: ctsp_ma
+                        	color_id: color_id,
+                        	sp_ma: sp_ma
                         },
                         
                         success: function(data){
-                            console.log(data);
-                             $('select[name="stock"]').empty();
-                             $.each(data, function(name,stock){
-                                /*$('select[name="stock"]').append('<option value="'+stock+'">'+stock+'</option>');
-*/
+                            console.log(data,'getStock');
+                             // $('select[name="color"]').empty();
+                            $.each(data, function(index, stock){ 
+                                console.log(stock, ' stock');
 								  $('input[name="quantity"]').attr({
 								       "max" : stock,        // substitute your own
 								       "min" : 1          // values (or variables) here
@@ -211,7 +276,7 @@
                         }
                     });
                 }else{
-                     $('select[name="stock"]').empty();
+                    $('select[name="color"]').empty();
                 }
             });
 
@@ -222,12 +287,16 @@
 			?>
 			$('#upCart<?php echo $i; ?>').on('change keyup', function(){
 				var newqty = $('#upCart<?php echo $i; ?>').val();
-				var rowId = $('#rowId<?php echo $i; ?>').val();
-				var ctsp_ma = $('#ctsp_ma<?php echo $i; ?>').val();
+				var rowId = $('#rowId<?php echo $i; ?>').val();				
 				var sp_ma = $('#sp_ma<?php echo $i; ?>').val();
 				var size = $('.size<?php echo $i; ?>').val();
-
-				// alert(newqty+' '+rowId+' '+ctsp_ma);
+				var color = $('.color<?php echo $i; ?>').val();
+				console.log(newqty, ' new qty');
+				console.log(rowId, ' rowId');
+				console.log(sp_ma, ' sp_ma');
+				console.log(size, ' size');
+				console.log(color, ' color');
+				alert('sl:'+newqty+' rowId:'+rowId+' sp_ma'+sp_ma+" kc_ma"+size+" ms_ma"+color);
 				if (newqty <=0 ){
 					alert('Số lượng không hợp lệ! Số lượng lớn hơn 0');
 				} else{
@@ -235,11 +304,11 @@
 					$.ajax({
 						type: 'get',
 						dataType: 'html',
-						url: '<?php echo url('update-qty');?>/'+ctsp_ma,
-						data: "qty="+newqty+"&rowId="+rowId+"&ctsp_ma="+ctsp_ma+"&sp_ma="+sp_ma+"&size="+size,
+						url: '<?php echo url('update-qty');?>/'+sp_ma,
+						data: "qty="+newqty+"&rowId="+rowId+"&sp_ma="+sp_ma+"&size="+size+"&color="+color,
 						success: function(response){
 							console.log(response);
-							  $('#updateDiv').html(response);
+							 $('#updateDiv').html(response);
 						}
 					});
 
