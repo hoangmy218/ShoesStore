@@ -11,7 +11,7 @@
                     <div class="page-header-title">
                         <i class="ik ik-file-text bg-blue"></i>
                         <div class="d-inline">
-                        <h5>Sản phẩm</h5>
+                        <h5>Thêm sản phẩm</h5>
                                            {{--  <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
                         </div>
                     </div>
@@ -71,6 +71,44 @@
                         </select>
                     </div>
                     <div class="form-group">
+                                <label for="exampleSelectGender">Khuyến mãi</label>
+                                <select class="form-control" required="" name="pro_km" id="exampleSelectGender">
+                                    <option value="">Chọn khuyến mãi muốn áp dụng  </option>
+                                    @foreach($list_km  as $key => $km)
+                                    <option value="{{$km->km_ma}}">{{$km->km_chuDe}}</option>  
+                                    @endforeach
+                                </select>
+                            </div>
+                {{-- <table width="100%">
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="exampleSelectGender">Màu sắc</label>
+                                <select class="form-control" required="" name="pro_color" id="exampleSelectGender">
+                                    <option value="">Chọn màu sắc  </option>
+                                    @foreach($list_color  as $key => $color)
+                                    <option value="{{$color->ms_ma}}">{{$color->ms_ten}}</option>  
+                                    @endforeach
+                                </select>
+                            </div>
+                        </td>
+                        <td> , </td>
+                        <td>
+                            <div class="form-group">
+                                <label for="exampleSelectGender">Kích cỡ</label>
+                                <select class="form-control" required="" name="pro_size" id="exampleSelectGender">
+                                    <option value="">Chọn kích cỡ</option>
+                                    @foreach($list_size as $key => $size)
+                                    <option value="{{$size->kc_ma}}">{{$size->kc_ten}}</option>  
+                                    @endforeach
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table> --}}
+                    
+                    
+                    <div class="form-group">
                                                 {{-- <div class="raw">
                                                     <div class="col-lg-8"></div>
 
@@ -85,16 +123,36 @@
                     
 
                     <div class="form-group">
-                        <label for="exampleTextarea1">Ghi chú</label>
-                        <textarea required="" class="form-control" name="pro_note" id="exampleTextarea1" rows="4"></textarea>
+                        <label for="exampleTextarea1">Mô tả</label>
+                        <textarea required="" class="form-control" name="pro_des" id="exampleTextarea1" rows="4"></textarea>
                     </div>
                     <button type="submit" id="uploadImage" name="add_pro" class="btn btn-primary mr-2">Thêm</button>
-                    <button id ="cancel" class="btn btn-light">Hủy</button>
+                    <button type="button" class="btn btn-light cancel">Hủy</button>
                 </form>
                 </div>
             </div>
         </div>
     </div>
+    {{-- lan 13/05/2020 --}}
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Hủy thêm sản phẩm mới</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn hủy thêm sản phẩm này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="cancel" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    {{-- 07052020 --}}
     {{-- THÊM+CHỈNH SỬA --}}
 <script src="http://www.codermen.com/js/jquery.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-latest.pack.js"></script>
@@ -137,9 +195,20 @@ $(document).ready(function(){
     });
 
 });
+setTimeout(function(){
+           $("span.alert").remove();
+        }, 5000 );
+$(document).on('click','.cancel', function(){
+            sp_ma = $(this).attr('id');
+            console.log(sp_ma);
+            $('#cancelModal').modal('show');
+            
+        });
  $('#cancel').click(function(e){
-            e.preventDefault();
-            window.history.back();
+    e.preventDefault();
+     window.location.replace("<?php echo url('/manage-product');?>");
+            // e.preventDefault();
+            // window.history.back();
         });
 </script>
 

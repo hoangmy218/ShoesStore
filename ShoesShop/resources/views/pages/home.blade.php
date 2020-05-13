@@ -15,7 +15,9 @@
                                 <div class="text">
                                     <span class="subheading">{{$ad->qc_chuDe}}</span>
                                     <div class="horizontal">
-                                        <h1 class="mb-4 mt-3"><?php echo Session::get('nd_ten'); ?></h1>
+
+                                        
+
                                         
                                       </div>
                                 </div>
@@ -151,8 +153,18 @@
                                                 </p>
                                             </div> --}}
                                         </div>
-                                        <!-- Tiên -->
-                                        <h3><a href="{{URL::to('/product-detail/'.$product->sp_ma)}}">{{$product->sp_ten}}</a></h3>
+                                        <!-- Tiên 13/05-->
+                                        <?php
+                                          $request= DB::table('cochitietsanpham')->select('ms_ma')->where('sp_ma','=',$product->sp_ma)->first();
+                                          $ms=$request->ms_ma;
+
+                                          // echo "<pre>";
+                                          // print_r($ms);
+                                          // echo "</pre>";
+                                          // echo $ms_ma=$request->ms_ma;
+
+                                        ?>
+                                        <h3><a href="{{URL::to('/product-detail/'.$product->sp_ma.'/'.$ms)}}">{{$product->sp_ten}}</a></h3>
                                         <div class="pricing">
                                             <p class="price"><span>{{number_format($product->sp_donGiaBan).' '.'VNĐ'}}</span></p>
                                         </div>
