@@ -343,7 +343,7 @@
 				console.log(sp_ma, ' sp_ma');
 				console.log(size, ' size');
 				console.log(color, ' color');
-				alert('sl:'+newqty+' rowId:'+rowId+' sp_ma'+sp_ma+" kc_ma"+size+" ms_ma"+color);
+				// alert('sl:'+newqty+' rowId:'+rowId+' sp_ma'+sp_ma+" kc_ma"+size+" ms_ma"+color);
 				if (newqty <=0 ){
 					alert('Số lượng không hợp lệ! Số lượng lớn hơn 0');
 				} else{
