@@ -135,7 +135,15 @@
                                 <div class="product d-flex flex-column">
                                     <a href="#" class="img-prod"><img class="img-fluid" src="public/upload/product/{{$product->ha_ten}}" alt="Colorlib Template">
                                         <div class="overlay"></div>
-                                        {{-- <span class="status">{{ __('Giảm 50%') }}</span> --}}
+                                         <?php 
+                                              $giamgia=(double)$product->sp_donGiaBan-($product->sp_donGiaBan*$product->km_giamGia/100);
+                                              $time = \Carbon\Carbon::now('Asia/Ho_Chi_Minh');
+
+                                              $today=$time->toDateString();
+                                           ?>
+                                         @if(($product->km_giamGia) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
+                                          <span class="status">{{ __('Giảm ').$product->km_giamGia.'%' }}</span>
+                                          @endif
                                     </a>
                                     <div class="text py-3 pb-4 px-3">
                                         <div class="d-flex">
@@ -165,9 +173,22 @@
 
                                         ?>
                                         <h3><a href="{{URL::to('/product-detail/'.$product->sp_ma.'/'.$ms)}}">{{$product->sp_ten}}</a></h3>
-                                        <div class="pricing">
-                                            <p class="price"><span>{{number_format($product->sp_donGiaBan).' '.'VNĐ'}}</span></p>
-                                        </div>
+                                        <!-- start Ngân(13/5/2020) thêm giá khuyến mãi -->
+                                        
+                                        @if(($product->km_giamGia) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
+                                              <div class="pricing">
+                                                <p class="price"><span><del>{{number_format($product->sp_donGiaBan).' '.'VNĐ'}}</del></span></p>
+                                              </div>
+                                              <div class="pricing">
+                                                <p class="price" style="color: red"><span><b>{{number_format($giamgia).' '.'VNĐ'}}</b></span></p>
+                                            </div>
+                                        @else
+                                          <div class="pricing">
+                                              <p class="price"><span>{{number_format($product->sp_donGiaBan).' '.'VNĐ'}}</
+                                                span></p>
+                                          </div>
+                                        @endif
+                                <!-- end Ngân(13/5/2020) thêm giá khuyến mãi -->
                                         <p class="bottom-area d-flex px-3">
                                            {{--  <a href="#" class="add-to-cart text-center py-2 mr-1"><span>{{ __('Thêm giỏ hàng') }}<i class="ion-ios-add ml-1"></i></span></a>
                                             <a href="#" class="buy-now text-center py-2">{{ __('Buy now') }}<span><i class="ion-ios-cart ml-1"></i></span></a> --}}
@@ -191,7 +212,8 @@
                     </div>
                 </div>
 
-                {{-- Categories --}}
+                  <!-- Start Ngân (13/5/2020)  -->
+                {{-- Categories --}} 
 
                 <div class="col-md-4 col-lg-2">
                     <div class="sidebar">
@@ -204,7 +226,7 @@
                                     <div class="panel panel-default">
                                          <div class="panel-heading" role="tab">
                                              <h4 class="panel-title">
-                                                 <a class="collapsed" href="#collapseTwo">{{$cate->dm_ten}}
+                                                 <a class="collapsed" href="{{URL::to('/show-pro-category/'.$cate->dm_ma)}}">{{$cate->dm_ten}}
                                                  </a>
                                              </h4>
                                          </div>
@@ -223,18 +245,20 @@
                                     <div class="panel panel-default">
                                          <div class="panel-heading" role="tab">
                                              <h4 class="panel-title">
-                                                 <a class="collapsed" href="#collapseTwo">{{$brand->th_ten}}
+                                                 <a class="collapsed" href="{{URL::to('/show-bra-category/'.$brand->th_ma)}}">{{$brand->th_ten}}
                                                  </a>
                                              </h4>
                                          </div>
                                      </div>
                                     @endforeach
+                                   
                                 </div>
                                      
                             </div>
                        </div>
                     </div>
                 </div>
+              <!-- end Ngân (13/5/2020)  -->
             </div>
         </div>
     </section>
