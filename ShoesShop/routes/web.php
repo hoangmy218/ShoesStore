@@ -80,14 +80,14 @@ Route::get('/delete-size/{kc_ma}','SizeController@delete_Size');
 
 
 
-//LAN
+//CUSTOMER LAN 
 Route::get('/info-customer', 'HomeController@info_customer');
 Route::get('/chinhsua-thongtin', 'HomeController@chinhsua_thongtin');
 Route::post('/capnhat-thongtin', 'HomeController@capnhat_thongtin');
 Route::post('capnhat-thongtin/{capnhat_nd_ma}','HomeController@capnhat_thongtin');
 
-//Product
-Route::get('/product-detail/{product_id}','ProductController@details_product');//Tiên
+//PRODUCT - Tiên 1305
+Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product'); 
 
 
 
@@ -98,8 +98,9 @@ Route::post('/tim-kiem','HomeController@search');// Tiên 15/03
 //MY - select Size Stock
 Route::get('/index','StockController@index');
 /*Route::get('/getStock/{id}','StockController@getStock');*/
-Route::get('/getStock','StockController@getStock');
-Route::get('/getSlt','StockController@getSlt');
+Route::get('/getStockSize','StockController@getStockSize');
+/*trung tien, tien doi sang productController
+Route::get('/getSlt','StockController@getSlt');*/
 Route::post('/getAmount','StockController@getAmount');
 
 
