@@ -27,14 +27,14 @@ class CartController extends Controller
         $this->authLogin();
         $content = Cart::content();
         if ($content->isempty()){
-            Session::put('message','Giỏ hàng trống!');
+            Session::put('fail_message','Giỏ hàng trống!');
         }
         //Kiemtra het hang
           
             $hethang = 0; //false - con hang
             $outstock = array();
             foreach ($content as $v_content) {
-                 $ctsp_ton =  DB::table('chitietsanpham')->where('ctsp_ma', $v_content->id)->first();
+                 $ctsp_ton =  DB::table('cochitietsanpham')->where('ctsp_ma', $v_content->id)->first();
                 if ( $v_content->qty > $ctsp_ton->ctsp_soLuongTon){
                     $hethang = $hethang+1; //true
                     $outstock[$hethang] = $ctsp_ton->sp_ma;
@@ -49,9 +49,9 @@ class CartController extends Controller
                     if ($key != count($outstock))
                     $tenhang .= ',';
                 }
-                /*$sizes = DB::Table('chitietsanpham')->select('ctsp_kichCo','ctsp_ma')->where('sp_ma',4)->get(); */
+                /*$sizes = DB::Table('cochitietsanpham')->select('ctsp_kichCo','ctsp_ma')->where('sp_ma',4)->get(); */
            
-                Session::put('message','<b>'.$tenhang.'</b> không đủ hàng');
+                Session::put('fail_message','<b>'.$tenhang.'</b> không đủ hàng');
             }
     	return view("pages.cart.show_cart");
     }
@@ -70,8 +70,8 @@ class CartController extends Controller
         echo 'soluong'.$soluong;
 
 
-    	$ctsp = DB::table('cochitietsanpham')->join('sanpham','sanpham.sp_ma','=','cochitietsanpham.sp_ma')->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')->where([['cochitietsanpham.kc_ma',$size],
-            ['cochitietsanpham.ms_ma',$mausac],['cochitietsanpham.sp_ma',$sp_ma]])->first();
+    	$ctsp = DB::table('cocochitietsanpham')->join('sanpham','sanpham.sp_ma','=','cocochitietsanpham.sp_ma')->join('kichco','kichco.kc_ma','=','cocochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma','=','cocochitietsanpham.ms_ma')->where([['cocochitietsanpham.kc_ma',$size],
+            ['cocochitietsanpham.ms_ma',$mausac],['cocochitietsanpham.sp_ma',$sp_ma]])->first();
 
   //   	// $ma_sanpham = $ctsp->sp_ma;
 
@@ -114,7 +114,7 @@ class CartController extends Controller
         $outstock = array();
         $content = Cart::get($rowId); 
         $hethang = 0; //false
-            $ctsp_ton =  DB::table('chitietsanpham')->where('ctsp_ma', $content->id)->first();
+            $ctsp_ton =  DB::table('cochitietsanpham')->where('ctsp_ma', $content->id)->first();
             if ( ($qty > $ctsp_ton->ctsp_soLuongTon) || ($size != $ctsp_ton->ctsp_kichCo)){ //chon qua slt hoac doi kich co
                 if ($size == $ctsp_ton->ctsp_kichCo){ //chon qua slt, ko doi kich co
                     $hethang = $hethang+1; //true
@@ -126,11 +126,11 @@ class CartController extends Controller
                        /* if ($key != count($outstock))
                         $tenhang .= ',';
                     }*/
-                    Session::put('message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng');
+                    Session::put('fail_message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng');
                     return view('pages.cart.show_cart');
                 }else{ //doi kich co
                    
-                    $sp_moi = DB::Table('chitietsanpham')->where([['sp_ma',$ctsp_ton->sp_ma],['ctsp_kichCo',$size]])->get();  
+                    $sp_moi = DB::Table('cochitietsanpham')->where([['sp_ma',$ctsp_ton->sp_ma],['ctsp_kichCo',$size]])->get();  
                     if ($qty > $sp_moi->ctsp_soLuongTon){ //SP MOI KHONG DU HANG
                         $hethang = $hethang+1; //true
                         $outstock[$hethang] = $ctsp_ton->sp_ma;
@@ -141,7 +141,7 @@ class CartController extends Controller
                        /* if ($key != count($outstock))
                         $tenhang .= ',';
                         }*/
-                        Session::put('message','<b>'.$tenhang.'</b> không đủ hàng');
+                        Session::put('fail_message','<b>'.$tenhang.'</b> không đủ hàng');
                         return view('pages.cart.show_cart');
                     }else{  //SP MOI HOP LE
                         Cart::remove($rowId);
@@ -183,7 +183,7 @@ class CartController extends Controller
             }
             
        
-            Session::put('message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng');
+            Session::put('fail_message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng');
             return view('pages.cart.show_cart');
         
         
@@ -197,13 +197,13 @@ class CartController extends Controller
         $ctsp_ma = $request->ctsp_ma;
         $size = $request->size;
         $sp_ma = $request->sp_ma;
-        $newpro = DB::Table('chitietsanpham')->where([['sp_ma',$sp_ma],['ctsp_kichCo',$size]])->first();
+        $newpro = DB::Table('cochitietsanpham')->where([['sp_ma',$sp_ma],['ctsp_kichCo',$size]])->first();
         if ($ctsp_ma == $newpro->ctsp_ma) {//sp cu - khong doi kich co 
             if ($qty > $newpro->ctsp_soLuongTon){ //chon qua so luong ton
                 $hang = DB::table('sanpham')->where('sp_ma',$sp_ma)->select('sp_ten')->first();
                 $tenhang = ' ';
                 $tenhang .= $hang->sp_ten;                
-                Session::put('message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng'); 
+                Session::put('fail_message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng'); 
                 $content = Cart::content();
                 return view('pages.cart.upCart',compact('content'));
             }else {
@@ -217,7 +217,7 @@ class CartController extends Controller
                 $hang = DB::table('sanpham')->where('sp_ma',$sp_ma)->select('sp_ten')->first();
                 $tenhang = ' ';
                 $tenhang .= $hang->sp_ten;                
-                Session::put('message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng'); 
+                Session::put('fail_message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng'); 
                 $content = Cart::content();
                 return view('pages.cart.upCart',compact('content'));
                 

@@ -2,11 +2,11 @@
 	<div class="col-md-12 ftco-animate"> --}}
 		<div class="cart-list">
 		<?php
-		            	$message = Session::get('message');
+		            	$message = Session::get('fail_message');
 		            	if ($message){
 		            		echo '<span class="alert alert-danger">'.$message."</span>";
 		            		
-		            		Session::put('message',null);
+		            		Session::put('fail_message',null);
 		            	}
 		            	$success_message = Session::get('success_message');
 		            	if ($success_message){
