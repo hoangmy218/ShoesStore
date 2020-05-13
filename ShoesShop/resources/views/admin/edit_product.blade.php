@@ -1,10 +1,5 @@
-
-
-
-
 @extends('admin_layout')
 @section('content')
-
 <div class="main-content">
     <div class="container-fluid">
         <div class="page-header">
@@ -13,7 +8,7 @@
                     <div class="page-header-title">
                         <i class="ik ik-file-text bg-blue"></i>
                         <div class="d-inline">
-                            <h5>Sản phẩm</h5>
+                            <h5>Chỉnh sửa thông tin sản phẩm</h5>
                                            {{--  <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
                             <?php
                                 $message =Session::get('message');
@@ -25,6 +20,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-lg-4">
                     <nav class="breadcrumb-container" aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -40,6 +36,20 @@
                 </div>
             </div>
         </div>
+        <?php
+                            $message = Session::get('fail_message');
+                            if ($message){
+                                echo '<span class="alert alert-danger">'.$message."</span>";
+                                
+                                Session::put('fail_message',null);
+                            }
+                            $message = Session::get('success_message');
+                            if ($message){
+                                echo '<span class="alert alert-success">'.$message."</span>";
+                                
+                                Session::put('success_message',null);
+                            }
+                        ?>
         <div class="card">
             <div class="card-header"><h3>Chỉnh sửa thông tin sản phẩm</h3></div>
                 <div class="card-body">
@@ -55,11 +65,11 @@
                                 <input type="number" class="form-control" name="pro_price" id="exampleInputName1" min="100000" step="1000" max="5000000" value="{{$pro->sp_donGiaBan}}">
                                 
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="exampleInputName1">Đơn giá nhập</label>
                                 <input type="number" class="form-control" name="pro_pricegor" id="exampleInputName1" min="100000" step="1000" max="5000000" value="{{$pro->sp_donGiaNhap}}">
                                 
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label for="exampleSelectGender">Thương hiệu</label>
                                 <select class="form-control" name="pro_brand" id="exampleSelectGender">
@@ -80,6 +90,19 @@
                                 <option selected value="{{$cate->dm_ma}}">{{$cate->dm_ten}}</option>
                                 @else
                                 <option value="{{$cate->dm_ma}}">{{$cate->dm_ten}}</option>
+                                @endif 
+                                @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleSelectGender">Khuyến mãi</label>
+                                <select class="form-control" required="" name="pro_km" id="exampleSelectGender">
+                                    @foreach($list_km as $key => $km)
+                                @if($km->km_ma==$pro->km_ma)
+                                <option selected value="{{$km->km_ma}}">{{$km->km_chuDe}}</option>
+                                @else
+                                <option value="{{$km->km_ma}}">{{$km->km_chuDe}}</option>
                                 @endif 
                                 @endforeach
                                 </select>
@@ -107,7 +130,9 @@
                                     
                                     <td><img src="{{URL::to('public/upload/product/'.$image->ha_ten)}}"height="100" width="100"></td>
                                     <td>
-                                        <a id="xoa" onclick="return confirm('Bạn chắc chắn muốn xóa ảnh này?')" href="{{URL::to('delete-image-product/'.$image->ha_ma)}}"><i class="ik ik-trash-2"></i></a>
+                                        <a><i class="ik ik-trash-2 cancel text-red" id="{{$image->ha_ma}}"></i></a>
+
+                                        {{-- <a id="xoa" onclick="return confirm('Bạn chắc chắn muốn xóa ảnh này?')" href="{{URL::to('delete-image-product/'.$image->ha_ma)}}"><i class="ik ik-trash-2"></i></a> --}}
                                        
                                     </td>        
                                 </tr>
@@ -123,17 +148,55 @@
                             
                         </table>
                             <div class="form-group">
-                                <label for="exampleTextarea1">Ghi chú</label>
-                                <textarea class="form-control" name="pro_note" id="exampleTextarea1" rows="4">{{$pro->sp_ghiChu}}</textarea>
+                                <label for="exampleTextarea1">Mô tả</label>
+                                <textarea class="form-control" name="pro_moTa" id="exampleTextarea1" rows="4">{{$pro->sp_moTa}}</textarea>
                                 </div>
                                 <button type="submit" id="capnhat" name="add_pro" class="btn btn-primary mr-2">Cập nhật</button>
-                                <button class="btn btn-light">Hủy</button>
+                                <button type="button"  class="btn btn-light cancelhuy">Hủy</button>
                      </form>
                  @endforeach
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Xóa hình ảnh</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa hình ảnh này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+
+                                <button type="button" id="ok_xoaanh_btn" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- lan 13/05/2020 --}}
+    <div class="modal fade" id="cancelHuy" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Hủy chỉnh sửa sản phẩm</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn hủy chỉnh sửa?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="xacnhan" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 {{-- THÊM+CHỈNH SỬA --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -152,6 +215,24 @@ $(document).ready(function(){
             return true;
         }
     });
+    setTimeout(function(){
+           $("span.alert").remove();
+        }, 5000 ); // 5 secs
+     });
+$(document).on('click','.cancel', function(){
+            ha_ma = $(this).attr('id');
+            $('#cancelModal').modal('show');
+        });
+$('#ok_xoaanh_btn').click(function(){
+            $.ajax({
+                url: '<?php echo url('delete-image-product');?>/'+ha_ma,
+                type: 'get',
+                success: function(data)
+                {
+                    window.location.replace("<?php redirect()->back();?>");
+                }
+            });
+            
 
 });
 </script>
@@ -172,6 +253,7 @@ $(document).ready(function(){
     
 });
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -196,7 +278,23 @@ $(document).ready(function(){
                     return false; 
                 }
     });
+
+    setTimeout(function(){
+           $("span.alert").remove();
+        }, 5000 );
+$(document).on('click','.cancelhuy', function(){
+            $('#cancelHuy').modal('show');
+        });
+$('#xacnhan').click(function(e){
+    e.preventDefault();
+     window.location.replace("<?php echo url('/manage-product');?>");
+        });
 });
+
+
+
+
+
 </script>               
 @endsection
 
