@@ -22,9 +22,9 @@ class StockController extends Controller
     	$stocks = Stock::where('size_id',$id)->pluck('stock_number','stock_id');
     	return json_encode($stocks);
     }*/
-    public function getStock(Request $request)
+    public function getStockSize(Request $request)
     {
-    	$pro = DB::Table('chitietsanpham')->where('ctsp_ma',$request->ctsp_ma)->first();
+    	$pro = DB::Table('cochitietsanpham')->where('sp_ma',$request->ctsp_ma)->first();
     	$stocks = DB::Table('chitietsanpham')->select('ctsp_soLuongTon')->where([['sp_ma',$pro->sp_ma],['ctsp_kichCo',$request->size_id]])->first(); 
     	return json_encode($stocks);
     	/*

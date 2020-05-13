@@ -2,11 +2,11 @@
 	<div class="col-md-12 ftco-animate"> --}}
 		<div class="cart-list">
 		<?php
-		            	$message = Session::get('message');
+		            	$message = Session::get('fail_message');
 		            	if ($message){
 		            		echo '<span class="alert alert-danger">'.$message."</span>";
 		            		
-		            		Session::put('message',null);
+		            		Session::put('fail_message',null);
 		            	}
 		            	$success_message = Session::get('success_message');
 		            	if ($success_message){
@@ -24,6 +24,7 @@
 							        <th>{{ __('Mã sản phẩm') }}</th>
 							        <th>{{ __('Hình ảnh') }}</th>
 							        <th>{{ __('Tên sản phẩm') }}</th>
+							        <th>{{ __('Màu sắc') }}</th>
 							        <th>{{ __('Kích cỡ') }}</th>
 							        <th>{{ __('Đơn giá') }}</th>
 							        <th>{{ __('Số lượng') }}</th>
@@ -36,7 +37,7 @@
 							    <tbody>
 								    <tr class="text-center">
 								      	<td class="product-price">
-								        	<h4>{{$count}}</h4>
+								        	<h4>{{$count++}}</h4>
 								        </td>
 								        <td class="product-id">
 								        	<h3>{{$v_content->id}}</h3>
@@ -49,18 +50,67 @@
 								        	
 								        </td>
 								        <td class="quantity">
-								        	{{-- <h3>{{$v_content->options->size}}</h3> --}}
-								        	<select name="size" id="size"  class="form-control size<?php echo $count; ?>">
-							                    <option value="">Size</option>
+								        	<select name="color" id="color"  class="form-control color<?php echo $count; ?>">
+							                    
 							                    <?php 
-								                    $product = DB::Table('chitietsanpham')->select('sp_ma','ctsp_soLuongTon')->where('ctsp_ma',$v_content->id)->first();
-								                    $sizes = DB::Table('chitietsanpham')->select('ctsp_kichCo','ctsp_ma')->where([['sp_ma',$product->sp_ma],['ctsp_soLuongTon','!=',0]])->orderBy('ctsp_kichCo','asc')->get();    
+								                    $item = DB::Table('cochitietsanpham')
+											                    ->join('sanpham','sanpham.sp_ma','=','cochitietsanpham.sp_ma')
+												                ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
+												                ->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')
+											                    ->where([['cochitietsanpham.kc_ma',$v_content->options->size],
+									                                ['cochitietsanpham.ms_ma',$v_content->options->mausac],
+									                                ['cochitietsanpham.sp_ma',$v_content->id]])			                    
+									                            ->first();
+								                    $colors = DB::Table('cochitietsanpham')
+								                     			->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')			
+								                     			->where([['cochitietsanpham.sp_ma',$v_content->id],
+								                    					 ['soLuongTon','!=',0]])
+								                    			->orderBy('cochitietsanpham.ms_ma','asc')->get();
+								                    $array = array();
+						                 	
+								                 	foreach($colors as $key => $clr){
+								                 		
+								                 		$array[$clr->ms_ma] = $clr->ms_ten;
+								                 		
+								                 	}  
 							                    ?>
-							                    @foreach($sizes as $key => $value)
-							                    	@if ($v_content->options->size == $value->ctsp_kichCo )
-							                        <option value="{{$value->ctsp_kichCo}}" selected>{{$value->ctsp_kichCo}}</option>
+
+							                    {{-- @foreach($sizes as $key => $value) --}}
+							                    @foreach(array_unique($array) as $key => $val)
+							                    	@if ($v_content->options->mausac == $key )
+							                        <option value="{{$val}}" selected>{{$val}}</option>
 							                        @else
-							                        	<option value="{{$value->ctsp_kichCo}}">{{$value->ctsp_kichCo}}</option>
+							                        	<option value="{{$val}}">{{$val}}</option>
+							                        @endif
+							                    @endforeach
+							                </select>
+							               								        	
+								        
+								        </td>
+								        <td class="quantity">
+								        	
+								        	<select name="size" id="size"  class="form-control size<?php echo $count; ?>">
+							                    <?php 
+								                   	$sizes = DB::Table('cochitietsanpham')
+								                     			->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')			
+								                     			->where([['cochitietsanpham.sp_ma',$v_content->id],
+								                    					 ['soLuongTon','!=',0]])
+								                    			->orderBy('cochitietsanpham.kc_ma','asc')->get();
+								                    $array = array();
+						                 	
+								                 	foreach($sizes as $key => $sz){
+								                 		
+								                 		$array[$sz->kc_ma] = $sz->kc_ten;
+								                 		
+								                 	}  
+							                    ?>
+
+							                    {{-- @foreach($sizes as $key => $value) --}}
+							                    @foreach(array_unique($array) as $key => $val)
+							                    	@if ($v_content->options->size == $key )
+							                        <option value="{{$val}}" selected>{{$val}}</option>
+							                        @else
+							                        	<option value="{{$val}}">{{$val}}</option>
 							                        @endif
 							                    @endforeach
 							                </select>
@@ -73,10 +123,10 @@
 									        
 										        <div class="input-group mb-3" id="divquantity">		
 										        	<input type="hidden" value="{{$v_content->rowId}}" id="rowId<?php echo $count; ?>" name="rowId" class="form-control">
-										        	<input type="hidden" value="{{$product->sp_ma}}" id="sp_ma<?php echo $count; ?>" name="sp_ma" class="form-control">
+										        	<input type="hidden" value="{{$item->sp_ma}}" id="sp_ma<?php echo $count; ?>" name="sp_ma" class="form-control">
 										        	<input type="hidden" value="{{$v_content->id}}" id="ctsp_ma<?php echo $count; ?>" name="ctsp_ma" class="form-control">								        	
 														
-							             			<input type="number" name="quantity" id="upCart<?php echo $count; ?>" class="quantity form-control input-number" value="{{$v_content->qty}}" min="1" max="{{$product->ctsp_soLuongTon}}">
+							             			<input type="number" name="quantity" id="upCart<?php echo $count; ?>" class="quantity form-control input-number" value="{{$v_content->qty}}" min="1" max="{{$item->soLuongTon}}">
 							             			    	
 									          	</div>
 									          	
@@ -99,11 +149,11 @@
 							         
 							      		</tr><!-- END TR-->
 							    	</tbody>
-							    <?php $count++; ?>
+							   
 							@endforeach 
 
 						</table>
-						<h3 class="billing-heading mb-4" align="right">{{ __('Tổng tiền') }}: &emsp;{{Cart::subtotal().' '.'vnđ'}}</h3>	
+						<h3 class="billing-heading mb-4" align="right">{{ __('Tổng tiền') }}: &emsp;{{Cart::subtotal().' VND'}}</h3>	
 					</div>
 				{{-- 	</div>
 
