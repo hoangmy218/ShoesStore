@@ -53,8 +53,8 @@
                 <span class="text">shoesshop@gmail.com</span>
               </div>
               <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
-                {{-- <span class="text"><a href="{!! route('user.change-language', ['en']) !!}">English</a> | <a href="{!! route('user.change-language', ['vi']) !!}">Vietnamese</a>{{Session::get('website_language')}}{{App::getLocale()}}</span> --}}
-                <span class="text"><a href="{{URL::to('/switchlang/en')}}">{{ __('Tiếng Anh') }}</a> | <a href="{{URL::to('/switchlang/vi')}}">{{ __('Tiếng Việt') }}</a></span>
+                <span class="text">{{ __('888A Đường 3/2, P.Xuân Khánh, Q.Ninh Kiều, TP.Cần Thơ') }}</span>
+               
               </div>
 
             </div>
@@ -88,9 +88,9 @@
 
             <?php 
               $customer_name = Session::get('nd_ten');
-              $customer_cv = Session::get('cv_ma'); 
+              $customer_ltk = Session::get('ltk_ma'); 
             ?>
-            @if ($customer_cv == 2)
+            @if ($customer_ltk == 2)
              <li class="nav-item dropdown">
               <a href="{{URL::to('/')}}" class="nav-link">{{$customer_name}}</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
