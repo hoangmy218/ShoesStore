@@ -48,7 +48,8 @@ class HomeController extends Controller
     }
 
     public function Home_u(){
-        $this->authLogin();
+        // $this->authLogin();
+        // echo Session::get('ltk_ma');
        // Start Ngân (14/4/2020)
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();
         //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);

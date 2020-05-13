@@ -53,8 +53,7 @@
                 <span class="text">shoesshop@gmail.com</span>
               </div>
               <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
-                {{-- <span class="text"><a href="{!! route('user.change-language', ['en']) !!}">English</a> | <a href="{!! route('user.change-language', ['vi']) !!}">Vietnamese</a>{{Session::get('website_language')}}{{App::getLocale()}}</span> --}}
-                <span class="text"><a href="{{URL::to('/switchlang/en')}}">{{ __('Tiếng Anh') }}</a> | <a href="{{URL::to('/switchlang/vi')}}">{{ __('Tiếng Việt') }}</a></span>
+               
               </div>
 
             </div>
@@ -88,8 +87,9 @@
 
             <?php 
               $customer_name = Session::get('nd_ten');
-              $customer_cv = Session::get('cv_ma'); 
+              $customer_cv = Session::get('ltk_ma'); 
             ?>
+            {{-- {{$customer_name}} --}}
             @if ($customer_cv == 2)
              <li class="nav-item dropdown">
               <a href="{{URL::to('/')}}" class="nav-link">{{$customer_name}}</a>
@@ -100,6 +100,7 @@
               </div>
             </li>
             @else
+            {{$customer_cv}}
               <li class="nav-item"><a href="{{URL::to('userLogin')}}" class="nav-link">{{ __('Đăng nhập') }}</a></li>
               <li class="nav-item"><a href="{{URL::to('register')}}" class="nav-link">{{ __('Đăng ký') }}</a></li>
             @endif
