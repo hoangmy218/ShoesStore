@@ -144,7 +144,12 @@
 								        ?>
 						                 	
 						                  	@foreach($arr_ms as $key => $val)
-						                  		<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  		@if($key == $ms_ma)
+						                  	  		<a class="button btn btn-success" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	  	
+						                  	  	@else
+						                  			<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	  	@endif
 
 						                  		
 						                  	@endforeach
