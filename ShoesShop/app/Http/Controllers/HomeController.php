@@ -27,8 +27,14 @@ class HomeController extends Controller
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();
         //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);
 
-        // Tiên  thêm where
-         $all_product = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(6)->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sp_trangThai','=',0)->get(); 
+        // Tiên  thêm where Ngan join km
+         $all_product = DB::table('hinhanh')
+                ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
+                ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+                ->orderby('sanpham.sp_ma','desc')
+                ->groupby('hinhanh.sp_ma')->limit(6)
+                ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+                ->where('sp_trangThai','=',0)->get(); 
          $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
         
@@ -48,14 +54,20 @@ class HomeController extends Controller
     }
 
     public function Home_u(){
-        // $this->authLogin();
+        $this->authLogin();
         // echo Session::get('ltk_ma');
        // Start Ngân (14/4/2020)
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();
         //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);
 
-        // Tiên  thêm where
-         $all_product = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(6)->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sp_trangThai','=',0)->get(); 
+        // Tiên  thêm where Ngan join KM
+        $all_product = DB::table('hinhanh')
+                ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
+                ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+                ->orderby('sanpham.sp_ma','desc')
+                ->groupby('hinhanh.sp_ma')->limit(6)
+                ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+                ->where('sp_trangThai','=',0)->get(); 
          $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
         

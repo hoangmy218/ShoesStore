@@ -88,7 +88,9 @@ Route::post('capnhat-thongtin/{capnhat_nd_ma}','HomeController@capnhat_thongtin'
 
 //PRODUCT - Tiên 1305
 Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product'); 
-
+//Ngân(13/5/2020)
+Route::get('/show-pro-category/{category_id}','ProductController@showProCategory');
+Route::get('/show-pro-brand/{brand_id}','ProductController@showProBrand');
 
 
 Route::get('/all-product','ProductController@all_product');//Tiên
