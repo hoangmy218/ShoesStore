@@ -131,7 +131,10 @@ class CartController extends Controller
                 ->first();
 
 
-        $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first(); 
+        $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first();
+
+        //Lan thêm khuyển mãi
+        $makhuyenmai =DB::table('sanpham')->where('sp_ma',$sp_ma)->first();
 
         $data= array();
         $data['id'] = $sp_ma;
@@ -139,10 +142,13 @@ class CartController extends Controller
         $data['name'] = $ctsp->sp_ten;
         $data['price'] = $ctsp->sp_donGiaBan;
         $data['weight'] = 0;
+        //lan thêm km
+        
+        
         $data['options']['image'] = $hinhanh->ha_ten;
         $data['options']['mausac'] = $ctsp->ms_ma;
         $data['options']['size'] = $ctsp->kc_ma;
-  
+        $data['options']['km']= $makhuyenmai->km_ma;
         
         Cart::add($data);
         // echo "<pre>";
@@ -209,7 +215,7 @@ class CartController extends Controller
                         $data['weight'] = 0;
                         $data['options']['image'] = $hinhanh->ha_ten;
                         $data['options']['size'] = $size;
-                        
+                        $data['options']['km']= $sanpham->km_ma;
                         // return view("pages.cart.show_cart");
                         Cart::add($data);
                         Session::put('success_message','Cập nhật giỏ hàng thành công!');
@@ -292,6 +298,7 @@ class CartController extends Controller
                 $data['options']['image'] = $hinhanh->ha_ten;
                 $data['options']['mausac'] = $ms_ma;
                 $data['options']['size'] = $kc_ma;
+                $data['options']['km']= $sanpham->km_ma;
                 // Cart::update($rowId, [['qty'  => $qty],['options'  => ['size' => $kc_ma]],['options'  => ['mausac' => $ms_ma]]]);
                 // Session::put('fail_message','failed! deleted '.$test." data".$data); 
                 // return view("pages.cart.show_cart");

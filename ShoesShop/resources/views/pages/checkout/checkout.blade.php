@@ -37,6 +37,7 @@
                                     <th>{{ __('Kích cỡ') }}</th>
                                     <th>{{ __('Đơn giá') }}</th>
                                     <th>{{ __('Số lượng') }}</th>
+                                    <th>Khuyến mãi</th>
                                     <th>{{ __('Thành tiền') }}</th>
                                     
                                     
@@ -63,11 +64,16 @@
                                         </td>
                                         
                                         <td class="price">{{number_format($v_content->price).' '.'VND'}}</td>
-                                        
+                
+
+                                       
                                         <td class="quantity">
                                             <h4>{{$v_content->qty}}</h4>
                                                         {{-- <input type="number" name="cart_quantity" class="quantity form-control input-number" value="{{$v_content->qty}}" min="1" max="100"> --}}       
                                                 
+                                        </td>
+                                         <td class="khuyenmai">
+                                            <h3>{{$v_content->options->km}}</h3>                                          
                                         </td>
                                         <td class="total">
                                             <p class="cart_total_price">
@@ -123,7 +129,7 @@
                                         <option value="">{{ __('Chọn hình thức vận chuyển') }}</option>
                                         @foreach($ma_vanchuyen as $key => $mavc)
                                         
-                                        <option value="{{$mavc->vc_ma}}">{{$mavc->vc_ten}}</option>
+                                        <option value="{{$mavc->htvc_ma}}">{{$mavc->htvc_ten}}</option>
                                         @endforeach
                                     </select>
                                 </div> 
@@ -199,9 +205,9 @@
 
             $('select[name="vanc_id"]').on('change',function(){
                     var vc_ma = $(this).val();
-                    console.log(vc_ma);
+                    // console.log(vc_ma);
                     var tongtien = $('#tong').val(); 
-                    console.log(tongtien);
+                    // console.log(tongtien);
                     if(vc_ma){
                         $.ajax({
                             url: "{{url('get-price')}}?vc_ma="+vc_ma,
