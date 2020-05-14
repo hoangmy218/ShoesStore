@@ -227,17 +227,7 @@ class HomeController extends Controller
         $list_cate = DB::table('danhmuc')->get();//tien 14/05
 
         $keywords = $request->keywords_submit;
-<<<<<<< HEAD
-=======
-        $search = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->where('sp_ten','like','%'.$keywords.'%')->get();
-        if (!($search->isempty()))
-        {
-            Session::put('success_message','Tìm kiếm sản phẩm thành công!');
-        } else
-        {
-            Session::put('fail_message','Không tìm thấy sản phẩm!');
-        }
->>>>>>> d3b0daec8c863e467af2f7c705cd373f45796981
+
 
         $search = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(6)->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sp_ten','like','%'.$keywords.'%')->get(); 
 
