@@ -76,40 +76,7 @@ class CartController extends Controller
 
      // Tien sua 08/05
     public function save_cart(Request $request){
-        /*$this->authLogin();
-    	$size= $request->size; //size_id
-        $mausac= $request->mausac; //mausac_id
-        $sp_ma= $request->productid_hidden; //sp_ma
-
-    	$soluong = $request->quantity;
-        echo 'size'.$size.'\n';
-        echo 'mausac'.$mausac.'\n';
-        echo 'sp_ma'.$sp_ma.'\n';
-        echo 'soluong'.$soluong;
-
-
-    	$ctsp = DB::table('cocochitietsanpham')->join('sanpham','sanpham.sp_ma','=','cocochitietsanpham.sp_ma')->join('kichco','kichco.kc_ma','=','cocochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma','=','cocochitietsanpham.ms_ma')->where([['cocochitietsanpham.kc_ma',$size],
-            ['cocochitietsanpham.ms_ma',$mausac],['cocochitietsanpham.sp_ma',$sp_ma]])->first();
-
-        $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first(); 
-
-		$data= array();
-    	$data['id'] = $sp_ma;
-        $data['qty'] = $soluong;
-        $data['name'] = $ctsp->sp_ten;
-        $data['price'] = $ctsp->sp_donGiaBan;
-        $data['weight'] = 0;
-        $data['options']['image'] = $hinhanh->ha_ten;
-        $data['options']['mausac'] = $ctsp->ms_ma;
-        $data['options']['size'] = $ctsp->kc_ma;
-  
-        // return view("pages.cart.show_cart");
-		Cart::add($data);
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
-   		return Redirect::to('/show-cart');*/
-         $this->authLogin();
+        $this->authLogin();
         $size= $request->size; //size_id
         $mausac= $request->ms_ma_hidden; //mausac_id
         $sp_ma= $request->productid_hidden; //sp_ma
