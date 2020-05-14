@@ -120,14 +120,6 @@
 	  
 	<script src="http://www.codermen.com/js/jquery.js"></script>
     <script type="text/javascript">
-    	    function rating(a){
-			  console.log((a.parentElement).parentElement.parentElement.childNodes[3].childNodes[1].innerHTML);
-			  var ctsp_ma = (a.parentElement).parentElement.parentElement.childNodes[3].childNodes[1].innerHTML;
-			 /* var size_id = a.innerHTML;
-                console.log(size_id);*/
-			}
-			
-			
         $(document).ready(function(){
             $('select[name="size"]').on('change',function(){
                 var size_id = $(this).val();
