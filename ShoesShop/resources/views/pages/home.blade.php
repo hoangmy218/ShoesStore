@@ -133,7 +133,7 @@
                             {{-- <div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex"> sua --}}
                              
                                 <div class="product d-flex flex-column">
-                                    <a href="#" class="img-prod"><img class="img-fluid" src="public/upload/product/{{$product->ha_ten}}" alt="Colorlib Template">
+                                    <a href="#" class="img-prod"><img class="img-fluid" src="{{asset('public/upload/product/'.$product->ha_ten)}}" alt="Colorlib Template">
                                         <div class="overlay"></div>
                                          <?php 
                                               $giamgia=(double)$product->sp_donGiaBan-($product->sp_donGiaBan*$product->km_giamGia/100);
@@ -141,7 +141,7 @@
 
                                               $today=$time->toDateString();
                                            ?>
-                                         @if(($product->km_giamGia) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
+                                         @if(($product->km_giamGia != 0) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
                                           <span class="status">{{ __('Giảm ').$product->km_giamGia.'%' }}</span>
                                           @endif
                                     </a>
@@ -173,9 +173,9 @@
 
                                         ?>
                                         <h3><a href="{{URL::to('/product-detail/'.$product->sp_ma.'/'.$ms)}}">{{$product->sp_ten}}</a></h3>
-                                        <!-- start Ngân(13/5/2020) thêm giá khuyến mãi -->
+                                      <!-- start Ngân(13/5/2020) thêm giá khuyến mãi -->
                                         
-                                        @if(($product->km_giamGia) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
+                                        @if(($product->km_giamGia != 0) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
                                               <div class="pricing">
                                                 <p class="price"><span><del>{{number_format($product->sp_donGiaBan).' '.'VNĐ'}}</del></span></p>
                                               </div>
@@ -188,7 +188,7 @@
                                                 span></p>
                                           </div>
                                         @endif
-                                <!-- end Ngân(13/5/2020) thêm giá khuyến mãi -->
+                                      <!-- end Ngân(13/5/2020) thêm giá khuyến mãi -->
                                         <p class="bottom-area d-flex px-3">
                                            {{--  <a href="#" class="add-to-cart text-center py-2 mr-1"><span>{{ __('Thêm giỏ hàng') }}<i class="ion-ios-add ml-1"></i></span></a>
                                             <a href="#" class="buy-now text-center py-2">{{ __('Buy now') }}<span><i class="ion-ios-cart ml-1"></i></span></a> --}}
@@ -262,98 +262,6 @@
             </div>
         </div>
     </section>
-
-
-
-  {{--   <section class="ftco-section ftco-choose ftco-no-pb ftco-no-pt">
-        <div class="container">
-                <div class="row no-gutters">
-                    <div class="col-lg-4">
-                        <div class="choose-wrap divider-one img p-5 d-flex align-items-end" style="background-image: url({{asset('public/frontend/images/choose-1.jpg')}});">
-
-                        <div class="text text-center text-white px-2">
-                                <span class="subheading">{{ __('Giày nam') }}</span>
-                            <h2>{{ __('Bộ sưu tập giày nam') }}</h2>
-                            <p>{{ __('Cũng tương tự như phong cách cổ điển, những người theo phong cách tinh tế luôn muốn đồ chất lượng cao.') }}</p>
-                            <p><a href="#" class="btn btn-black px-3 py-2">{{ __('Mua sắm ngay') }}</a></p>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-lg-8">
-                    <div class="row no-gutters choose-wrap divider-two align-items-stretch">
-                        <div class="col-md-12">
-                            <div class="choose-wrap full-wrap img align-self-stretch d-flex align-item-center justify-content-end" style="background-image: url({{URL::to('public/frontend/images/choose-2.jpg')}});">
-                                <div class="col-md-7 d-flex align-items-center">
-                                    <div class="text text-white px-5">
-                                        <span class="subheading">{{ __('Giày nữ') }}</span>
-                                        <h2>{{ __('Bộ sưu tập giày nữ') }}</h2>
-                                        <p>{{ __('Phong cách nữ sinh rất phổ biến trong giới sinh viên đại học.') }}</p>
-                                        <p><a href="#" class="btn btn-black px-3 py-2">{{ __('Mua sắm ngay') }}</a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row no-gutters">
-                                <div class="col-md-6">
-                                    <div class="choose-wrap wrap img align-self-stretch bg-light d-flex align-items-center">
-                                        <div class="text text-center px-5">
-                                            <span class="subheading">{{ __('Mua sắm mùa hè') }}</span>
-                                            <h2>{{ __('Giảm giá thêm 50%') }}</h2>
-                                            <p>{{ __('Cùng chào đón một mùa hè sôi động.') }}</p>
-                                            <p><a href="#" class="btn btn-black px-3 py-2">{{ __('Mua sắm ngay') }}</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="choose-wrap wrap img align-self-stretch d-flex align-items-center" style="background-image: url({{URL::to('public/frontend/images/choose-3.jpg')}});">
-                                        <div class="text text-center text-white px-5">
-                                            <span class="subheading">{{ __('Giày dép') }}</span>
-                                            <h2>{{ __('Bán chạy nhất') }}</h2>
-                                            <p>{{ __('5 mẫu giày bán chạy nhất 2020 mà bạn không nên bỏ lỡ.') }}</p>
-                                            <p><a href="#" class="btn btn-black px-3 py-2">{{ __('Mua sắm ngay') }}</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
- --}}
- {{--    <section class="ftco-section ftco-deal bg-primary">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="{{URL::to('public/frontend/images/prod-1.png')}}" class="img-fluid" alt="">
-                </div>
-                <div class="col-md-6">
-                    <div class="heading-section heading-section-white">
-                        <span class="subheading">{{ __('Khuyến mãi đặc biệt hàng tháng') }}</span>
-                <h2 class="mb-3">{{ __('Khuyến mãi đặc biệt hàng tháng') }}</h2>
-              </div>
-                    <div id="timer" class="d-flex mb-4">
-                          <div class="time" id="days"></div>
-                          <div class="time pl-4" id="hours"></div>
-                          <div class="time pl-4" id="minutes"></div>
-                          <div class="time pl-4" id="seconds"></div>
-                        </div>
-                        <div class="text-deal">
-                            <h2><a href="#">Nike Free RN 2019 iD</a></h2>
-                            <p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
-                            <ul class="thumb-deal d-flex mt-4">
-                                <li class="img" style="background-image: url({{URL::to('public/frontend/images/product-6.png')}});"></li>
-                                <li class="img" style="background-image: url({{URL::to('public/frontend/images/product-2.png')}});"></li>
-                                <li class="img" style="background-image: url({{URL::to('public/frontend/images/product-4.png')}});"></li>
-                            </ul>
-                        </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
 
     <section class="ftco-gallery">
         <div class="container">

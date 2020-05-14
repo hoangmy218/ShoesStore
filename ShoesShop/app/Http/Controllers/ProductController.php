@@ -724,14 +724,19 @@ class ProductController extends Controller
 
     // start Ngân(13/5/2020)
     public function showProCategory($category_id){
-        $list_cate_product = DB::table('sanpham')
-            ->where('sanpham.dm_ma',$category_id)
-            ->join('hinhanh','sanpham.sp_ma','=','hinhanh.sp_ma')
+        $list_cate_product = DB::table('hinhanh')            
+            ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
+            ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
             ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
             ->orderby('sanpham.sp_ma','desc')
             ->groupby('hinhanh.sp_ma')
+            ->where([['sanpham.dm_ma','=',$category_id],['sp_trangThai','=',0]])
             ->limit(6)
             ->get();
+
+            // echo "<pre>";
+            // print_r($list_cate_product);
+            // echo "</pre>";
 
          $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
