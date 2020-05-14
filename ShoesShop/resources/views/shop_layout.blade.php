@@ -104,7 +104,7 @@
               </div>
             </li>
             @else
-            {{$customer_cv}}
+           
               <li class="nav-item"><a href="{{URL::to('userLogin')}}" class="nav-link">{{ __('Đăng nhập') }}</a></li>
               <li class="nav-item"><a href="{{URL::to('register')}}" class="nav-link">{{ __('Đăng ký') }}</a></li>
             @endif
