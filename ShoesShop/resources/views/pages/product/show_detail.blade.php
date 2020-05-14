@@ -1,15 +1,13 @@
 @extends('shop_layout')
 @section('script_thumbnail')
+
 {{-- <link href="{{asset('public/frontend/css/ThumbnailGallery/bootstrap.css')}}" rel="stylesheet" type="text/css" media="all" /> --}}
+
 
 <!--theme-style-->
 <link href="{{asset('public/frontend/css/ThumbnailGallery/style.css')}}" rel="stylesheet" type="text/css" media="all" />	
 <link rel="stylesheet" href="{{asset('public/frontend/css/ThumbnailGallery/etalage.css')}}" type="text/css" media="all" />
-{{-- <!--//theme-style-->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!--fonts-->
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'> --}}
+
 <!--//fonts-->
 <script src="{{asset('public/frontend/js/ThumbnailGallery/jquery.min.js')}}"></script>
 
@@ -48,14 +46,14 @@
 
     <section class="ftco-section">
     	<div class="container">
-    		@foreach($details_product as $key => $value)
+    		
     		<form action="{{URL::to('/save-cart')}}" method="POST">
 				{{ csrf_field() }}
     		<div class="row">
     		
     			{{-- <div class="col-lg-6 mb-5 ftco-animate">
     				<a href="{{URL::to('/product-detail')}}">
-    					<img src="{{URL::to('public/upload/product/'.$value->ha_ten)}}" class="img-fluid" alt="Colorlib Template">
+    					<img src="{{URL::to('public/upload/product/'.$details_product->ha_ten)}}" class="img-fluid" alt="Colorlib Template">
     				</a>
     			</div> --}}
     			<div class="col-lg-6 mb-5 ftco-animate">
@@ -77,7 +75,7 @@
 				
 				<div class="col-lg-6 product-details pl-md-5 ftco-animate">
     				
-    				<h3>{{$value->sp_ten}}</h3>
+    				<h3>{{$details_product->sp_ten}}</h3>
     				
     				<div class="rating d-flex">
 							{{-- <p class="text-left mr-4">
@@ -98,29 +96,27 @@
 								
 								<a href="#" class="mr-2" style="color: #000;">
 									
-									<!-- tiên 18/04 -->
+									{{$sold_product}}<!-- tiên 11/05 -->
 									
-								 	<span style="color: #bbb;">{{ __('Đã bán') }}</span>
+								 	<span style="color: #bbb;">  {{ __('Đã bán') }}</span>
 								</a>
 								
 							</p>
 						</div>
-    				<p class="price"><span>{{number_format($value->sp_donGiaBan).' '.'VNĐ'}}</span></p>
+    				<p class="price"><span>{{number_format($details_product->sp_donGiaBan).' '.'VNĐ'}}</span></p>
     				
 						<div class="row mt-4">
 
 							<div class="col-md-6">
 								<div class="form-group d-flex">
-						            <div class="select-wrap">
-					                  <div class="icon">
-					                  	<span class="ion-ios-arrow-down"></span>
-					                  </div>
+						           
+					                 
 					                  	<?php 
 						                 	
 						                 	$array_ms = array();
 						                 	$arr_ms = array();
 						                 	
-						                 	foreach($sz_product as $key => $ms){
+						                 	foreach($show_btn_mausac as $key => $ms){
 						                 		
 						                 		// $array[$sz->sp_ma] = $ms->ms_ten;
 						                 		
@@ -142,19 +138,24 @@
 						                 	$a = array_unique($array);*/
 											 	
 								        ?>
-					           
-										<select id="mausac" name="mausac" class="form-control" required="" pattern="" style="width:200px" >
-						                	<option value=""  selected disabled>{{ __('Chọn màu sắc') }}</option>
 						                 	
 						                  	@foreach($arr_ms as $key => $val)
-						                  		<option value="{{$key}}">{{$val}}</option>
+						                  		@if($key == $ms_ma)
+						                  	  		<a class="button btn btn-success" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	  	
+						                  	  	@else
+						                  			<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	  	@endif
+
 						                  		
 						                  	@endforeach
-						                </select>
-						                  		
+
+						                 
 					                </div>
 						        </div>
-							</div>
+
+						   
+						   	 	<input type="hidden" name="ms_ma_hidden" id="ms_ma" value="{{$ms_ma}}">
 							
 							<div class="w-100"></div>
 
@@ -171,6 +172,7 @@
 						                 	foreach($sz_product as $key => $sz){
 						                 		
 						                 		 $array[$sz->kc_ma] = $sz->kc_ten;
+
 						                 		// array_push($array, "$sz->sp_ma");
 						                 		// $b=array_push($array, "$sz->kc_ten");
 						                 		// $c=array_unique($array);
@@ -184,7 +186,6 @@
 						                 	//  echo '<pre>';
 						                 	// print_r($array); 	
 						                 	// echo '</pre>';
-						                 
 
 						                 	/*echo '<pre>';
 						                 	print_r($array);echo '</pre>';
@@ -194,7 +195,7 @@
 						                 	$a = array_unique($array);*/
 											 	
 								        ?>
-					           
+								        
 										<select id="size" name="size" class="form-control" required="" pattern="" style="width:200px" >
 						                	<option value=""  selected disabled>{{ __('Chọn kích cỡ') }}</option>
 						                 	
@@ -209,18 +210,7 @@
 							</div>
 							
 							<div class="w-100"></div>
-							<!-- <div class="col-md-6">
-								<div class="form-group d-flex">
-						            <div class="select-wrap">
-					                  <div class="icon">
-					                  	<span class="ion-ios-arrow-down"></span>
-					                  </div>
-					                  <select name="slton" id="slton" class="form-control" style="width:200px">
-               						  </select>
-					                </div>
-						        </div>
-							</div> -->
-															                
+
 							<div class="input-group col-md-6 d-flex mb-3">
 					             	<span class="input-group-btn mr-2">
 					                	<button type="button" class="quantity-left-minus btn"  data-type="minus" data-field="">
@@ -231,9 +221,9 @@
 					            	
 						            <input type="text" id="quantity" name="quantity" class="quantity form-control input-number" value="1" min="1" max="5">
 					  
-					             	<!-- {{-- @foreach($sz_product as $key => $slt)
+					             	{{-- @foreach($sz_product as $key => $slt)
 					                  	<option value="{{$slt->ctsp_ma}}" name="opsize">{{$slt->soLuongTon}}</option>
-					                @endforeach --}} -->
+					                @endforeach --}}
 					                
 					             	<span class="input-group-btn ml-2">
 					                	<button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
@@ -242,7 +232,9 @@
 					             	</span>
 					        </div>
 
-					        <input type="hidden" name="productid_hidden" id="spma" value="{{$value->sp_ma}}">
+					        <input type="hidden" name="productid_hidden" id="spma" value="{{$details_product->sp_ma}}">
+
+					        
 
 					        <div class="w-100"></div>
 					        
@@ -254,12 +246,9 @@
 					        </div>
 				        	</div>
 
-				        	
 				          	<!-- <p><a href="cart.html" class="btn btn-primary py-3 px-5">{{ __('Mua ngay') }}</a></p> -->
 
-						</div>
-				
-				    			
+						</div>	
     			</div>
     			<div class="row">
     				<div class="col-lg-6 ">
@@ -275,7 +264,6 @@
     					
     		</form>
 
-
 <!-- Tien 13/3 -->
     		<!-- <form action="{{URL::to('/reviews')}}" method="POST">
 				{{ csrf_field() }}
@@ -285,9 +273,7 @@
 				       </div>
     				</div>
 			</form> -->
-		@endforeach
-
-
+		
 
     		<div class="row mt-5">
           <div class="col-md-12 nav-link-wrap">
@@ -303,24 +289,24 @@
           <div class="col-md-12 tab-wrap">
             
             <div class="tab-content bg-light" id="v-pills-tabContent">
-            	@foreach($details_product as $key => $value)
+            	
               <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="day-1-tab">
               	<div class="p-4">
               		
-	              	<h3 class="mb-4">{{$value->sp_ten}}</h3>
-	              	<p>{{$value->sp_moTa}}</p>
+	              	<h3 class="mb-4">{{$details_product->sp_ten}}</h3>
+	              	<p>{{$details_product->sp_moTa}}</p>
 
               	</div>
               </div>
 
               <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-day-2-tab">
               	<div class="p-4">
-	              	<h3 class="mb-4">{{$value->th_ten}}</h3>
+	              	<h3 class="mb-4">{{$details_product->th_ten}}</h3>
 	              	<p>...</p>
               	</div>
 
               </div>
-              @endforeach
+             
               <div class="tab-pane fade" id="v-pills-3" role="tabpanel" aria-labelledby="v-pills-day-3-tab">
               	<div class="row p-4">
               		
@@ -342,9 +328,9 @@
 						                        <br>
 						                        <br>
 						   		 	<h3 class="mb-4">{{$total_view}} {{ __('nhận xét:') }}</h3>
-						   		 	@foreach($comments as $key => $comment)
 						   		 	
-						   						   			
+						   		 	@foreach($comments as $key => $comment)
+						   					   			
 						   			<div class="review">
 								   		<div class="user-img" style="background-image: url({{URL::to('public/frontend/images/avatar.jpg')}})"></div>
 								   		<div class="desc">
@@ -353,13 +339,13 @@
 								   				<span class="text-right">{{$comment->ngayBinhLuan}}</span>
 								   				<!-- <span class="text-right">{{date('d/m/Y H:i',strtotime($comment->created_at))}}</span> -->
 								   			</h4>
-								   			<p class="star">
-								   				<span>
-								   					<i class="ion-ios-star-outline"></i>
-								   					<i class="ion-ios-star-outline"></i>
-								   					<i class="ion-ios-star-outline"></i>
-								   					<i class="ion-ios-star-outline"></i>
-								   					<i class="ion-ios-star-outline"></i>
+								   			<p class="star" >
+								   				<span> 
+								   					<i class="ion-ios-star-outline " ></i> <!-- ik ik-star-on là màu đen và ngược lại -->
+								   					<i class="ion-ios-star"></i> 
+								   					<i class="ion-ios-star" ></i>
+								   					<i class="ion-ios-star" ></i>
+								   					<i class="ion-ios-star" ></i>
 							   					</span>
 							   					<span class="text-right"><a href="#" class="reply"><i class="icon-reply"></i></a></span>
 								   			</p>
@@ -433,14 +419,11 @@
 								<!-- Tiên 06/05 -->
 								<?php
                                     $mand = Session::get('nd_ma');
-                                    // $tennd = Session::get('nd_ten');
+                                    
                                 ?>
                                     @if ($mand)
                                     	@foreach($all_product as $key => $product)
 											<div class="col-md-6">
-												
-
-
 								    				<div class="well" >
 								    					<h3>{{ __('Viết nhận xét của bạn') }}</h3>
 								 						
@@ -453,6 +436,35 @@
 								    							<input type="hidden" name="_token" value="{{csrf_token()}}"/>
 								    							<textarea class="form-control" rows="3" id="cm" name="content" required="" ></textarea>
 								    						</div>
+
+								    						<!-- <div id="rdrating" class="ratings">
+													            <i name="example" class="ion-ios-star-outline" value="1" title='Poor' /></i>
+													            <i name="example" class="ion-ios-star-outline" value="2" title='Fair'/></i>
+													            <i name="example" class="ion-ios-star-outline" value="3" title='Good'/></i>
+													            <i name="example" class="ion-ios-star-outline" value="4" title='Excellent'/></i>
+													            <i name="example" class="ion-ios-star-outline" value="5" title='WOW!!!' /></i>
+													        </div> -->
+
+
+<!-- <div class='rating-stars text-center'>
+    <ul id='stars'>
+      <li class='star' >
+        <i class="ion-ios-star-outline" title='Poor' value='1' ></i>
+      </li>
+      <li class='star' >
+        <i class="ion-ios-star-outline" title='Fair' value='2'></i>
+      </li>
+      <li class='star' >
+        <i class="ion-ios-star-outline" title='Good' value='3'></i>
+      </li>
+      <li class='star' >
+        <i class="ion-ios-star-outline" title='Excellent' value='4'></i>
+      </li>
+      <li class='star' >
+        <i class="ion-ios-star-outline" title='WOW!!!' value='5'></i>
+      </li>
+    </ul>
+  </div> -->
 								    						<div class="form-group text-left">
 								    							<button type="submit" class="btn btn-primary">{{ __('Gửi') }}</button>
 								    						</div>
@@ -464,13 +476,6 @@
 								    		</div>
 								    	@endforeach
 								    @endif
-
-                                    
-                                        
-                                
-                                    
-								
-					    		
 						   	</div>
               </div>
             </div>
@@ -480,16 +485,31 @@
     </section>
    <script src="http://www.codermen.com/js/jquery.js"></script>
 
-        <script type="text/javascript">
-    	
-        $(document).ready(function(){
-        	var slt = 1;
+<script src="https://code.jquery.com/jquery-latest.js"></script>
 
+    <script type="text/javascript">
+    	 // Tien 08/05
+       
+
+        $(document).ready(function(){
+
+    	  //dat thi gian tat thong bao
+	        setTimeout(function(){
+	           $("span.alert").remove();
+	        }, 5000 ); // 5 secs
+
+        	var slt = 1;
+        
             $('select[name="size"]').on('change',function(){
-                var ctsp_ma = $(this).val(); // size_id => ctsp_ma
-                console.log(ctsp_ma,'ctsp_ma'); 
-                
-                if(ctsp_ma){
+                var kc_ma = $(this).val(); // size_id => kc_ma
+                var ms_ma=$('#ms_ma').val();
+                var sp_ma=$('#spma').val();
+
+                console.log(kc_ma,'kc_ma'); 
+		       
+                console.log(ms_ma,'ms_ma');
+                console.log(sp_ma,'sp_ma');
+                if(kc_ma){
 
                     $.ajax({
 
@@ -497,34 +517,29 @@
                         dataType: 'json',
                         type: 'GET',
                         data:{
-                        	ctsp_ma: ctsp_ma
+                        	ms_ma: ms_ma,
+                        	kc_ma : kc_ma,
+                        	sp_ma : sp_ma
                         },
                         success: function(data){
-                            console.log(data);
+                            console.log(data,'data size');
                             
                              $.each(data, function(name,stock){
                                 $('input[name="quantity"]').attr({
-								       "max" : stock,        // substitute your own
-								       "min" : 1          // values (or variables) here
+								       "max" : stock,   // substitute your own
+								       "min" : 1       // values (or variables) here
 								    });
                               console.log(stock, 'stock');
                               $('input[name="quantity"]').val("1");
                               slt = stock;
-
-                             
-                             
-                        
+                              console.log(slt,"slt get size");
                     		});
                         }
                     });
                 }
             });
 
-             $('select[name="mausac"]').on('change',function(){
-                var ms_ma = $(this).val(); // size_id => ctsp_ma
-                console.log(ms_ma,'ms_ma'); 
-            });
-
+            
 
             var quantitiy=0;
 
@@ -534,7 +549,7 @@
 		        e.preventDefault();
 		        // Get the field name
 		        var quantity = parseInt($('#quantity').val());
-		        
+		        console.log(slt,'slt');
 		        // If is not undefined
 		        if (quantity < slt){
 		            
@@ -555,10 +570,13 @@
 		      
 		            // Increment
 		            if(quantity>1){
-		            $('#quantity').val(quantity - 1);
+		            	$('#quantity').val(quantity - 1);
 		            }
 		    });
-        });
+		});
+
+
+      
     </script>
 
 @endsection

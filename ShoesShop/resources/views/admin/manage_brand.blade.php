@@ -79,10 +79,6 @@
                                                             <a href="{{URL::to('/edit-brand-product/'.$brand->th_ma)}}"><i class="ik ik-edit-2"></i></a>
 
                                                              <i class="ik ik-trash-2 delete text-red" id="{{$brand->th_ma}}"></i>
-
-                                                             <!-- <a onclick="return confirm('Bạn chắc chắn muốn xóa?')" href="{{URL::to('/delete-brand-product/'.$brand->th_ma)}}"><i class="ik ik-trash-2"></i></a> -->
-
-                                                            
                                                         </div></td>
                                                     </tr>
                                                     <?php {{$i++;}} ?>

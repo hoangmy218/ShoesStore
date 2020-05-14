@@ -21,14 +21,20 @@ class HomeController extends Controller
         else 
             return Redirect::to('/userLogin')->send();
     }
-    public function index()
+   public function index()
     {
         // Start Ngân (14/4/2020)
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();
         //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);
 
-        // Tiên
-         $all_product = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(6)->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->get(); 
+        // Tiên  thêm where Ngan join km
+         $all_product = DB::table('hinhanh')
+                ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
+                ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+                ->orderby('sanpham.sp_ma','desc')
+                ->groupby('hinhanh.sp_ma')->limit(6)
+                ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+                ->where('sp_trangThai','=',0)->get(); 
          $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
         
@@ -49,31 +55,23 @@ class HomeController extends Controller
 
     public function Home_u(){
         $this->authLogin();
+        // echo Session::get('ltk_ma');
        // Start Ngân (14/4/2020)
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();
         //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);
 
-        // Tiên
-         $all_product = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(6)->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->get(); 
+        // Tiên  thêm where Ngan join KM
+        $all_product = DB::table('hinhanh')
+                ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
+                ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+                ->orderby('sanpham.sp_ma','desc')
+                ->groupby('hinhanh.sp_ma')->limit(6)
+                ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+                ->where('sp_trangThai','=',0)->get(); 
          $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
         
        return view("pages.home")->with('list_ad',$list_ad)->with('all_product',$all_product)->with('list_cate',$cate)->with('list_brand',$brand);
-        // End Ngân (14/4/2020)
-
-        //  // Start Ngân (14/4/2020)
-        // $list_Advertisement = DB::table('quangcao')->where('qc_trangThai',0)->get();
-        // $manager_Advertisement = view('pages.home')->with('list_ad',$list_Advertisement);
-
-        // $all_product = DB::table('sanpham')->join('hinhanh','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->limit(4)->get();
-        // $manager_product = view('pages.home')->with('all_product',$all_product); 
-        // return view("shop_layout")->with('pages.home',$manager_product)->with('pages.home',$manager_Advertisement);
-        // // End Ngân (14/4/2020)
-
-        //Bản cũ
-        /*$this->authLogin();
-        $all_product = DB::table('sanpham')->join('hinhanh','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->limit(4)->get(); 
-        return view("pages.home")->with('all_product',$all_product);*/
     }
 
     public function get_register(){
@@ -225,10 +223,22 @@ class HomeController extends Controller
 
       public function search(Request $request){// Tiên 15/03
 
-        $keywords = $request->keywords_submit;
-        $search = DB::table('sanpham')->join('hinhanh','hinhanh.sp_ma','=','sanpham.sp_ma')->where('sp_ten','like','%'.$keywords.'%')->get(); 
+        $list_brand = DB::table('thuonghieu')->get(); //tien 14/05
+        $list_cate = DB::table('danhmuc')->get();//tien 14/05
 
-        return view('pages.product.search')->with('search',$search);
+        $keywords = $request->keywords_submit;
+
+
+        $search = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(6)->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sp_ten','like','%'.$keywords.'%')->get(); 
+
+           
+        if(!($search->isempty())){
+           Session::put('success_message','Tìm kiếm sản phẩm thành công !');
+        }else{
+             Session::put('fail_message','Không tìm thấy sản phẩm !');
+        }
+
+        return view('pages.product.search')->with('search',$search)->with('list_brand',$list_brand)->with('list_cate',$list_cate);
     }
 
     public function info_customer(){

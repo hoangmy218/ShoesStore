@@ -80,15 +80,17 @@ Route::get('/delete-size/{kc_ma}','SizeController@delete_Size');
 
 
 
-//LAN
+//CUSTOMER LAN 
 Route::get('/info-customer', 'HomeController@info_customer');
 Route::get('/chinhsua-thongtin', 'HomeController@chinhsua_thongtin');
 Route::post('/capnhat-thongtin', 'HomeController@capnhat_thongtin');
 Route::post('capnhat-thongtin/{capnhat_nd_ma}','HomeController@capnhat_thongtin');
 
-//Product
-Route::get('/product-detail/{product_id}','ProductController@details_product');//Tiên
-
+//PRODUCT - Tiên 1305
+Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product'); 
+//Ngân(13/5/2020)
+Route::get('/show-pro-category/{category_id}','ProductController@showProCategory');
+Route::get('/show-pro-brand/{brand_id}','ProductController@showProBrand');
 
 
 Route::get('/all-product','ProductController@all_product');//Tiên
@@ -98,8 +100,11 @@ Route::post('/tim-kiem','HomeController@search');// Tiên 15/03
 //MY - select Size Stock
 Route::get('/index','StockController@index');
 /*Route::get('/getStock/{id}','StockController@getStock');*/
+Route::get('/getColor','StockController@getColor');
+Route::get('/getSize','StockController@getSize');
 Route::get('/getStock','StockController@getStock');
-Route::get('/getSlt','StockController@getSlt');
+/*trung tien, tien doi sang productController
+Route::get('/getSlt','StockController@getSlt');*/
 Route::post('/getAmount','StockController@getAmount');
 
 
@@ -138,7 +143,7 @@ Route::get('/view-history/{controll_nd_ma}', 'AdminController@view_history');
 Route::get('/show-cart','CartController@showCart');
 Route::get('/delete-to-cart/{rowId}','CartController@delete_to_cart');//Tien
 Route::post('/update-cart-quantity','CartController@update_cart_quantity');//Tien
-Route::get('/update-qty/{id}','CartController@update_qty');//My
+Route::get('/update-qty/{sp_ma}','CartController@update_qty');//My
 Route::post('/save-cart','CartController@save_cart');//Tien
 
 Route::get('/removeCart','CartController@removeCart'); //my
