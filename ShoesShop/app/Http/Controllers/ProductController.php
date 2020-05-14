@@ -745,12 +745,13 @@ class ProductController extends Controller
     }
 
     public function showProBrand($brand_id){
-        $list_bra_product = DB::table('sanpham')
-            ->where('sanpham.th_ma',$brand_id)
-            ->join('hinhanh','sanpham.sp_ma','=','hinhanh.sp_ma')
+        $list_bra_product = DB::table('hinhanh')
+            ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
+            ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
             ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
             ->orderby('sanpham.sp_ma','desc')
             ->groupby('hinhanh.sp_ma')
+            ->where([['sanpham.th_ma','=',$brand_id],['sp_trangThai','=',0]])
             ->limit(6)
             ->get();
 
