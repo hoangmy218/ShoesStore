@@ -14,7 +14,7 @@ class CheckoutController extends Controller
 {
      public function authLogin(){
         $user_id = Session::get('nd_ma');
-        $cv=Session::get('cv_ma');
+        $cv=Session::get('ltk_ma');
         
         if (($user_id)&&($cv==2)) 
             return Redirect::to('/Home_u'); 
@@ -25,7 +25,6 @@ class CheckoutController extends Controller
     public function checkout()
     {
         $this->authLogin();
-        $this->authLogin();
         $content = Cart::content();
         if ($content->isempty()){
             return Redirect::to('/');
@@ -35,8 +34,8 @@ class CheckoutController extends Controller
             $hethang = 0; //false - con hang
             $outstock = array();
             foreach ($content as $v_content) {
-                 $ctsp_ton =  DB::table('chitietsanpham')->where('ctsp_ma', $v_content->id)->first();
-                if ( $v_content->qty > $ctsp_ton->ctsp_soLuongTon){
+                 $ctsp_ton =  DB::table('cochitietsanpham')->where('sp_ma', $v_content->id)->first();
+                if ( $v_content->qty > $ctsp_ton->soLuongTon){
                     $hethang = $hethang+1; //true
                     $outstock[$hethang] = $ctsp_ton->sp_ma;
                 }
@@ -54,7 +53,7 @@ class CheckoutController extends Controller
            
                 Session::put('message','<b>'.$tenhang.'</b> không đủ hàng');
             }
-        	$ma_vanchuyen=DB::table('vanchuyen')->orderby('vc_ma', 'desc')->get();
+        	$ma_vanchuyen=DB::table('hinhthucvanchuyen')->orderby('htvc_ma', 'desc')->get();
         	return view("pages.checkout.checkout")->with('ma_vanchuyen', $ma_vanchuyen);
         }
     }
@@ -212,9 +211,9 @@ class CheckoutController extends Controller
         return view('shop_layout',compact('vanchuyen'));
     }
     public function get_price(Request $request){
-        $vanchuyenphi = DB::table("vanchuyen")->select('vc_phi')
-        ->where('vc_ma', $request->vc_ma)->first();
-        Session::put('tienvc',$vanchuyenphi->vc_phi);
+        $vanchuyenphi = DB::table("hinhthucvanchuyen")->select('htvc_phi')
+        ->where('htvc_ma', $request->vc_ma)->first();
+        Session::put('tienvc',$vanchuyenphi->htvc_phi);
         return json_encode($vanchuyenphi);
     }
 

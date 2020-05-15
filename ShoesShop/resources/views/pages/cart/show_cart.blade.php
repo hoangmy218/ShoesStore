@@ -195,7 +195,10 @@
 	    			</div> --}}
 	    			<br>
 	    			<p class="text-center"><a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">{{ __('MUA SẮM NGAY') }}</a>
-	    			<a href="{{URL::to('/checkout')}}" class="btn btn-primary py-3 px-4">{{ __('ĐẶT HÀNG NGAY') }}</a></p>
+
+					<a href="{{URL::to('/checkout')}}" class="btn btn-primary py-3 px-4">ĐẶT HÀNG</a></p>
+
+	    			
 	    		</div>
 	    	</div>
 	  {{--   </div> --}}
@@ -206,15 +209,7 @@
 
 
 	<script src="http://www.codermen.com/js/jquery.js"></script>
-    <script type="text/javascript">
-    	    function rating(a){
-			  console.log((a.parentElement).parentElement.parentElement.childNodes[3].childNodes[1].innerHTML);
-			  var ctsp_ma = (a.parentElement).parentElement.parentElement.childNodes[3].childNodes[1].innerHTML;
-			 /* var size_id = a.innerHTML;
-                console.log(size_id);*/
-			}
-			
-			
+    <script type="text/javascript">	
         $(document).ready(function(){
         	 //dat thi gian tat thong bao
 	        setTimeout(function(){
@@ -343,7 +338,7 @@
 				console.log(sp_ma, ' sp_ma');
 				console.log(size, ' size');
 				console.log(color, ' color');
-				alert('sl:'+newqty+' rowId:'+rowId+' sp_ma'+sp_ma+" kc_ma"+size+" ms_ma"+color);
+				// alert('sl:'+newqty+' rowId:'+rowId+' sp_ma'+sp_ma+" kc_ma"+size+" ms_ma"+color);
 				if (newqty <=0 ){
 					alert('Số lượng không hợp lệ! Số lượng lớn hơn 0');
 				} else{

@@ -7,11 +7,7 @@
 <!--theme-style-->
 <link href="{{asset('public/frontend/css/ThumbnailGallery/style.css')}}" rel="stylesheet" type="text/css" media="all" />	
 <link rel="stylesheet" href="{{asset('public/frontend/css/ThumbnailGallery/etalage.css')}}" type="text/css" media="all" />
-{{-- <!--//theme-style-->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!--fonts-->
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'> --}}
+
 <!--//fonts-->
 <script src="{{asset('public/frontend/js/ThumbnailGallery/jquery.min.js')}}"></script>
 
@@ -144,7 +140,12 @@
 								        ?>
 						                 	
 						                  	@foreach($arr_ms as $key => $val)
-						                  		<button name="btn_mausac"  ><a href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a></button> &nbsp;&nbsp;&nbsp;
+						                  		@if($key == $ms_ma)
+						                  	  		<a class="button btn btn-success" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	  	
+						                  	  	@else
+						                  			<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	  	@endif
 
 						                  		
 						                  	@endforeach
@@ -418,7 +419,7 @@
 								<!-- Tiên 06/05 -->
 								<?php
                                     $mand = Session::get('nd_ma');
-                                    // $tennd = Session::get('nd_ten');
+                                    
                                 ?>
                                     @if ($mand)
                                     	@foreach($all_product as $key => $product)
@@ -488,12 +489,15 @@
 
     <script type="text/javascript">
     	 // Tien 08/05
-         //dat thi gian tat thong bao
-        setTimeout(function(){
-           $("span.alert").remove();
-        }, 5000 ); // 5 secs
+       
 
         $(document).ready(function(){
+
+    	  //dat thi gian tat thong bao
+	        setTimeout(function(){
+	           $("span.alert").remove();
+	        }, 5000 ); // 5 secs
+
         	var slt = 1;
         
             $('select[name="size"]').on('change',function(){
@@ -569,105 +573,9 @@
 		            	$('#quantity').val(quantity - 1);
 		            }
 		    });
+		});
 
 
-      
-   //          $('#rdrating i[name="example"]').click(function(){
-   //          	var myArray = $("i[name='example']").map(function() {
-						
-			// 			$(this).removeClass('ion-ios-star');
-			// 			$(this).addClass('ion-ios-star-outline');
-						
-					
-			// 	   return $(this).val();   
-			// 	   });                            
-				
-   //              // alert('You clicked radio!');
-   //              var valueclicked = $(this).val();
-   //              console.log(valueclicked, 'valueclicked');
-   //              $('.info').html("Your vote : <b>"+valueclicked+"</b>")
-   //              // $('example').map(function(){
-   //              // 	var temp=$(this).val();
-   //              // 	console.log(temp,'temp');
-   //              // });
-
-                
-   //              var values = $("i[name='example']");   
-   //              console.log(values);                       
-
-			// 	var myArray = $("i[name='example']").map(function() {
-			// 		if ($(this).val() <= valueclicked){
-			// 			var nameclass = $(this).attr('class');
-			// 			console.log(nameclass,'nameclass');
-			// 			$(this).removeClass('ion-ios-star-outline');
-			// 			$(this).addClass('ion-ios-star');
-			// 		}
-			// 	   return $(this).val();                               
-			// 	});
-
-			// 	console.log(myArray);
-			// });
-
-  
-			  /* 1. Visualizing things on Hover - See next part for action on click */
-			  // $('#stars li').on('mouseover', function(){
-			  //   var onStar = $(this).val();
-			  //    // The star currently mouse on
-			  //    console.log(onStar,'onStar');
-			   
-			  //   // Now highlight all the stars that's not after the current hovered star
-			  //   $(this).parent().children('li.star').each(function(e){
-			  //     if (e < onStar) {
-			  //       $(this).addClass('ion-ios-star');
-			  //     }
-			  //     else {
-			  //       $(this).removeClass('ion-ios-star-outline');
-			  //     }
-			  //   });
-			    
-			  // }).on('mouseout', function(){
-			  //   $(this).parent().children('li.star').each(function(e){
-			  //     $(this).removeClass('ion-ios-star-outline');
-			  //   });
-			  // });
-			  
-			  
-			  /* 2. Action to perform on click */
-			  // $('#stars li').on('click', function(){
-			  //   var onStar = parseInt($(this).data('value'), 10); // The star currently selected
-			  //   var stars = $(this).parent().children('li.star');
-			    
-			  //   for (i = 0; i < stars.length; i++) {
-			  //     $(stars[i]).removeClass('ion-ios-star');
-			  //   }
-			    
-			  //   for (i = 0; i < onStar; i++) {
-			  //     $(stars[i]).addClass('ion-ios-star');
-			  //   }
-			    
-			    // JUST RESPONSE (Not needed)
-			    // var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
-			    // var msg = "";
-			    // if (ratingValue > 1) {
-			    //     msg = "Thanks! You rated this " + ratingValue + " stars.";
-			    // }
-			    // else {
-			    //     msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
-			    // }
-			    // responseMessage(msg);
-			    
-			//   });
-			  
-			  
-			// });
-
-
-			// function responseMessage(msg) {
-			//   $('.success-box').fadeIn(200);  
-			//   $('.success-box div.text-message').html("<span>" + msg + "</span>");
-			// }
-
-            
       
     </script>
 
