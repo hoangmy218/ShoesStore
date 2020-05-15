@@ -87,15 +87,29 @@
                             <div class="fancy-collapse-panel">
 
                                 <div class="panel-group"  role="tablist" aria-multiselectable="true">
+                                  <?php 
+                                  $dm_hienhanh = Session::get('dm_hienhanh');
+                                  
+                                ?>
                                     @foreach($list_cate as $key => $cate)
-                                    <div class="panel panel-default">
-                                         <div class="panel-heading" role="tab">
-                                             <h4 class="panel-title">
-                                                 <a class="collapsed" href="{{URL::to('/show-pro-category/'.$cate->dm_ma)}}">{{$cate->dm_ten}}
-                                                 </a>
-                                             </h4>
-                                         </div>
-                                     </div>
+                                    @if ($dm_hienhanh == $cate->dm_ma)
+                                          <div class="panel panel-default">
+                                               <div class="panel-heading" role="tab">
+                                                   <h4  class="panel-title">
+                                                       <a style="color: red;" class="collapsed" href="{{URL::to('/show-pro-category/'.$cate->dm_ma)}}"><u>{{$cate->dm_ten}}</u></a>
+                                                   </h4>
+                                               </div>
+                                           </div>
+                                        @else
+                                        <div class="panel panel-default">
+                                               <div class="panel-heading" role="tab">
+                                                   <h4 class="panel-title">
+                                                       <a class="collapsed" href="{{URL::to('/show-pro-category/'.$cate->dm_ma)}}">{{$cate->dm_ten}}
+                                                       </a>
+                                                   </h4>
+                                               </div>
+                                           </div>
+                                        @endif
                                     @endforeach
                                 </div>
                                      

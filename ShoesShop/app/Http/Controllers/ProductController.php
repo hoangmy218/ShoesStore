@@ -737,6 +737,7 @@ class ProductController extends Controller
             // echo "<pre>";
             // print_r($list_cate_product);
             // echo "</pre>";
+         Session::put('dm_hienhanh',$category_id);
 
          $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
