@@ -56,6 +56,25 @@
                                     </div>
                                     <div class="card-body p-0 table-border-style">
                                         <div class="table-responsive">
+                                            {{-- Searching --}} 
+                                            {{-- <div class="row col-md-12">
+                                                <div class="search-md d-inline-block float-md-left mr-1 mb-1 align-top">
+                                                <form action="">
+                                                    <input type="text" class="form-control" placeholder="Search.." required>
+                                                    <button type="submit" class="btn btn-icon"><i class="ik ik-search"></i></button>
+                                                    <button type="button" id="adv_wrap_toggler" class="adv-btn ik ik-chevron-down dropdown-toggle" data-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                                    <div class="adv-search-wrap dropdown-menu dropdown-menu-right" aria-labelledby="adv_wrap_toggler">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" placeholder="Full Name">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="email" class="form-control" placeholder="Email">
+                                                        </div>
+                                                        <button class="btn btn-theme">Search</button>
+                                                    </div>
+                                                </form>
+                                            </div> --}}
+                                            </div>
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
@@ -220,7 +239,9 @@
                     </div>
                 </div>
             
-
+<script src="{{asset('public/backend/js/layouts.js')}}"></script>
+<script src="{{asset('public/backend/plugins/sweetalert/dist/sweetalert.min.js')}}"></script>
+<script src="{{asset('public/backend/plugins/summernote/dist/summernote-bs4.min.js')}}"></script>
 <script src="http://www.codermen.com/js/jquery.js"></script>
 <script>
     $(document).ready(function(){
