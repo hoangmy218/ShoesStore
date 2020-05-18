@@ -26,7 +26,10 @@ class ProductController extends Controller
         $this->authLogin();
         $list_brand = DB::table("danhmuc")->orderby('dm_ma','desc')->get();
         $list_cate = DB::table("thuonghieu")->orderby('th_ma','desc')->get();
-        return view('admin.add_product')->with('list_cate',$list_cate)->with('list_brand',$list_brand);
+        $list_km = DB::table("khuyenmai")->orderby('km_ma','desc')->get();
+        // $list_color = DB::table("mausac")->orderby('ms_ma','desc')->get();
+        // $list_size = DB::table("kichco")->orderby('kc_ma','desc')->get();
+        return view('admin.add_product')->with('list_cate',$list_cate)->with('list_brand',$list_brand)->with('list_km',$list_km)/*->with('list_color',$list_color)->with('list_size',$list_size)*/;
     	
     }
 
@@ -34,63 +37,86 @@ class ProductController extends Controller
         $data = array();
         $data['sp_ten'] = $request->pro_name;
         $data['sp_donGiaBan'] = $request->pro_price;
-        $data['sp_ghiChu'] = $request->pro_note;
+        $data['sp_moTa'] = $request->pro_des;
         $data['th_ma'] = $request->pro_brand;
         $data['dm_ma'] = $request->pro_cate;
-       
-        if($request->hasFile('product_image')) {
-            $sp_ma = DB::table('sanpham')->insertGetId($data);
-                // duyệt từng ảnh và thực hiện lưu
-                foreach ($request->product_image as $photo) {
-                    $get_image = $photo->getClientOriginalName();
-                    $destinationPath = public_path('upload/product');
-                    $photo->move($destinationPath, $get_image);
-                    $data_img = array();
-                    $data_img['sp_ma']=$sp_ma;
-                    $data_img['ha_ten']=$get_image;
-                    DB::table('hinhanh')->insert($data_img);
-                }
-                Session::put('message','Thêm sản phẩm thành công!');
-                return Redirect::to('/manage-product');
+        //$data['ms_ma'] = $request->pro_color;
+        //$data['sp_soLuongTon'] = 0;
+        $data['sp_trangThai'] = 1;
+        $data['km_ma'] =$request->pro_km;
+        // $data['kc_ma'] = 0;
+        try{
+                if($request->hasFile('product_image')) {
+                $sp_ma = DB::table('sanpham')->insertGetId($data);
+                    // duyệt từng ảnh và thực hiện lưu
+                    foreach ($request->product_image as $photo) {
+                        $get_image = $photo->getClientOriginalName();
+                        $destinationPath = public_path('upload/product');
+                        $photo->move($destinationPath, $get_image);
+                        $data_img = array();
+                        $data_img['sp_ma']=$sp_ma;
+                        $data_img['ha_ten']=$get_image;
+                        //$data['ms_ma'] = $request->pro_color;
+                        DB::table('hinhanh')->insert($data_img);
+                    }
+                    Session::put('success_message','Thêm sản phẩm thành công!');
+                    return Redirect::to('/manage-product');
+            }
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Thêm sản phẩm không thành công!');
+            return Redirect::to('/manage-product');
         }
 
     }
 
 
     public function showProduct(){
-        $this->authLogin();
-        
-    	$list_products = DB::table('sanpham')->join('thuonghieu','sanpham.th_ma','=','thuonghieu.th_ma')->join('danhmuc','danhmuc.dm_ma','=','sanpham.dm_ma')->orderby('sanpham.sp_ma','desc')->get();
-        
+       $this->authLogin();
+        $list_products = DB::table('sanpham')->join('thuonghieu','sanpham.th_ma','=','thuonghieu.th_ma')->join('danhmuc','danhmuc.dm_ma','=','sanpham.dm_ma')->orderby('sanpham.sp_ma','desc')->get();
         /*echo "<pre>";
         print_r($list_products);
         echo "</pre>";*/
-    	$manager_product = view('admin.manage_product')->with('list_pro', $list_products);
-    	return view('admin_layout')->with('admin.manage_product', $manager_product);
+        $manager_product = view('admin.manage_product')->with('list_pro', $list_products);
+        return view('admin_layout')->with('admin.manage_product', $manager_product);
     }
  
-    //Tien thêm getSlt xóa hàm getSlt bên SocksController 07/05
+    public function chitiet_sanpham($ct_id){
+        $tongslton= DB::table('cochitietsanpham')->select(DB::raw("sum(soLuongTon) as slton"))->where('sp_ma',$ct_id)->get();
+        // $tongslnhap= DB::table('cochitietsanpham')->select(DB::raw("sum(ctsp_soLuongNhap) as slnhap"))->where('sp_ma',$ct_id)->get();
+        $data= DB::table('cochitietsanpham')->join('kichco', 'kichco.kc_ma', '=','cochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma', '=','cochitietsanpham.ms_ma')->where('sp_ma',$ct_id)->get();
+
+
+        $list=DB::table('sanpham')->where('sanpham.sp_ma', $ct_id)->get();
+
+        $image = DB::table('hinhanh')->where('hinhanh.sp_ma','=',$ct_id)->get();
+        // $ton=DB::table('chitietsanpham')->where('sp_ma', $ct_id)->get();
+       
+        return view('admin.chitiet_sanpham')->with('list', $list)->with('tongslton', $tongslton)->with('hinh',$image)->with('data', $data);
+
+    }
+
+    //Tien thêm getSlt xóa hàm getSlt bên SocksController 13/05
     public function getSlt(Request $request)
     {
         
-        $stocks = DB::Table('chitietsanpham')->select('ctsp_soLuongTon')->where('ctsp_ma',$request->ctsp_ma)->first(); 
-        return json_encode($stocks);
-        /*
-        $stocks = DB::Table('chitietsanpham')->select('ctsp_soLuongTon')->where([['sp_ma',$request->sp_ma],['ctsp_kichCo',$request->size_id]])->first(); 
+        $stocks = DB::Table('cochitietsanpham')->select('soLuongTon')->where([['ms_ma','=',$request->ms_ma],['kc_ma','=',$request->kc_ma],['sp_ma','=',$request->sp_ma]])->first(); 
         return json_encode($stocks);
 
-        $stocks = Stock::where('size_id',$request->size_id)->pluck('stock_number','stock_id');
-        return json_encode($stocks);*/
     }
-    public function details_product($product_id){
+
+
+    public function details_product($product_id,$ms_ma){
+        // $ma_ms = $ms_ma;
 
 
         $content = Cart::content();
         $image_product =  DB::table('hinhanh')->where('hinhanh.sp_ma',$product_id)->get(); 
 
-        $details_product = DB::table('sanpham')->join('hinhanh','hinhanh.sp_ma','=','sanpham.sp_ma')->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sanpham.sp_ma',$product_id)->limit(1)->get(); 
-        // tien 08/05
-        $sz_product = DB::table('cochitietsanpham')->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')->where([['cochitietsanpham.sp_ma','=',$product_id],['soLuongTon','>',0]])->orderby('cochitietsanpham.kc_ma','asc')->orderby('cochitietsanpham.ms_ma','asc')->get(); 
+        $details_product = DB::table('sanpham')->join('hinhanh','hinhanh.sp_ma','=','sanpham.sp_ma')->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sanpham.sp_ma','=',$product_id)->first(); 
+        // tien 13/05
+        $sz_product = DB::table('cochitietsanpham')->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')->where([['cochitietsanpham.sp_ma','=',$product_id],['soLuongTon','>',0],['cochitietsanpham.ms_ma','=',$ms_ma]])->orderby('cochitietsanpham.kc_ma','asc')->orderby('cochitietsanpham.ms_ma','asc')->get(); 
+        //Tien 13/05
+        $show_btn_mausac = DB::table('cochitietsanpham')->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')->where([['cochitietsanpham.sp_ma','=',$product_id],['soLuongTon','>',0]])->orderby('cochitietsanpham.kc_ma','asc')->orderby('cochitietsanpham.ms_ma','asc')->get();
 
 
         $all_product = DB::table('sanpham')->select('sp_ma')->where('sanpham.sp_ma',$product_id)->limit(1)->get(); //Tiên 14/03
@@ -98,13 +124,16 @@ class ProductController extends Controller
    
         $sizes = DB::Table('cochitietsanpham')->select('kc_ma','soLuongTon')->where('cochitietsanpham.sp_ma',$product_id)->get(); // Tiên 12/03
         
-        // $sold_product=DB::table('chitietdonhang')->join('chitietsanpham','chitietsanpham.ctsp_ma','=','chitietdonhang.ctsp_ma')->where('chitietsanpham.sp_ma',$product_id)->select('soLuongDat')->sum('soLuongDat'); //Tien 18/03 ->with('sold_product',$sold_product)
+        $sold_product=DB::table('cochitietdonhang')->join('sanpham','sanpham.sp_ma','=','cochitietdonhang.sp_ma')->where('cochitietdonhang.sp_ma',$product_id)->select('soLuongDat')->sum('soLuongDat'); //Tien 11/05  
 
         $comments = Comment::where('sp_ma',$product_id)->join('nguoidung','nguoidung.nd_ma','=','binhluan.nd_ma')->where('trangThai','=',0)->get(); // Tiên 06/05
 
-        $total_view=DB::table('binhluan')->join('sanpham','sanpham.sp_ma','=','binhluan.sp_ma')->where('binhluan.sp_ma',$product_id)->select('sp_ma')->count();
+        $total_view=DB::table('binhluan')->join('sanpham','sanpham.sp_ma','=','binhluan.sp_ma')->where([['binhluan.sp_ma',$product_id],['trangThai','=',0]])->select('sp_ma')->count();//Tien thêm ['trangThai','=',0] (12/05)
+        // echo "<pre>";
+        // print_r($ms_ma);
+        // echo "</pre>";
 
-         return view('pages.product.show_detail',compact('cochitietsanpham'))->with('details_product',$details_product)->with('sz_product',$sz_product)->with('sizes',$sizes)->with('all_product',$all_product)->with('comments',$comments)->with('total_view',$total_view)->with('image_product',$image_product);
+         return view('pages.product.show_detail',compact('cochitietsanpham'))->with('details_product',$details_product)->with('sz_product',$sz_product)->with('sizes',$sizes)->with('all_product',$all_product)->with('comments',$comments)->with('total_view',$total_view)->with('image_product',$image_product)->with('sold_product',$sold_product)->with('show_btn_mausac',$show_btn_mausac)->with('ms_ma',$ms_ma);
     }
 
 
@@ -590,21 +619,21 @@ class ProductController extends Controller
         $list_brand = DB::table("thuonghieu")->orderby('th_ma','desc')->get();
         $hinh_anh=DB::table('hinhanh')->where('sp_ma', $chinhsua_sp_ma)->get();
         $edit_pro=DB::table('sanpham')->where('sp_ma',$chinhsua_sp_ma)->get();
-       
+        $list_km=DB::table('khuyenmai')->orderby('km_ma','desc')->get();
         // echo $hinh_anh;
-        return view('admin.edit_product')->with('edit_pro', $edit_pro)->with('list_brand', $list_brand)->with('list_cate', $list_cate)->with('hinh_anh', $hinh_anh);
+        return view('admin.edit_product')->with('edit_pro', $edit_pro)->with('list_brand', $list_brand)->with('list_cate', $list_cate)->with('hinh_anh', $hinh_anh)->with('list_km', $list_km);
     }
     
     public function capnhat_sanpham(Request $request, $chinhsua_sp_ma){
-        $data= array();
+         $data= array();
         $data['sp_ten']=$request->pro_name;
-        $data['sp_donGiaNhap']=$request->pro_pricegor;
+        // $data['sp_donGiaNhap']=$request->pro_pricegor;
         $data['sp_donGiaBan']=$request->pro_price;
-        $data['sp_ghiChu']=$request->pro_note;
+        $data['sp_moTa']=$request->pro_moTa;
         $data['th_ma']=$request->pro_brand;
         $data['dm_ma']=$request->pro_cate;
-
-        if($request->hasFile('product_image')) {
+        try{
+            if($request->hasFile('product_image')) {
             DB::table('sanpham')->where('sp_ma', $chinhsua_sp_ma)->update($data);
                 // duyệt từng ảnh và thực hiện lưu
                 foreach ($request->product_image as $photo) {
@@ -616,15 +645,121 @@ class ProductController extends Controller
                     $data_img['ha_ten']=$get_image;
                     DB::table('hinhanh')->insert($data_img);
                 }
-                Session::put('message','Cập nhật sản phẩm thành công!');
+                Session::put('success_message','Cập nhật sản phẩm thành công!');
                 return Redirect::to('/manage-product');
         }else{
             DB::table('sanpham')->where('sp_ma', $chinhsua_sp_ma)->update($data);
-        Session::put('message','Cập nhật sản phẩm thành công!');
+        Session::put('success_message','Cập nhật sản phẩm thành công!');
         return Redirect::to('/manage-product');
+        }
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Cập nhật sản phẩm thành công!');
         }
     }
 
+    public function xoa_sanpham($id_xoa){
+        $this->AuthLogin();
+        $data= DB::table('cochitietsanpham')->select(DB::raw("count(sp_ma) as slsp"))->where('sp_ma',$id_xoa)->get();
+        foreach ($data as $key => $value) {
+            $v=$value->slsp;
+        }
+        if($v>0){
+            Session::put('fail_message', 'Sản phẩm đang bán, không thể xóa!');
+           
+           
+            }else{
+                DB::table('hinhanh')->join('sanpham', 'sanpham.sp_ma', '=', 'hinhanh.sp_ma')->where('hinhanh.sp_ma',$id_xoa)->delete();
+                DB::table('sanpham')->where('sp_ma',$id_xoa)->delete();
+               
+                Session::put('success_message', 'Xóa sản phẩm ảnh thành công');
 
+            }      
+       
+    }
+
+    public function delete_image_product($ha_id){
+        try{
+        $this->AuthLogin();
+        DB::table('hinhanh')->where('ha_ma',$ha_id)->delete();
+        Session::put('success_message', 'Xóa hình ảnh thành công');
+        // return redirect()->back();
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Xóa hình ảnh không thành công!');
+            // return redirect()->back();
+        }
+       
+    }
+
+    public function unactive_product($Controll_sp_ma){
+        try{
+            //$this->AuthLogin();
+           DB::table('sanpham')->where('sp_ma', $Controll_sp_ma)->update(['sp_trangThai'=>1]);
+            Session::put('success_message', 'Ẩn sản phẩm thành công!');
+            // return Redirect::to('manage-product');
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Ẩn sản phẩm không thành công!');
+        }
+           
+    }
+
+    public function active_product($Controll_sp_ma){
+        $data= DB::table('cochitietsanpham')->select(DB::raw("count(sp_ma) as slsp"))->where('sp_ma',$Controll_sp_ma)->get();
+        foreach ($data as $key => $value) {
+            $v=$value->slsp;
+        }
+        if($v>0){
+                try{ //$this->AuthLogin();
+                DB::table('sanpham')->where('sp_ma', $Controll_sp_ma)->update(['sp_trangThai'=>0]);
+                Session::put('success_message', 'Hiển thị sản phẩm thành công!');
+                // return Redirect::to('manage-product');
+
+            }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Hiển thị sản phẩm không thành công!');
+            }
+        }else{
+            Session::put('fail_message','Sản phẩm hiện chưa nhập số lượng nên không thể hiển thị!');
+        }
+       
+    }
+
+    // start Ngân(13/5/2020)
+    public function showProCategory($category_id){
+        $list_cate_product = DB::table('hinhanh')            
+            ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
+            ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+            ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+            ->orderby('sanpham.sp_ma','desc')
+            ->groupby('hinhanh.sp_ma')
+            ->where([['sanpham.dm_ma','=',$category_id],['sp_trangThai','=',0]])
+            ->limit(6)
+            ->get();
+
+            // echo "<pre>";
+            // print_r($list_cate_product);
+            // echo "</pre>";
+
+         $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
+         $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
+
+        return view("pages.product.show_cate_pro")->with('list_cate_pro',$list_cate_product)->with('list_cate',$cate)->with('list_brand',$brand);
+    }
+
+    public function showProBrand($brand_id){
+        $list_bra_product = DB::table('hinhanh')
+            ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
+            ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+            ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+            ->orderby('sanpham.sp_ma','desc')
+            ->groupby('hinhanh.sp_ma')
+            ->where([['sanpham.th_ma','=',$brand_id],['sp_trangThai','=',0]])
+            ->limit(6)
+            ->get();
+
+         $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
+         $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
+
+        return view("pages.product.show_bra_pro")->with('list_bra_pro',$list_bra_product)->with('list_cate',$cate)->with('list_brand',$brand);
+    }
+    // end Ngân(13/5/2020)
 
 }

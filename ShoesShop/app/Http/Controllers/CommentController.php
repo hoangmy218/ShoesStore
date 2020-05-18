@@ -29,27 +29,25 @@ class CommentController extends Controller
     // Tiên 14/03
     public function postComment(Request $request, $id){
 
-        // $this->authLogin();
-        $data = new Comment; // cách 1 insert vào model Comment
+         try {
     
-        $data->noiDung = $request->content;
-        $data->trangThai = 0;
-        $data->sp_ma = $id;
-        $data->nd_ma = Session::get('nd_ma');
-        $data->ngayBinhLuan=Carbon::now()->toDateString();
-        $data->save();
-    
-        Session::put('success_message','Viết bình luận thành công !');
-        return back(); 
-        // return back(); 
+            $data = new Comment; // cách 1 insert vào model Comment
+        
+            $data->noiDung = $request->content;
+            $data->trangThai = 0;
+            $data->sp_ma = $id;
+            $data->nd_ma = Session::get('nd_ma');
+            $data->ngayBinhLuan=Carbon::now()->toDateString();
+            // $data->rating= $request->example;
+            $data->save();
 
-        //$data= array(); // cách 2 insert vo bảng
-        // $data['bl_email'] = $request->email;
-        // $data['bl_ten'] = $request->name;
-        // $data['bl_noidung'] = $request->content;
-        // $data['sp_ma'] = $id;
-        // DB::table('binhluan')->insert($data); 
-        // return Redirect::to('/show_detail/'.$id); 
+            Session::put('success_message','Viết bình luận thành công !');
+           
+            
+        } catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Bạn vừa viết bình luận của sản phẩm này xong !');
+        }
+        return back(); 
     }   
     //Tien 21/03
     public function showComment(){

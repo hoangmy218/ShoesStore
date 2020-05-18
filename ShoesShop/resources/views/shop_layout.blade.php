@@ -53,7 +53,9 @@
                 <span class="text">shoesshop@gmail.com</span>
               </div>
               <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
+
                 <span class="text">{{ __('888A Đường 3/2, P.Xuân Khánh, Q.Ninh Kiều, TP.Cần Thơ') }}</span>
+
                
               </div>
 
@@ -88,9 +90,11 @@
 
             <?php 
               $customer_name = Session::get('nd_ten');
+
               $customer_ltk = Session::get('ltk_ma'); 
             ?>
             @if ($customer_ltk == 2)
+
              <li class="nav-item dropdown">
               <a href="{{URL::to('/')}}" class="nav-link">{{$customer_name}}</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
@@ -100,6 +104,7 @@
               </div>
             </li>
             @else
+           
               <li class="nav-item"><a href="{{URL::to('userLogin')}}" class="nav-link">{{ __('Đăng nhập') }}</a></li>
               <li class="nav-item"><a href="{{URL::to('register')}}" class="nav-link">{{ __('Đăng ký') }}</a></li>
             @endif
