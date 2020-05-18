@@ -178,8 +178,9 @@
 						                  	<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
 						                  	  	
 						                @else
-						                  	<a class="button btn btn-theme" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	<a class="button btn btn-outline-dark" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
 						                @endif
+
 
 						                  		
 						            @endforeach

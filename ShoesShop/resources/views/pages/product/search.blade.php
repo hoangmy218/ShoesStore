@@ -120,6 +120,7 @@
                                      
                             </div>
 
+
                             {{-- Brand --}}
                             <h2 class="heading">{{ __('Thương hiệu')}}</h2>
                             <div class="fancy-collapse-panel">
@@ -129,7 +130,9 @@
                                     <div class="panel panel-default">
                                          <div class="panel-heading" role="tab">
                                              <h4 class="panel-title">
+
                                                  <a class="collapsed" href="">{{$brand->th_ten}}
+
                                                  </a>
                                              </h4>
                                          </div>

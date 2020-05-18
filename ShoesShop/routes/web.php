@@ -141,9 +141,9 @@ Route::get('/view-history/{controll_nd_ma}', 'AdminController@view_history');
 
 
 //Cart
-Route::get('/show-cart','CartController@showCart');
+Route::get('/show-cart','CartController@showCart'); //My
 Route::get('/delete-to-cart/{rowId}','CartController@delete_to_cart');//Tien
-Route::post('/update-cart-quantity','CartController@update_cart_quantity');//Tien
+// Route::post('/update-cart-quantity','CartController@update_cart_quantity');//Tien
 Route::get('/update-qty/{sp_ma}','CartController@update_qty');//My
 Route::post('/save-cart','CartController@save_cart');//Tien
 

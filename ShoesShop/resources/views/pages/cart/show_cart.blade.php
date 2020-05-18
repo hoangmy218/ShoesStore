@@ -18,18 +18,19 @@
 		<div class="container">
 			
             <?php
-            	$message = Session::get('fail_message');
-            	if ($message){
-            		echo '<span class="alert alert-danger">'.$message."</span>";
-            		
-            		Session::put('fail_message',null);
-            	}
             	$success_message = Session::get('success_message');
             	if ($success_message){
             		echo '<span class="alert alert-success">'.$success_message."</span>";
             		
             		Session::put('success_message',null);
             	}
+            	$message = Session::get('fail_message');
+            	if ($message){
+            		echo '<span class="alert alert-danger">'.$message."</span>";
+            		
+            		Session::put('fail_message',null);
+            	}
+            	
             ?>
 			<?php
 				$content = Cart::content();
@@ -195,7 +196,10 @@
 	    			</div> --}}
 	    			<br>
 	    			<p class="text-center"><a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">{{ __('MUA SẮM NGAY') }}</a>
-	    			<a href="{{URL::to('/checkout')}}" class="btn btn-primary py-3 px-4">{{ __('ĐẶT HÀNG NGAY') }}</a></p>
+
+					<a href="{{URL::to('/checkout')}}" class="btn btn-primary py-3 px-4">ĐẶT HÀNG</a></p>
+
+	    			
 	    		</div>
 	    	</div>
 	  {{--   </div> --}}
@@ -206,15 +210,7 @@
 
 
 	<script src="http://www.codermen.com/js/jquery.js"></script>
-    <script type="text/javascript">
-    	    function rating(a){
-			  console.log((a.parentElement).parentElement.parentElement.childNodes[3].childNodes[1].innerHTML);
-			  var ctsp_ma = (a.parentElement).parentElement.parentElement.childNodes[3].childNodes[1].innerHTML;
-			 /* var size_id = a.innerHTML;
-                console.log(size_id);*/
-			}
-			
-			
+    <script type="text/javascript">	
         $(document).ready(function(){
         	 //dat thi gian tat thong bao
 	        setTimeout(function(){
@@ -354,7 +350,7 @@
 						url: '<?php echo url('update-qty');?>/'+sp_ma,
 						data: "qty="+newqty+"&rowId="+rowId+"&sp_ma="+sp_ma+"&size="+size+"&color="+color,
 						success: function(response){
-							console.log(response);
+							 console.log(response);
 							 $('#updateDiv').html(response);
 						}
 					});

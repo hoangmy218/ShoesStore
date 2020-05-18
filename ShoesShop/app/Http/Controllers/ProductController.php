@@ -165,8 +165,6 @@ class ProductController extends Controller
                     ->where('sp_ma',$product_id)
                     ->get();
        
-
-
         return view('pages.product.show_detail')
                 ->with('details_product',$details_product)
                 ->with('sz_product',$sz_product)
@@ -179,6 +177,7 @@ class ProductController extends Controller
                 ->with('show_btn_mausac',$show_btn_mausac)
                 ->with('ms_ma',$ms_ma)
                 ->with('rating',$rating);
+
     }
     
 
