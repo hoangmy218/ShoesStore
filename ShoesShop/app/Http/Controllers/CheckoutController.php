@@ -57,7 +57,7 @@ class CheckoutController extends Controller
         	return view("pages.checkout.checkout")->with('ma_vanchuyen', $ma_vanchuyen);
         }
     }
-
+    //Lan có chỉnh sửa 16/05/2020
     public function save_checkout_customer(Request $request){
    
         $nd_id = Session::get('nd_ma');
@@ -66,19 +66,18 @@ class CheckoutController extends Controller
         Session::put('dh_tenNhan', $request->dh_tenNhan);
         Session::put('dh_diaChiNhan', $request->dh_diaChiNhan);
         Session::put('dh_dienThoai', $request->dh_dienThoai);
-        Session::put('dh_email', $request->dh_email);
         Session::put('dh_ghiChu', $request->dh_ghiChu);
         Session::put('dh_ngayDat', $dh_ngayDat);
         /*Session::put('dh_trangThai', 'Chờ xử lý');*/
         // Session::put('dh_tongTien','100000');
-        Session::put('vc_ma', $request->vanc_id);
-        $vanchuyen=DB::table('vanchuyen')->where('vc_ma',$request->vanc_id)->first();
-        Session::put('vc_ten', $vanchuyen->vc_ten);
-        Session::put('vc_phi', $vanchuyen->vc_phi);
+        Session::put('htvc_ma', $request->vanc_id);
+        $vanchuyen=DB::table('hinhthucvanchuyen')->where('htvc_ma',$request->vanc_id)->first();
+        Session::put('htvc_ten', $vanchuyen->htvc_ten);
+        Session::put('htvc_phi', $vanchuyen->htvc_phi);
         // echo Session::get('vc_phi');
     	return Redirect::to('payment');
     }
-
+    //Lan có chỉnh sửa 16/05/2020
     //show payment
     public function payment() 
     {
@@ -92,8 +91,8 @@ class CheckoutController extends Controller
             $hethang = 0; //false - con hang
             $outstock = array();
             foreach ($content as $v_content) {
-                 $ctsp_ton =  DB::table('chitietsanpham')->where('ctsp_ma', $v_content->id)->first();
-                if ( $v_content->qty > $ctsp_ton->ctsp_soLuongTon){
+                 $ctsp_ton =  DB::table('cochitietsanpham')->where('sp_ma', $v_content->id)->first();
+                if ( $v_content->qty > $ctsp_ton->soLuongTon){
                     $hethang = $hethang+1; //true
                     $outstock[$hethang] = $ctsp_ton->sp_ma;
                 }
@@ -111,8 +110,8 @@ class CheckoutController extends Controller
            
                 Session::put('message','<b>'.$tenhang.'</b> không đủ hàng');
             }
-            $ma_vanchuyen=DB::table('vanchuyen')->orderby('vc_ma', 'desc')->get();
-        	$ma_thanhtoan=DB::table('thanhtoan')->orderby('tt_ma', 'desc')->get();
+            $ma_vanchuyen=DB::table('hinhthucvanchuyen')->orderby('htvc_ma', 'desc')->get();
+        	$ma_thanhtoan=DB::table('hinhthucthanhtoan')->orderby('httt_ma', 'desc')->get();
         	return view("pages.checkout.payment")->with('ma_thanhtoan', $ma_thanhtoan)->with('ma_vanchuyen', $ma_vanchuyen);
         }
     }
