@@ -109,7 +109,7 @@
                                     <div class="panel panel-default">
                                          <div class="panel-heading" role="tab">
                                              <h4 class="panel-title">
-                                                 <a class="collapsed" href="#collapseTwo">{{$cate->dm_ten}}
+                                                <a class="collapsed" href="">{{$cate->dm_ten}}
                                                   
                                                  </a>
                                              </h4>
@@ -120,6 +120,7 @@
                                      
                             </div>
 
+
                             {{-- Brand --}}
                             <h2 class="heading">{{ __('Thương hiệu')}}</h2>
                             <div class="fancy-collapse-panel">
@@ -129,7 +130,9 @@
                                     <div class="panel panel-default">
                                          <div class="panel-heading" role="tab">
                                              <h4 class="panel-title">
-                                                 <a class="collapsed" href="#collapseTwo">{{$brand->th_ten}}
+
+                                                 <a class="collapsed" href="">{{$brand->th_ten}}
+
                                                  </a>
                                              </h4>
                                          </div>
@@ -153,14 +156,14 @@
 
 <script src="http://www.codermen.com/js/jquery.js"></script>
 <script>
-$(document).ready(function(){
-         
-         //dat thi gian tat thong bao
-        setTimeout(function(){
-           $("span.alert").remove();
-        }, 5000 ); // 5 secs
+  $(document).ready(function(){
+           
+           //dat thi gian tat thong bao
+          setTimeout(function(){
+             $("span.alert").remove();
+          }, 5000 ); // 5 secs
 
-});
+  });
 </script>
               
         <!--/recommended_items-->

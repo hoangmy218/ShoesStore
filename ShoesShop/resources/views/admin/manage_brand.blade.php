@@ -48,6 +48,7 @@
                                 Session::put('success_message1',null);
                             }
                         ?>
+                        <br><br>
                         <div class="row">
                             <div class="col-md-12">
 								<div class="card">
@@ -78,7 +79,7 @@
                                                         <td><div class="table-actions">                                                  
                                                             <a href="{{URL::to('/edit-brand-product/'.$brand->th_ma)}}"><i class="ik ik-edit-2"></i></a>
 
-                                                             <i class="ik ik-trash-2 delete text-red" id="{{$brand->th_ma}}"></i>
+                                                            <i class="ik ik-trash-2 delete text-red" id="{{$brand->th_ma}}"></i>
                                                         </div></td>
                                                     </tr>
                                                     <?php {{$i++;}} ?>
