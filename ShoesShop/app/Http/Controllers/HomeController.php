@@ -203,9 +203,9 @@ class HomeController extends Controller
 
     public function status_order(){
         $nd_ma= Session::get('nd_ma');
-        $status=DB::table('donhang')->where('nd_ma',$nd_ma )->orderby('dh_ma','desc')->get();
-        if($status!=NULL){
-            return view('pages.customer.status_order')->with('status', $status);
+        $orders=DB::table('donhang')->where('nd_ma',$nd_ma )->orderby('dh_ma','desc')->get();
+        if($orders!=NULL){
+            return view('pages.customer.status_order')->with('orders', $orders);
         }
     }
 
