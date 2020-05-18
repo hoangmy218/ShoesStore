@@ -77,4 +77,28 @@ class TransportController extends Controller
         }
     	
     }
+    //18/05/2020
+    public function unactive_transport($Controll_htvc_ma){
+        try{
+            //$this->AuthLogin();
+           DB::table('hinhthucvanchuyen')->where('htvc_ma', $Controll_htvc_ma)->update(['htvc_trangThai'=>1]);
+            Session::put('success_message', 'Ẩn hình thức này thành công!');
+            // return Redirect::to('manage-product');
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Ẩn hình thức này không thành công!');
+        }
+           
+    }
+
+    public function active_transport($Controll_htvc_ma){
+        try{
+            //$this->AuthLogin();
+           DB::table('hinhthucvanchuyen')->where('htvc_ma', $Controll_htvc_ma)->update(['htvc_trangThai'=>0]);
+            Session::put('success_message', 'Hiện hình thức này thành công!');
+            // return Redirect::to('manage-product');
+        }catch (\Illuminate\Database\QueryException $e) {
+            Session::put('fail_message','Hiện hình thức này không thành công!');
+        }
+       
+    }
 }
