@@ -676,6 +676,7 @@ class ProductController extends Controller
         $data['sp_moTa']=$request->pro_moTa;
         $data['th_ma']=$request->pro_brand;
         $data['dm_ma']=$request->pro_cate;
+        $data['km_ma']=$request->pro_km;
         try{
             if($request->hasFile('product_image')) {
             DB::table('sanpham')->where('sp_ma', $chinhsua_sp_ma)->update($data);

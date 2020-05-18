@@ -118,9 +118,7 @@ display: none;
 						        echo '<p class="d-flex"><span>';
                                 echo __('Điện thoại').'</span>';
 						        echo '<span>'.Session::get('dh_dienThoai').'</span></p>';
-						        echo '<p class="d-flex"><span>';
-                                echo __('Email').'</span>';
-						        echo '<span>'.Session::get('dh_email').'</span></p>';
+						        
 						       
 						        echo '<p class="d-flex"><span>';
                                 echo __('Ngày đặt').'</span>';
@@ -129,7 +127,7 @@ display: none;
 						        					       
 						       echo '<p class="d-flex"><span>';
                                echo __('Hình thức vận chuyển').'</span>';
-						        echo '<span>'.Session::get('vc_ten').'</span></p>';
+						        echo '<span>'.Session::get('htvc_ten').'</span></p>';
 						        echo '<p class="d-flex"><span>';
                                 echo __('Ghi chú').'</span>';
 						        echo '<span>'.Session::get('dh_ghiChu').'</span></p>';
@@ -143,7 +141,7 @@ display: none;
                         </p>
                         <p class="d-flex">
                             <span>{{ __('Phí vận chuyển') }}</span>
-                            <?php (int)$phi = Session::get('vc_phi'); ?>
+                            <?php (int)$phi = Session::get('htvc_phi'); ?>
                             <span>{{number_format($phi).' VND'}}</span>
                         </p>
                          <p class="d-flex">
@@ -175,7 +173,7 @@ display: none;
     			          			<div class="form-group">
     									<div class="col-md-12">
     										<div class="paymentradio">
-    											<label><input type="radio" name="optradio" id="btn{{$matt->tt_ma}}" value="{{$matt->tt_ma}}" class="mr-2">{{$matt->tt_ten}}</label>
+    											<label><input type="radio" name="optradio" id="btn{{$matt->httt_ma}}" value="{{$matt->httt_ma}}" class="mr-2">{{$matt->httt_ten}}</label>
     										</div>
     									</div>
     								</div> 
