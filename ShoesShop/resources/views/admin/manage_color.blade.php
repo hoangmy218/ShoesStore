@@ -48,6 +48,7 @@
                                 Session::put('success_message1',null);
                             }
                         ?>
+                        <br><br>
                         <div class="row">
                             <div class="col-md-12">
 								<div class="card">
@@ -130,7 +131,7 @@ $(document).ready(function(){
            $("span.alert").remove();
         }, 5000 ); // 5 secs
 
-         var ms_ma;
+        var ms_ma;
         $(document).on('click','.delete', function(){
             ms_ma = $(this).attr('id');
             $('#deleteModal').modal('show');

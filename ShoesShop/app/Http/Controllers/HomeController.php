@@ -227,7 +227,6 @@ class HomeController extends Controller
 
         $keywords = $request->keywords_submit;
 
-
         $search = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(6)->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sp_ten','like','%'.$keywords.'%')->get(); 
 
            

@@ -148,7 +148,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             
@@ -166,6 +166,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="modal fade" id="cancelModal1" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -184,6 +185,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="modal fade" id="cancelModal2" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -204,14 +206,15 @@
                 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-$(document).ready(function(){
+    $(document).ready(function(){
 
         $('#sanpham').parent().addClass('active open');
         $("#danhsachsanpham").addClass("active");
          setTimeout(function(){
            $("span.alert").remove();
         }, 5000 );
-         $(document).on('click','.cancel', function(){
+
+        $(document).on('click','.cancel', function(){
             sp_ma = $(this).attr('id');
             console.log(sp_ma);
             $('#cancelModal').modal('show');
@@ -243,6 +246,7 @@ $(document).ready(function(){
                 }
             });
         });
+
         $(document).on('click','.cancel2', function(){
             sp_ma = $(this).attr('id');
             console.log(sp_ma);
