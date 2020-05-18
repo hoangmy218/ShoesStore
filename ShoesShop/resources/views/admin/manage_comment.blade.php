@@ -1,8 +1,6 @@
 @extends('admin_layout')
 @section('content')
 
-                       
-
 
 <div class="main-content">
                     <div class="container-fluid">
@@ -33,27 +31,28 @@
                             </div>
                         </div>
                         
-                       
+                       <?php
+                            $message1 = Session::get('fail_message1');
+                            if ($message1){
+                                echo '<span class="alert alert-danger">'.$message1."</span>";
+                                                
+                                Session::put('fail_message1',null);
+                            }
+                            $message1 = Session::get('success_message1');
+                            if ($message1){
+                                echo '<span class="alert alert-success">'.$message1."</span>";
+                                                
+                                Session::put('success_message1',null);
+                            }
+                        ?>
+                        <br><br>
                         <div class="row">
                             <div class="col-md-12">
 								<div class="card">
                                     <div class="card-header d-block">
                                         <h3>Danh sách bình luận</h3>
                                         <br>
-                                        <?php
-                                            $message1 = Session::get('fail_message1');
-                                            if ($message1){
-                                                echo '<span class="alert alert-danger">'.$message1."</span>";
-                                                
-                                                Session::put('fail_message1',null);
-                                            }
-                                            $message1 = Session::get('success_message1');
-                                            if ($message1){
-                                                echo '<span class="alert alert-success">'.$message1."</span>";
-                                                
-                                                Session::put('success_message1',null);
-                                            }
-                                        ?>
+                                        
                                     </div>
                                     <div class="card-body p-0 table-border-style">
                                         <div class="table-responsive">
@@ -62,8 +61,8 @@
                                                     <tr>
                                                          <th>STT</th>
                                                         <!-- <th>Mã bình luận</th> -->
-                                                        <th>Mã sản phẩm</th>
-                                                        <th>Mã người dùng</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>Tên người dùng</th>
                                                         <!-- <th>Tên</th>
                                                         <th>Email</th> -->
                                                         <th>Nội dung bình luận</th>
@@ -73,13 +72,13 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php {{$i=1;}} ?>
-                                                    @foreach( $list_comments as $key => $ds_binhluan)
+                                                    @foreach($list_comments as $key => $ds_binhluan)
 
                                                     <tr>
                                                         <th scope="row">{{$i}}</th>
                                                         
-                                                        <td>{{$ds_binhluan->sp_ma}}</td>
-                                                        <td>{{$ds_binhluan->nd_ma}}</td>
+                                                        <td>{{$ds_binhluan->sp_ten}}</td>
+                                                        <td>{{$ds_binhluan->nd_ten}}</td>
                                                         
                                                         <td>{{$ds_binhluan->noiDung}}</td>
                                                         <td>{{$ds_binhluan->ngayBinhLuan}}</td>
@@ -89,11 +88,11 @@
                                                               <?php
                                                               if($ds_binhluan->trangThai==0){
                                                                 ?>
-                                                                <a href ="{{URL::to('unactive-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"><span class="text-green ik ik-eye"></span></a>
+                                                                <a id="an" href ="{{URL::to('unactive-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"><span class="text-green ik ik-eye cancel" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan"></span></a>
                                                                 <?php
                                                               }else{
                                                                 ?>
-                                                                <a href="{{URL::to('active-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"><span class=" text-red ik ik-eye-off"></span></a>
+                                                                <a id="hien" href="{{URL::to('active-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"><span class="text-red ik ik-eye-off cancel1" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" ></span></a>
                                                               <?php
                                                               }
 
@@ -113,6 +112,44 @@
                     </div>
                 </div>
 
+                <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Thay đổi trạng thái của bình luận</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn ẩn bình luận này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="ok_anbl_btn" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="cancelModal1" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Thay đổi trạng thái của bình luận</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn hiển thị bình luận này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="ok_hienthibl_btn" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script src="http://www.codermen.com/js/jquery.js"></script>
@@ -125,6 +162,41 @@ $(document).ready(function(){
            $("span.alert").remove();
         }, 5000 ); // 5 secs
 
+        $(document).on('click','.cancel', function(){
+
+            sp_nd_ngay =  $("a#an").attr("href");
+
+            // console.log(sp_nd_ngay);
+            $('#cancelModal').modal('show');
+            
+        });
+        $(document).on('click','.cancel1', function(){
+            sp_nd_ngay = $("a#hien").attr("href");
+            
+            // console.log(sp_nd_ngay);
+            $('#cancelModal1').modal('show');
+        });
+
+        $('#ok_anbl_btn').click(function(){
+            $.ajax({
+                url: '<?php echo url('unactive-comment');?>/'+  sp_nd_ngay ,
+                type: 'get',
+                success: function(data)
+                {
+                    window.location.replace("<?php echo url('/manage-comment');?>");
+                }
+            });
+        });
+        $('#ok_hienthibl_btn').click(function(){
+            $.ajax({
+                url: '<?php echo url('active-comment');?>/'+  sp_nd_ngay,
+                type: 'get',
+                success: function(data)
+                {
+                    window.location.replace("<?php echo url('/manage-comment');?>");
+                }
+            });
+        });
          
 
 });
