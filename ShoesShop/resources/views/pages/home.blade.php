@@ -116,12 +116,13 @@
 
   <section class="ftco-section bg-light">
         <div class="container">
-                <div class="row justify-content-center mb-3 pb-3">
-          <div class="col-md-12 heading-section text-center ftco-animate">
+          <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
             <h2 class="mb-4">{{ __('Sản phẩm mới') }}</h2>
-            <p>{{ __('Nâng niu bàn chân bạn') }}</p>
-          </div>
-        </div>          
+            <p>{{ __('Nâng niu bàn chân bạn') }}</p> 
+                        
+            </div>
+          </div>          
         </div>
 
         <div class="container">
@@ -320,6 +321,20 @@
         </div>
     </section>
 
+    <!--  Tien 16/05 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="http://www.codermen.com/js/jquery.js"></script>
+<script>
+    $(document).ready(function(){
+             
+             //dat thi gian tat thong bao
+            setTimeout(function(){
+               $("span.alert").remove();
+            }, 10000 ); // 5 secs
+
+    });
+</script>
 
 
 @endsection

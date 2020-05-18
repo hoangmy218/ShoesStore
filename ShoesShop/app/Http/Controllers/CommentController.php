@@ -38,7 +38,7 @@ class CommentController extends Controller
             $data->sp_ma = $id;
             $data->nd_ma = Session::get('nd_ma');
             $data->ngayBinhLuan=Carbon::now()->toDateString();
-            // $data->rating= $request->example;
+            $data->rating= $request->rating;
             $data->save();
 
             Session::put('success_message','Viết bình luận thành công !');
@@ -51,8 +51,9 @@ class CommentController extends Controller
     }   
     //Tien 21/03
     public function showComment(){
+
         $this->authLogin();
-        $list_comments = DB::table('binhluan')->get();
+        $list_comments = DB::table('binhluan')->join('sanpham','sanpham.sp_ma','=','binhluan.sp_ma')->join('nguoidung','nguoidung.nd_ma','=','binhluan.nd_ma')->get();
         $manager_comment = view('admin.manage_comment')->with('list_comments', $list_comments);
         return view('admin_layout')->with('admin.manage_comment', $manager_comment);
         /*return view('admin.manage_category');*/

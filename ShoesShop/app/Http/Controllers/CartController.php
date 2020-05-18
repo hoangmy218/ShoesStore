@@ -76,48 +76,61 @@ class CartController extends Controller
 
      // Tien sua 08/05
     public function save_cart(Request $request){
-        $this->authLogin();
-        $size= $request->size; //size_id
-        $mausac= $request->ms_ma_hidden; //mausac_id
-        $sp_ma= $request->productid_hidden; //sp_ma
+    
+        $mand = Session::get('nd_ma');
 
-        $soluong = $request->quantity;
-        echo 'size'.$size.'\n';
-        echo 'mausac'.$mausac.'\n';
-        echo 'sp_ma'.$sp_ma.'\n';
-        echo 'soluong'.$soluong;
+        if ($mand != null) {
 
+            $size= $request->size; //size_id
+            $mausac= $request->ms_ma_hidden; //mausac_id
+            $sp_ma= $request->productid_hidden; //sp_ma
 
-        $ctsp = DB::table('cochitietsanpham')
-                ->join('sanpham','sanpham.sp_ma','=','cochitietsanpham.sp_ma')
-                ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
-                ->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')
-                ->where([['cochitietsanpham.kc_ma',$size],
-                    ['cochitietsanpham.ms_ma',$mausac],
-                    ['cochitietsanpham.sp_ma',$sp_ma]])
-                ->first();
+            $soluong = $request->quantity;
+            echo 'size'.$size.'\n';
+            echo 'mausac'.$mausac.'\n';
+            echo 'sp_ma'.$sp_ma.'\n';
+            echo 'soluong'.$soluong;
 
 
-        $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first(); 
+            $ctsp = DB::table('cochitietsanpham')
+                    ->join('sanpham','sanpham.sp_ma','=','cochitietsanpham.sp_ma')
+                    ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
+                    ->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')
+                    ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+                    ->where([['cochitietsanpham.kc_ma',$size],
+                            ['cochitietsanpham.ms_ma',$mausac],
+                            ['cochitietsanpham.sp_ma',$sp_ma]])
+                    ->first();
 
-        $data= array();
-        $data['id'] = $sp_ma;
-        $data['qty'] = $soluong;
-        $data['name'] = $ctsp->sp_ten;
-        $data['price'] = $ctsp->sp_donGiaBan;
-        $data['weight'] = 0;
-        $data['options']['image'] = $hinhanh->ha_ten;
-        $data['options']['mausac'] = $ctsp->ms_ma;
-        $data['options']['size'] = $ctsp->kc_ma;
-  
-        
-        Cart::add($data);
-        // echo "<pre>";
-        // print_r($data);
-        echo "</pre>";
-        // return view("pages.cart.show_cart");
+
+            $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first(); 
+
+            $data= array();
+            $data['id'] = $sp_ma;
+            $data['qty'] = $soluong;
+            $data['name'] = $ctsp->sp_ten;
+            $data['price'] = $ctsp->sp_donGiaBan*(100-$ctsp->km_giamGia)/100;
+            $data['weight'] = 0;
+            $data['options']['image'] = $hinhanh->ha_ten;
+            $data['options']['mausac'] = $ctsp->ms_ma;
+            $data['options']['size'] = $ctsp->kc_ma;
+              
+                    
+            Cart::add($data);
+            // echo "<pre>";
+            // print_r($data);
+            // echo "</pre>";
+            // return view("pages.cart.show_cart");
+               
+        }else{
+
+            Session::put('cart_message','Bạn vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ !');
+            return Redirect::to('/'); //sd jquery để load lại trang
+
+        }
         return Redirect::to('/show-cart');
-
+        
+       
     }// Tien 
     
     public function delete_to_cart($rowId){
