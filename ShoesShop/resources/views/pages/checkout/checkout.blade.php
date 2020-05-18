@@ -37,7 +37,6 @@
                                     <th>{{ __('Kích cỡ') }}</th>
                                     <th>{{ __('Đơn giá') }}</th>
                                     <th>{{ __('Số lượng') }}</th>
-                                    <th>Khuyến mãi</th>
                                     <th>{{ __('Thành tiền') }}</th>
                                     
                                     
@@ -77,26 +76,21 @@
                                         <?php
                                             $laykhuyenmai =DB::table('khuyenmai')->where('km_ma', $v_content->options->km)->get();
                                         ?>
-                                        @foreach($laykhuyenmai as $key => $km)
-                                        <td class="khuyenmai">
-                                            <h3>{{$km->km_chuDe}}</h3>                                        
-                                        </td>
+                                        
+                                        
                                         <td class="total">
                                             <p class="cart_total_price">
                                             <?php
-                                            $tienkm = $v_content->price*$km->km_giamGia/100*$v_content->qty;
+                                            $thanhTien = $v_content->price*$v_content->qty;
                                             
-                                            $thanhTien =$v_content->price*$v_content->qty- $tienkm;
+                                            
 
                                           
                                             echo number_format($thanhTien).' '.'VND';
                                             ?><!-- Tien -->
                                         </p>
                                         </td>
-                                        @endforeach
-                                        <?php
-                                          $congTien = $congTien + $thanhTien;
-                                        ?>
+                                        
                                         </tr><!-- END TR-->
                                     </tbody>
                             @endforeach 
@@ -120,14 +114,14 @@
                                 <textarea name="dh_diaChiNhan"  class="form-control" rows="3" cols="20" placeholder="{{ __('Địa chỉ nhận hàng') }}" required></textarea>                
                             </div>
                             <div class="form-group">
-                                <input type="tel" name="dh_dienThoai" class="form-control" placeholder="{{ __('SĐT') }}" required="" {{-- Thêm nè --}} pattern="[0]{1}[0-9]{9}" title="Số điện thoại phải là 10 số và bắt đầu bằng 0">
+                                <input type="tel" name="dh_dienThoai" class="form-control" placeholder="{{ __('Số điện thoại') }}" required="" {{-- Thêm nè --}} pattern="[0]{1}[0-9]{9}" title="Số điện thoại phải là 10 số và bắt đầu bằng 0">
                                {{--  @if($errors->first('dh_dienThoai'))
                                 <p class="text-primary"> Số điện thoại không đúng định dạng!</p>
                                 @endif --}}
                                 <i class="ik ik-lock"></i>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">{{ __('Hình thức vận chuyển') }}</label>
+                                
                                 <div>
                                     {{-- <input type="hidden" value="{{$v_content->rowId}}" id="rowId"> --}}
                                     <select {{-- THÊM NÈ --}} required="" id="vanc_id" name="vanc_id" class="form-control m-bot15">
