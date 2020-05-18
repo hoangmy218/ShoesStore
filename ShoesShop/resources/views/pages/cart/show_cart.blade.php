@@ -18,18 +18,19 @@
 		<div class="container">
 			
             <?php
-            	$message = Session::get('fail_message');
-            	if ($message){
-            		echo '<span class="alert alert-danger">'.$message."</span>";
-            		
-            		Session::put('fail_message',null);
-            	}
             	$success_message = Session::get('success_message');
             	if ($success_message){
             		echo '<span class="alert alert-success">'.$success_message."</span>";
             		
             		Session::put('success_message',null);
             	}
+            	$message = Session::get('fail_message');
+            	if ($message){
+            		echo '<span class="alert alert-danger">'.$message."</span>";
+            		
+            		Session::put('fail_message',null);
+            	}
+            	
             ?>
 			<?php
 				$content = Cart::content();
@@ -346,7 +347,7 @@
 						url: '<?php echo url('update-qty');?>/'+sp_ma,
 						data: "qty="+newqty+"&rowId="+rowId+"&sp_ma="+sp_ma+"&size="+size+"&color="+color,
 						success: function(response){
-							console.log(response);
+							 console.log(response);
 							 $('#updateDiv').html(response);
 						}
 					});

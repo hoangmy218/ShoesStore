@@ -2,20 +2,19 @@
 	<div class="col-md-12 ftco-animate"> --}}
 	<div class="cart-list">
 		<?php
-		            	$message = Session::get('fail_message');
-		            	if ($message){
-		            		echo '<span class="alert alert-danger">'.$message."</span>";
-		            		
-		            		Session::put('fail_message',null);
-		            	}
-		            	$success_message = Session::get('success_message');
-		            	if ($success_message){
-		            		echo '<span class="alert alert-success">'.$success_message."</span>";
-		            		
-		            		Session::put('success_message',null);
-		            	}
-		            	$content = Cart::content();
-		            ?>
+		        $success_message = Session::get('success_message');
+            	if ($success_message){
+            		echo '<span class="alert alert-success">'.$success_message."</span>";
+            		
+            		Session::put('success_message',null);
+            	}
+            	$message = Session::get('fail_message');
+            	if ($message){
+            		echo '<span class="alert alert-danger">'.$message."</span>";
+            		
+            		Session::put('fail_message',null);
+            	}
+		    ?>
 			
 	    			
 	    				<table class="table">
