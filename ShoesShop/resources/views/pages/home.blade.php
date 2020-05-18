@@ -15,8 +15,8 @@
                                 <div class="text">
                                     <span class="subheading">{{$ad->qc_chuDe}}</span>
                                     <div class="horizontal">
-                                        <h1 class="mb-4 mt-3"></h1>
-                                        
+                                        <h1 class="mb-4 mt-3"> Hello - Tien</h1>
+                                         
                                       </div>
                                 </div>
                               </div>
