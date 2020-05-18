@@ -34,6 +34,7 @@
                                     <th>{{ __('Mã sản phẩm') }}</th>
                                     <th>{{ __('Hình ảnh') }}</th>
                                     <th>{{ __('Tên sản phẩm') }}</th>
+                                    <th>Màu sắc</th>
                                     <th>{{ __('Kích cỡ') }}</th>
                                     <th>{{ __('Đơn giá') }}</th>
                                     <th>{{ __('Số lượng') }}</th>
@@ -59,9 +60,27 @@
                                             <h3>{{$v_content->name}}</h3>
                                             
                                         </td>
+
+                                        <?php
+                                        $tablemausac =DB::table('mausac')->where('ms_ma', $v_content->options->mausac)->get();
+                                        ?>
+                                        @foreach($tablemausac as $key => $ms)
                                         <td class="quantity">
-                                            <h3>{{$v_content->options->size}}</h3>                                          
+                                            <h3>{{$ms->ms_ten}}</h3>                                          
                                         </td>
+                                        @endforeach
+
+                                        <?php
+                                        $tablesize =DB::table('kichco')->where('kc_ma', $v_content->options->size)->get();
+                                        ?>
+                                        @foreach($tablesize as $key => $size)
+                                        <td class="quantity">
+                                            <h3>{{$size->kc_ten}}</h3>                                          
+                                        </td>
+                                        @endforeach
+
+
+                                        
                                         
                                         <td class="price">{{number_format($v_content->price).' '.'VND'}}</td>
                 
@@ -216,13 +235,16 @@
                                 console.log(data);
                                $('select[name="value"]').empty();
                                  $.each(data, function(key,value){
-                                   var tongn =parseInt(tongtien)+value;
+                                    //Lan thêm chuyển số
+                                    var phivc =value.toLocaleString("en");
+                                   var tongn =(parseInt(tongtien)+value).toLocaleString("en");;
+
                                    console.log(tongn,' tongn');
                                    console.log(tongtien,' tongtien');
                                    console.log(value,' value');
                                    console.log(typeof tongtien, ' type tongtien');
                                    console.log(typeof value,' type value')
-                                    $('a[name="price"]').replaceWith('<a id="price" name="price">'+value+' VND</a>');
+                                    $('a[name="price"]').replaceWith('<a id="price" name="price">'+phivc+' VND</a>');
                                      // $('input[name="tong"]').replaceWith('<input id="tong" name="tong" value="'+tongn+'" type="hidden" placeholder=""');
                                     $('div[id="tongtext"]').text(tongn+' VND');
                                  });

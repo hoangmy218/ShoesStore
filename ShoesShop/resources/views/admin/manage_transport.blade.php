@@ -112,6 +112,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -125,7 +126,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
-                                <button type="button" id="ok_ansp_btn" class="btn btn-success">Xác nhận</button>
+                                <button type="button" id="ok_anhtvc_btn" class="btn btn-success">Xác nhận</button>
                             </div>
                         </div>
                     </div>
@@ -143,7 +144,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
-                                <button type="button" id="ok_hiensp_btn" class="btn btn-success">Xác nhận</button>
+                                <button type="button" id="ok_hienhtvc_btn" class="btn btn-success">Xác nhận</button>
                             </div>
                         </div>
                     </div>
@@ -157,7 +158,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                            Bạn có chắc chắn muốn hình thức vận chuyển này?
+                            Bạn có chắc chắn muốn xóa hình thức vận chuyển này?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
@@ -172,9 +173,10 @@ $(document).ready(function(){
 
         $('#vanchuyen').parent().addClass('active open');
          $("#danhsachvanchuyen").addClass("active");
-         $(document).on('click','.cancel', function(){
-            sp_ma = $(this).attr('id');
-            console.log(sp_ma);
+
+        $(document).on('click','.cancel', function(){
+            htvc_ma = $(this).attr('id');
+            console.log(htvc_ma);
             $('#cancelModal').modal('show');
             
         });
@@ -186,21 +188,21 @@ $(document).ready(function(){
 
         $('#ok_anhtvc_btn').click(function(){
             $.ajax({
-                url: '<?php echo url('unactive-product');?>/'+sp_ma,
+                url: '<?php echo url('unactive-transport');?>/'+htvc_ma,
                 type: 'get',
                 success: function(data)
                 {
-                    window.location.replace("<?php echo url('/manage-product');?>");
+                    window.location.replace("<?php echo url('/manage-transport');?>");
                 }
             });
         });
         $('#ok_hienhtvc_btn').click(function(){
             $.ajax({
-                url: '<?php echo url('active-product');?>/'+sp_ma,
+                url: '<?php echo url('active-transport');?>/'+htvc_ma,
                 type: 'get',
                 success: function(data)
                 {
-                    window.location.replace("<?php echo url('/manage-product');?>");
+                    window.location.replace("<?php echo url('/manage-transport');?>");
                 }
             });
         });
