@@ -50,6 +50,7 @@ display: none;
                                     <th>{{ __('Mã sản phẩm') }}</th>
                                     <th>{{ __('Hình ảnh') }}</th>
                                     <th>{{ __('Tên sản phẩm') }}</th>
+                                    <th>Màu sắc</th>
                                     <th>{{ __('Kích cỡ') }}</th>
                                     <th>{{ __('Đơn giá') }}</th>
                                     <th>{{ __('Số lượng') }}</th>
