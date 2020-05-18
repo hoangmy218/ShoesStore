@@ -30,18 +30,18 @@
                             </div>
                         </div>
                       
-                        <div class="row">
-                        	<div class="col-md-7">
+                            <p style="font-size: 20px; color: green;"><b> Thống kê doanh thu theo từng tháng </b></p>
+                            <hr>
+                            <br>
                         		 {!!$chart->html()!!} 
-                        	</div>
-                        	<div class="col-md-5">
+                            <br><br>
+                            <p style="font-size: 20px; color: green;"><b> Thống kê doanh thu trong 3 năm trở lại đây </b></p>
+                            <hr>
+                            <br>
                         		 {!!$line_chart->html()!!}
                         	</div>
                         </div>
 		               
-
-				</div>
-</div>
 {!!Charts::scripts()!!}
 {!!$chart->script()!!}
 {!!$line_chart->script()!!}
