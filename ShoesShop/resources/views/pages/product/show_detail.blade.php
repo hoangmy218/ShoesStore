@@ -7,11 +7,7 @@
 <!--theme-style-->
 <link href="{{asset('public/frontend/css/ThumbnailGallery/style.css')}}" rel="stylesheet" type="text/css" media="all" />	
 <link rel="stylesheet" href="{{asset('public/frontend/css/ThumbnailGallery/etalage.css')}}" type="text/css" media="all" />
-{{-- <!--//theme-style-->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!--fonts-->
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'> --}}
+
 <!--//fonts-->
 <script src="{{asset('public/frontend/js/ThumbnailGallery/jquery.min.js')}}"></script>
 
@@ -144,7 +140,12 @@
 								        ?>
 						                 	
 						                  	@foreach($arr_ms as $key => $val)
-						                  		<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  		@if($key == $ms_ma)
+						                  	  		<a class="button btn btn-success" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	  	
+						                  	  	@else
+						                  			<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                  	  	@endif
 
 						                  		
 						                  	@endforeach
@@ -418,7 +419,7 @@
 								<!-- Tiên 06/05 -->
 								<?php
                                     $mand = Session::get('nd_ma');
-                                    // $tennd = Session::get('nd_ten');
+                                    
                                 ?>
                                     @if ($mand)
                                     	@foreach($all_product as $key => $product)
@@ -488,12 +489,15 @@
 
     <script type="text/javascript">
     	 // Tien 08/05
-         //dat thi gian tat thong bao
-        setTimeout(function(){
-           $("span.alert").remove();
-        }, 5000 ); // 5 secs
+       
 
         $(document).ready(function(){
+
+    	  //dat thi gian tat thong bao
+	        setTimeout(function(){
+	           $("span.alert").remove();
+	        }, 5000 ); // 5 secs
+
         	var slt = 1;
         
             $('select[name="size"]').on('change',function(){

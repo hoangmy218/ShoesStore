@@ -196,7 +196,10 @@
 	    			</div> --}}
 	    			<br>
 	    			<p class="text-center"><a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">{{ __('MUA SẮM NGAY') }}</a>
-	    			<a href="{{URL::to('/checkout')}}" class="btn btn-primary py-3 px-4">{{ __('ĐẶT HÀNG NGAY') }}</a></p>
+
+					<a href="{{URL::to('/checkout')}}" class="btn btn-primary py-3 px-4">ĐẶT HÀNG</a></p>
+
+	    			
 	    		</div>
 	    	</div>
 	  {{--   </div> --}}

@@ -133,7 +133,7 @@ class ProductController extends Controller
         // print_r($ms_ma);
         // echo "</pre>";
 
-         return view('pages.product.show_detail',compact('cochitietsanpham'))->with('details_product',$details_product)->with('sz_product',$sz_product)->with('sizes',$sizes)->with('all_product',$all_product)->with('comments',$comments)->with('total_view',$total_view)->with('image_product',$image_product)->with('sold_product',$sold_product)->with('show_btn_mausac',$show_btn_mausac)->with('ms_ma',$ms_ma);
+         return view('pages.product.show_detail')->with('details_product',$details_product)->with('sz_product',$sz_product)->with('sizes',$sizes)->with('all_product',$all_product)->with('comments',$comments)->with('total_view',$total_view)->with('image_product',$image_product)->with('sold_product',$sold_product)->with('show_btn_mausac',$show_btn_mausac)->with('ms_ma',$ms_ma);
     }
 
 
