@@ -14,6 +14,7 @@ use App\Comment;
 
 class ProductController extends Controller
 {
+
      public function authLogin(){
         $admin_id = Session::get('nd_ma');
         if ($admin_id) 
@@ -106,36 +107,79 @@ class ProductController extends Controller
 
 
     public function details_product($product_id,$ms_ma){
-        // $ma_ms = $ms_ma;
-
 
         $content = Cart::content();
-        $image_product =  DB::table('hinhanh')->where('hinhanh.sp_ma',$product_id)->get(); 
+        $image_product =  DB::table('hinhanh')
+                    ->where('hinhanh.sp_ma',$product_id)->get(); 
 
-        $details_product = DB::table('sanpham')->join('hinhanh','hinhanh.sp_ma','=','sanpham.sp_ma')->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sanpham.sp_ma','=',$product_id)->first(); 
+        $details_product = DB::table('sanpham')
+                    ->join('hinhanh','hinhanh.sp_ma','=','sanpham.sp_ma')
+                    ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+                    ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+                    ->where('sanpham.sp_ma','=',$product_id)
+                    ->first(); 
         // tien 13/05
-        $sz_product = DB::table('cochitietsanpham')->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')->where([['cochitietsanpham.sp_ma','=',$product_id],['soLuongTon','>',0],['cochitietsanpham.ms_ma','=',$ms_ma]])->orderby('cochitietsanpham.kc_ma','asc')->orderby('cochitietsanpham.ms_ma','asc')->get(); 
+        $sz_product = DB::table('cochitietsanpham')
+                    ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
+                    ->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')
+                    ->where([['cochitietsanpham.sp_ma','=',$product_id],['soLuongTon','>',0],['cochitietsanpham.ms_ma','=',$ms_ma]])
+                    ->orderby('cochitietsanpham.kc_ma','asc')
+                    ->orderby('cochitietsanpham.ms_ma','asc')
+                    ->get(); 
         //Tien 13/05
-        $show_btn_mausac = DB::table('cochitietsanpham')->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')->where([['cochitietsanpham.sp_ma','=',$product_id],['soLuongTon','>',0]])->orderby('cochitietsanpham.kc_ma','asc')->orderby('cochitietsanpham.ms_ma','asc')->get();
+        $show_btn_mausac = DB::table('cochitietsanpham')
+                    ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
+                    ->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')
+                    ->where([['cochitietsanpham.sp_ma','=',$product_id],['soLuongTon','>',0]])
+                    ->orderby('cochitietsanpham.kc_ma','asc')
+                    ->orderby('cochitietsanpham.ms_ma','asc')
+                    ->get();
 
 
-        $all_product = DB::table('sanpham')->select('sp_ma')->where('sanpham.sp_ma',$product_id)->limit(1)->get(); //Tiên 14/03
+        $all_product = DB::table('sanpham')->select('sp_ma')
+                    ->where('sanpham.sp_ma',$product_id)
+                    ->limit(1)->get(); //Tiên 14/03
 
    
-        $sizes = DB::Table('cochitietsanpham')->select('kc_ma','soLuongTon')->where('cochitietsanpham.sp_ma',$product_id)->get(); // Tiên 12/03
+        $sizes = DB::Table('cochitietsanpham')
+                    ->select('kc_ma','soLuongTon')
+                    ->where('cochitietsanpham.sp_ma',$product_id)
+                    ->get(); // Tiên 12/03
         
-        $sold_product=DB::table('cochitietdonhang')->join('sanpham','sanpham.sp_ma','=','cochitietdonhang.sp_ma')->where('cochitietdonhang.sp_ma',$product_id)->select('soLuongDat')->sum('soLuongDat'); //Tien 11/05  
+        $sold_product=DB::table('cochitietdonhang')
+                    ->join('sanpham','sanpham.sp_ma','=','cochitietdonhang.sp_ma')
+                    ->where('cochitietdonhang.sp_ma',$product_id)
+                    ->select('soLuongDat')->sum('soLuongDat'); //Tien 11/05  
 
-        $comments = Comment::where('sp_ma',$product_id)->join('nguoidung','nguoidung.nd_ma','=','binhluan.nd_ma')->where('trangThai','=',0)->get(); // Tiên 06/05
+        $comments = Comment::where('sp_ma',$product_id)
+                    ->join('nguoidung','nguoidung.nd_ma','=','binhluan.nd_ma')
+                    ->where('trangThai','=',0)->get(); // Tiên 06/05
 
-        $total_view=DB::table('binhluan')->join('sanpham','sanpham.sp_ma','=','binhluan.sp_ma')->where([['binhluan.sp_ma',$product_id],['trangThai','=',0]])->select('sp_ma')->count();//Tien thêm ['trangThai','=',0] (12/05)
-        // echo "<pre>";
-        // print_r($ms_ma);
-        // echo "</pre>";
+        $total_view=DB::table('binhluan')
+                    ->join('sanpham','sanpham.sp_ma','=','binhluan.sp_ma')
+                    ->where([['binhluan.sp_ma',$product_id],['trangThai','=',0]])
+                    ->select('sp_ma')->count();//Tien thêm ['trangThai','=',0] (12/05)
 
-         return view('pages.product.show_detail')->with('details_product',$details_product)->with('sz_product',$sz_product)->with('sizes',$sizes)->with('all_product',$all_product)->with('comments',$comments)->with('total_view',$total_view)->with('image_product',$image_product)->with('sold_product',$sold_product)->with('show_btn_mausac',$show_btn_mausac)->with('ms_ma',$ms_ma);
+// Tiên 16/05
+        $rating = DB::table('binhluan')
+                    ->where('sp_ma',$product_id)
+                    ->get();
+       
+        return view('pages.product.show_detail')
+                ->with('details_product',$details_product)
+                ->with('sz_product',$sz_product)
+                ->with('sizes',$sizes)
+                ->with('all_product',$all_product)
+                ->with('comments',$comments)
+                ->with('total_view',$total_view)
+                ->with('image_product',$image_product)
+                ->with('sold_product',$sold_product)
+                ->with('show_btn_mausac',$show_btn_mausac)
+                ->with('ms_ma',$ms_ma)
+                ->with('rating',$rating);
+
     }
-
+    
 
     //GOODS RECEIPT MY
     public function addGoodsReceipt()
@@ -632,6 +676,7 @@ class ProductController extends Controller
         $data['sp_moTa']=$request->pro_moTa;
         $data['th_ma']=$request->pro_brand;
         $data['dm_ma']=$request->pro_cate;
+        $data['km_ma']=$request->pro_km;
         try{
             if($request->hasFile('product_image')) {
             DB::table('sanpham')->where('sp_ma', $chinhsua_sp_ma)->update($data);

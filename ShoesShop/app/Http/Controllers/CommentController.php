@@ -30,19 +30,24 @@ class CommentController extends Controller
     public function postComment(Request $request, $id){
 
          try {
-    
-            $data = new Comment; // cách 1 insert vào model Comment
-        
-            $data->noiDung = $request->content;
-            $data->trangThai = 0;
-            $data->sp_ma = $id;
-            $data->nd_ma = Session::get('nd_ma');
-            $data->ngayBinhLuan=Carbon::now()->toDateString();
-            // $data->rating= $request->example;
-            $data->save();
+            $ratings = $request->rating;
 
-            Session::put('success_message','Viết bình luận thành công !');
-           
+            if($ratings == null ){
+                Session::put('fail_message','Bạn chưa đánh giá sản phẩm !');
+            }else{
+
+                $data = new Comment; // cách 1 insert vào model Comment
+        
+                $data->noiDung = $request->content;
+                $data->trangThai = 0;
+                $data->sp_ma = $id;
+                $data->nd_ma = Session::get('nd_ma');
+                $data->ngayBinhLuan=Carbon::now()->toDateString();
+                $data->rating= $request->rating;
+                $data->save();
+
+                Session::put('success_message','Viết bình luận thành công !');
+            }
             
         } catch (\Illuminate\Database\QueryException $e) {
             Session::put('fail_message','Bạn vừa viết bình luận của sản phẩm này xong !');
@@ -51,8 +56,9 @@ class CommentController extends Controller
     }   
     //Tien 21/03
     public function showComment(){
+
         $this->authLogin();
-        $list_comments = DB::table('binhluan')->get();
+        $list_comments = DB::table('binhluan')->join('sanpham','sanpham.sp_ma','=','binhluan.sp_ma')->join('nguoidung','nguoidung.nd_ma','=','binhluan.nd_ma')->get();
         $manager_comment = view('admin.manage_comment')->with('list_comments', $list_comments);
         return view('admin_layout')->with('admin.manage_comment', $manager_comment);
         /*return view('admin.manage_category');*/

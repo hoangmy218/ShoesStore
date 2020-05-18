@@ -9,7 +9,7 @@
                                     <div class="page-header-title">
                                         <i class="ik ik-credit-card bg-blue"></i>
                                         <div class="d-inline">
-                                            <h5>Quản lý người dùng</h5>
+                                            <h5>Vô hiệu hóa người dùng</h5>
                                             {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
                                         </div>
                                     </div>
@@ -45,7 +45,7 @@
                         ?>
                         <div class="row">
                             <div class="col-md-12">
-								<div class="card">
+                                <div class="card">
                                     <div class="card-header d-block">
                                         <h3>Danh sách người dùng</h3>
                                         <?php
@@ -69,7 +69,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php {{$i=1;}} ?>
-                                                	@foreach( $list_customer as $key => $customer)
+                                                    @foreach( $list_customer as $key => $customer)
 
                                                     <tr>
                                                         <th scope="row">{{$i}}</th>
@@ -79,20 +79,21 @@
                                                           <?php
                                                           if($customer->nd_trangThai==0){
                                                             ?>
-                                                            <a href ="{{URL::to('unactive-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a>
+                                                            {{-- <a href ="{{URL::to('unactive-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a> --}}
+                                                            <span class="{{-- ik ik-x-circle --}}fa-thumb-styling fa fa-thumbs-up cancel text-green"  id="{{$customer->nd_ma}}"></span>
                                                             <?php
                                                           }else{
-                                                            ?>
-                                                            <a href="{{URL::to('active-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a>
+                                                             ?>
+                                                            <span class="{{-- ik ik-x-circle --}} fa-thumb-styling fa fa-thumbs-down cancel1 text-red" id="{{$customer->nd_ma}}"></span>
+                                                            {{-- <a href="{{URL::to('active-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a> --}}
                                                           <?php
                                                           }
-
                                                           ?>
                                                         </span></td>
                                                         
                                                     </tr>
                                                     <?php {{$i++;}} ?>
-                                                   	@endforeach
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
@@ -102,18 +103,82 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Vô hiệu hóa người dùng</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn vô hiệu hóa người dùng này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="ok_vhh_btn" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="cancelModal1" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Vô hiệu hóa người dùng</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn hủy vô hiệu hóa người dùng này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="ok_hvhh_btn" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-
         $( '#nguoidung').parent().addClass('active open');
          $("#vohieuhoa").addClass("active");
           //dat thi gian tat thong bao
         setTimeout(function(){
            $("span.alert").remove();
         }, 5000 ); // 5 secs
-
+        $(document).on('click','.cancel', function(){
+            nd_ma = $(this).attr('id');
+            console.log(nd_ma);
+            $('#cancelModal').modal('show');
+            
+        });
+        $(document).on('click','.cancel1', function(){
+            nd_ma = $(this).attr('id');
+            console.log(nd_ma);
+            $('#cancelModal1').modal('show');
+        });
+        $('#ok_vhh_btn').click(function(){
+            $.ajax({
+                url: '<?php echo url('unactive-customer');?>/'+nd_ma,
+                type: 'get',
+                success: function(data)
+                {
+                    window.location.replace("<?php echo url('/manage-customer');?>");
+                }
+            });
+        });
+        $('#ok_hvhh_btn').click(function(){
+            $.ajax({
+                url: '<?php echo url('active-customer');?>/'+nd_ma,
+                type: 'get',
+                success: function(data)
+                {
+                    window.location.replace("<?php echo url('/manage-customer');?>");
+                }
+            });
+        });
      });
 </script>
             

@@ -12,6 +12,10 @@
 <script src="{{asset('public/frontend/js/ThumbnailGallery/jquery.min.js')}}"></script>
 
 <script src="{{asset('public/frontend/js/ThumbnailGallery/jquery.etalage.min.js')}}"></script>
+
+<!-- tien 16/05 -->
+<script src="{{asset('public/frontend/css/binhluan/binhluan.css')}}"></script>
+
 <script>
 			jQuery(document).ready(function($){
 
@@ -57,7 +61,7 @@
     				</a>
     			</div> --}}
     			<div class="col-lg-6 mb-5 ftco-animate">
-    			<div class="grid images_3_of_2">
+    				<div class="grid images_3_of_2">
 						<ul id="etalage">
 							@foreach($image_product as $key => $img_pro)
 							<li>
@@ -65,14 +69,17 @@
 									<img class="etalage_thumb_image" src="{{URL::to('public/upload/product/'.$img_pro->ha_ten)}}" class="img-responsive" />
 									<img class="etalage_source_image" src="{{URL::to('public/upload/product/'.$img_pro->ha_ten)}}" class="img-responsive" title="" />
 								</a>
+								
+
 							</li>
 							@endforeach
 							
 						</ul>
-							<div class="clearfix"> </div>		
-				  </div>
+						<div class="clearfix"> </div>		
+				  	</div>
 				</div>
 				
+
 				<div class="col-lg-6 product-details pl-md-5 ftco-animate">
     				
     				<h3>{{$details_product->sp_ten}}</h3>
@@ -92,6 +99,14 @@
 									<span style="color: #bbb;">{{ __('Đánh giá') }}</span>
 								</a>
 							</p>
+
+							<?php 
+			                    $giamgia=(double)$details_product->sp_donGiaBan-($details_product->sp_donGiaBan*$details_product->km_giamGia/100);
+			                    $time = \Carbon\Carbon::now('Asia/Ho_Chi_Minh');
+
+			                    $today=$time->toDateString();
+			                ?>
+
 							<p class="text-left">
 								
 								<a href="#" class="mr-2" style="color: #000;">
@@ -100,62 +115,81 @@
 									
 								 	<span style="color: #bbb;">  {{ __('Đã bán') }}</span>
 								</a>
+
+								<a href="">
+									 @if(($details_product->km_giamGia != 0) && ($details_product->km_ngayBD <= $today) && ($today <= $details_product->km_ngayKT))
+					                    <span class="status">{{ __('Giảm ').$details_product->km_giamGia.'%' }}</span>
+					                @endif
+								</a>
 								
 							</p>
 						</div>
-    				<p class="price"><span>{{number_format($details_product->sp_donGiaBan).' '.'VNĐ'}}</span></p>
-    				
-						<div class="row mt-4">
 
+    		<!-- start thêm giá khuyến mãi -->
+                                        
+                    @if(($details_product->km_giamGia != 0) && ($details_product->km_ngayBD <= $today) && ($today <= $details_product->km_ngayKT))
+                        <div class="pricing">
+                            <p class="price"><span><del>{{number_format($details_product->sp_donGiaBan).' '.'VNĐ'}}</del></span></p>
+                        </div>
+                        <div class="pricing">
+                            <p class="price" style="color: red"><span><b>{{number_format($giamgia).' '.'VNĐ'}}</b></span></p>
+                        </div>
+                    @else
+                        <div class="pricing">
+                            <p class="price"><span>{{number_format($details_product->sp_donGiaBan).' '.'VNĐ'}}</
+                                                span></p>
+                        </div>
+                    @endif
+            <!-- end thêm giá khuyến mãi -->
+
+						<div class="row mt-4">
 							<div class="col-md-6">
 								<div class="form-group d-flex">
-						           
-					                 
-					                  	<?php 
+					                <?php 
 						                 	
-						                 	$array_ms = array();
-						                 	$arr_ms = array();
+						                $array_ms = array();
+						                $arr_ms = array();
 						                 	
-						                 	foreach($show_btn_mausac as $key => $ms){
+						                foreach($show_btn_mausac as $key => $ms){
 						                 		
-						                 		// $array[$sz->sp_ma] = $ms->ms_ten;
+						                 	// $array[$sz->sp_ma] = $ms->ms_ten;
 						                 		
-							                 	// echo 'ma'.$ms->ms_ma;
-							                 	// echo 'ten'.$ms->ms_ten;
-							                 	$arr_ms[$ms->ms_ma]=$ms->ms_ten;
+							                // echo 'ma'.$ms->ms_ma;
+							               // echo 'ten'.$ms->ms_ten;
+							                $arr_ms[$ms->ms_ma]=$ms->ms_ten;
 							                 	
-						                 	}
+						                }
 						                 	
-						                 	// echo '<pre>';
-						                 	// print_r($arr_ms); 	
-						                 	// echo '</pre>';
+						                // echo '<pre>';
+						                // print_r($arr_ms); 	
+						                // echo '</pre>';
 
-						                 	/*echo '<pre>';
-						                 	print_r($array);echo '</pre>';
-						                 	echo '<pre>';
-						                 	print_r(array_unique($array));echo '</pre>';
-						                 	$a = array();
-						                 	$a = array_unique($array);*/
+						                /*echo '<pre>';
+						                print_r($array);echo '</pre>';
+						                echo '<pre>';
+						                print_r(array_unique($array));echo '</pre>';
+						                $a = array();
+						                $a = array_unique($array);*/
 											 	
-								        ?>
+								    ?>
 						                 	
-						                  	@foreach($arr_ms as $key => $val)
-						                  		@if($key == $ms_ma)
-						                  	  		<a class="button btn btn-success" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						            @foreach($arr_ms as $key => $val)
+						                @if($key == $ms_ma)
+						                  	<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
 						                  	  	
-						                  	  	@else
-						                  			<a class="button btn btn-primary" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
-						                  	  	@endif
+						                @else
+						                  	<a class="button btn btn-outline-dark" href="{{URL::to('/product-detail/'.$details_product->sp_ma.'/'.$key)}}">{{$val}}</a> &nbsp;&nbsp;&nbsp;
+						                @endif
+
 
 						                  		
-						                  	@endforeach
-
+						            @endforeach
 						                 
-					                </div>
-						        </div>
+					            </div>
+						    </div>
 
 						   
-						   	 	<input type="hidden" name="ms_ma_hidden" id="ms_ma" value="{{$ms_ma}}">
+						   	<input type="hidden" name="ms_ma_hidden" id="ms_ma" value="{{$ms_ma}}">
 							
 							<div class="w-100"></div>
 
@@ -233,9 +267,7 @@
 					        </div>
 
 					        <input type="hidden" name="productid_hidden" id="spma" value="{{$details_product->sp_ma}}">
-
 					        
-
 					        <div class="w-100"></div>
 					        
 					        <br>
@@ -250,7 +282,9 @@
 
 						</div>	
     			</div>
+
     			<div class="row">
+    				
     				<div class="col-lg-6 ">
     					
     				</div>
@@ -258,7 +292,17 @@
     					<div class="sign-btn text-center ">
 				        	<button type="submit" class="btn btn-theme btn-primary py-3 px-5">{{ __('Thêm giỏ hàng') }}</button>
 				        	
-				        </div>
+				        </div><br>
+							<!-- message -->
+				        <?php
+	                        $message = Session::get('cart_message');
+	                        if ($message){
+	                            echo '<span class="alert alert-danger">'.$message."</span>";
+	                                
+	                            Session::put('cart_message',null);
+	                        }
+	                            
+	                    ?>
     				</div>
     			</div>
     					
@@ -340,82 +384,165 @@
 								   				<!-- <span class="text-right">{{date('d/m/Y H:i',strtotime($comment->created_at))}}</span> -->
 								   			</h4>
 								   			<p class="star" >
-								   				<span> 
-								   					<i class="ion-ios-star-outline " ></i> <!-- ik ik-star-on là màu đen và ngược lại -->
-								   					<i class="ion-ios-star"></i> 
-								   					<i class="ion-ios-star" ></i>
-								   					<i class="ion-ios-star" ></i>
-								   					<i class="ion-ios-star" ></i>
+								   				<span> <!-- Tien 16/05 -->
+								   					@for ($i = 0; $i < 5; ++$i)
+													    <i class="ion-ios-star{{ $comment->rating<=$i?'-outline':'' }}" aria-hidden="true"></i>
+													@endfor
 							   					</span>
+
 							   					<span class="text-right"><a href="#" class="reply"><i class="icon-reply"></i></a></span>
 								   			</p>
+								   				
 								   			<p>{{$comment->noiDung}}</p>
 								   		</div>
 								   	</div>
 								   	@endforeach		
 								   	
 						   		</div>
-					
-						   		{{-- <div class="col-md-4">
+							
+						   		<div class="col-md-4">
 						   			<div class="rating-wrap">
+						   				<br><br>
 							   			<h3 class="mb-4">{{ __('Đánh giá') }}</h3>
-							   			<p class="star">
-							   				<span>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					(98%)
-						   					</span>
-						   					<span>20 Reviews</span>
-							   			</p>
-							   			<p class="star">
-							   				<span>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					(85%)
-						   					</span>
-						   					<span>10 Reviews</span>
-							   			</p>
-							   			<p class="star">
-							   				<span>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					(98%)
-						   					</span>
-						   					<span>5 Reviews</span>
-							   			</p>
-							   			<p class="star">
-							   				<span>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					(98%)
-						   					</span>
-						   					<span>0 Reviews</span>
-							   			</p>
-							   			<p class="star">
-							   				<span>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					<i class="ion-ios-star-outline"></i>
-							   					(98%)
-						   					</span>
-						   					<span>0 Reviews</span>
-							   			</p>
+							   			
+							   		
+							   			<?php
+							   				$a = array();
+							   				foreach($rating as $key => $value){
+							   					$a[] = $value->rating;
+								   			}						   			
+									        
+									        // echo "<pre>";
+									        // print_r(array_count_values($a));
+									        // // print_r($a);
+									        // echo "</pre>";
+							   			?>
+						                  		
+						                  	<!-- <p class="star">
+										   		<span>
+										   			@for ($i = 1; $i < 6; ++$i)
+											   			<i class="ion-ios-star{{ $key<$i?'-outline':'' }}" aria-hidden="true"></i>
+											   					
+										   			@endfor
+										   			
+									   			</span>
+									   			<span>{{$val}} Reviews</span>
+										   	</p> -->
+
+									   			<p class="star">
+									   				<span>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					&nbsp;&nbsp;&nbsp;( 98% )
+								   					</span>
+
+								   					<?php
+								   						$temp = 0;
+
+									   					foreach(array_count_values($a) as $key => $val){
+										   					if ($key == 1 ){
+										   						$temp=$val;
+										   					}
+										   					
+									   					}
+								   					?>
+								   					<span> {{$temp}} Reviews</span>
+									   			</p>
+
+									   			<p class="star">
+									   				<span>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					&nbsp;&nbsp;&nbsp;( 98% )
+								   					</span>
+
+								   					<?php
+								   						$temp = 0;
+
+									   					foreach(array_count_values($a) as $key => $val){
+										   					if ($key == 2 ){
+										   						$temp=$val;
+										   					}
+										   					
+									   					}
+								   					?>
+								   					<span> {{$temp}} Reviews</span>
+									   			</p>
+
+									   			<p class="star">
+									   				<span>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					&nbsp;&nbsp;&nbsp;( 98% )
+								   					</span>
+								   					<?php
+								   						$temp = 0;
+
+									   					foreach(array_count_values($a) as $key => $val){
+										   					if ($key == 3 ){
+										   						$temp=$val;
+										   					}
+										   					
+									   					}
+								   					?>
+								   					<span> {{$temp}} Reviews</span>
+									   			</p>
+
+									   			<p class="star">
+									   				<span>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					&nbsp;&nbsp;&nbsp;( 98% )
+								   					</span>
+								   					<?php
+								   						$temp = 0;
+
+									   					foreach(array_count_values($a) as $key => $val){
+										   					if ($key == 4 ){
+										   						$temp=$val;
+										   					}
+										   					
+									   					}
+								   					?>
+								   					<span> {{$temp}} Reviews</span>
+									   			</p>
+
+									   			<p class="star">
+									   				<span>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					&nbsp;&nbsp;&nbsp;( 98% )
+								   					</span>
+								   					<?php
+								   						$temp = 0;
+
+									   					foreach(array_count_values($a) as $key => $val){
+										   					if ($key == 5 ){
+										   						$temp=$val;
+										   					}
+										   					
+									   					}
+								   					?>
+								   					<span> {{$temp}} Reviews</span>
+									   			</p>
 							   		</div>
-								</div> --}}
+								</div> 
+							
 								<!-- Tiên 06/05 -->
 								<?php
                                     $mand = Session::get('nd_ma');
@@ -437,6 +564,23 @@
 								    							<textarea class="form-control" rows="3" id="cm" name="content" required="" ></textarea>
 								    						</div>
 
+
+															<label for="cm">{{ __('Đánh giá') }}</label>
+															<div class="rating" role="optgroup">
+															    
+															    <i class="ion-ios-star-outline rating-star" name="example" id="rating-1" data-rating="1" tabindex="0"  role="radio"></i>&nbsp;&nbsp;&nbsp;
+
+															    <i class="ion-ios-star-outline rating-star" name="example" id="rating-2" data-rating="2" tabindex="0"  role="radio"></i>&nbsp;&nbsp;&nbsp;
+
+															    <i class="ion-ios-star-outline rating-star" name="example" id="rating-3" data-rating="3" tabindex="0"  role="radio"></i>&nbsp;&nbsp;&nbsp;
+
+															    <i class="ion-ios-star-outline rating-star" name="example" id="rating-4" data-rating="4" tabindex="0"  role="radio"></i>&nbsp;&nbsp;&nbsp;
+
+															    <i class="ion-ios-star-outline rating-star" name="example" id="rating-5" data-rating="5" tabindex="0"  role="radio"></i>
+															    <br>
+															</div>
+															<input type="hidden" name="rating" id="rating-input" min="1" max="5" /><br>
+
 								    						<!-- <div id="rdrating" class="ratings">
 													            <i name="example" class="ion-ios-star-outline" value="1" title='Poor' /></i>
 													            <i name="example" class="ion-ios-star-outline" value="2" title='Fair'/></i>
@@ -446,25 +590,7 @@
 													        </div> -->
 
 
-<!-- <div class='rating-stars text-center'>
-    <ul id='stars'>
-      <li class='star' >
-        <i class="ion-ios-star-outline" title='Poor' value='1' ></i>
-      </li>
-      <li class='star' >
-        <i class="ion-ios-star-outline" title='Fair' value='2'></i>
-      </li>
-      <li class='star' >
-        <i class="ion-ios-star-outline" title='Good' value='3'></i>
-      </li>
-      <li class='star' >
-        <i class="ion-ios-star-outline" title='Excellent' value='4'></i>
-      </li>
-      <li class='star' >
-        <i class="ion-ios-star-outline" title='WOW!!!' value='5'></i>
-      </li>
-    </ul>
-  </div> -->
+
 								    						<div class="form-group text-left">
 								    							<button type="submit" class="btn btn-primary">{{ __('Gửi') }}</button>
 								    						</div>
@@ -492,6 +618,7 @@
        
 
         $(document).ready(function(){
+        	
 
     	  //dat thi gian tat thong bao
 	        setTimeout(function(){
@@ -573,6 +700,50 @@
 		            	$('#quantity').val(quantity - 1);
 		            }
 		    });
+
+
+		    //rating final
+
+			function setRating(rating) {
+
+			    $('#rating-input').val(rating);
+
+			    var valueclicked = $('#rating-input').val();//value input
+			    console.log(valueclicked,'sl rating');
+
+
+			    // fill all the stars assigning the '.selected' class
+			    $('.rating-star').removeClass('ion-ios-star-outline').addClass('selected');
+			    // empty all the stars to the right of the mouse
+			    $('.rating-star#rating-' + rating + ' ~ .rating-star').removeClass('selected').addClass('ion-ios-star-outline');
+			}
+			  
+			$('.rating-star')
+			  .on('mouseover', function(e) {
+			    var rating = $(e.target).data('rating');
+			    // fill all the stars
+			    $('.rating-star').removeClass('ion-ios-star-outline').addClass('ion-ios-star');
+			    // empty all the stars to the right of the mouse
+			    $('.rating-star#rating-' + rating + ' ~ .rating-star').removeClass('ion-ios-star').addClass('ion-ios-star-outline');
+			  })
+			  // .on('mouseleave', function (e) {
+			  //   // empty all the stars except those with class .selected
+			  //   $('.rating-star').removeClass('ion-ios-star').addClass('ion-ios-star-outline');
+			  // })
+			  .on('click', function(e) {
+			    var rating = $(e.target).data('rating');
+			    setRating(rating);
+			  })
+			  .on('keyup', function(e){
+			    // if spacebar is pressed while selecting a star
+			    if (e.keyCode === 32) {
+			      // set rating (same as clicking on the star)
+			      var rating = $(e.target).data('rating');
+			      setRating(rating);
+			    }
+			});
+
+
 		});
 
 

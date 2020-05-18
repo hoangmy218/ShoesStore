@@ -36,20 +36,38 @@
                                     <div class="card-header"><h3>Chỉnh sửa thông hình thức vận chuyển</h3></div>
                                     <div class="card-body">
                                         @foreach($list_pay as $key => $edit)
-                                        <form class="forms-sample" action="{{URL::to('/update-pay/'.$edit->tt_ma)}}" method="POST" enctype="multipart/form-data" >
+                                        <form class="forms-sample" action="{{URL::to('/update-pay/'.$edit->httt_ma)}}" method="POST" enctype="multipart/form-data" >
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên hình phương thức thanh toán</label>
-                                                <input type="text" name="pay_name" class="form-control" id="exampleInputName1" value="{{$edit->tt_ten}}">
+                                                <input type="text" name="pay_name" class="form-control" id="exampleInputName1" value="{{$edit->httt_ten}}">
                                             </div>
                                             <button type="submit" name="add_pro" class="btn btn-primary mr-2">Cập nhật</button>
-                                            <button class="btn btn-light">Hủy</button>
+                                            <button type="button" class="btn btn-light cancel">Hủy</button>
                                         </form>
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
                     </div>
+                    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Hủy chỉnh sửa hình thức thanh toán</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn hủy chỉnh sửa hình thức thanh toán này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="cancel" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -61,7 +79,16 @@ $(document).ready(function(){
             console.log('click');
             $(this).addClass('open');
         });
+
      });
+$(document).on('click','.cancel', function(){
+            $('#cancelModal').modal('show');
+            
+        });
+$('#cancel').click(function(e){
+    e.preventDefault();
+     window.location.replace("<?php echo url('/manage-pay');?>");
+            });
 </script>
                 
 @endsection

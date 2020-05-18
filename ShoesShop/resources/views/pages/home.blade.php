@@ -14,7 +14,9 @@
                               <div class="one-forth d-flex align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
                                 <div class="text">
                                     <span class="subheading">{{$ad->qc_chuDe}}</span>
-                                    
+                                    <div class="horizontal">
+                                        <h1 class="mb-4 mt-3"></h1>
+                                      </div>
                                 </div>
                               </div>
                             </div>
@@ -294,6 +296,20 @@
         </div>
     </section>
 
+    <!--  Tien 16/05 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="http://www.codermen.com/js/jquery.js"></script>
+<script>
+    $(document).ready(function(){
+             
+             //dat thi gian tat thong bao
+            setTimeout(function(){
+               $("span.alert").remove();
+            }, 10000 ); // 5 secs
+
+    });
+</script>
 
 
 @endsection
