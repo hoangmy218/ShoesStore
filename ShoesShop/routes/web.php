@@ -297,5 +297,6 @@ Route::post('/update-coupon/{Coupon_id}','CouponController@updateCoupon');
 
 
 // Thống kê (Ngân 22/3/2020)
-Route::get('/statistical_order','StatisticalController@showStatistical_order')->name('chart','showStatistical_order');
+Route::get('/statistical','StatisticalController@showStatistical')->name('chart','showStatistical');
 Route::get('/statistical_Revenue','StatisticalController@showStatistical_Revenue')->name('chart','showStatistical_Revenue');
+Route::get('/statistical_top3','StatisticalController@showStatistical_top3')->name('chart','showStatistical_top3');
