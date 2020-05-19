@@ -108,21 +108,34 @@ class OrderController extends Controller
         try {
     
             $count = DB::table('donhang')->where('dh_ma', $dh_ma)->update(['tt_ma' => 5]);
-            Session::put('success_message','Cập nhật trạng thái đơn hàng thành công!');
-            $items_cancel = DB::table('chitietdonhang')->join('chitietsanpham','chitietdonhang.ctsp_ma','chitietsanpham.ctsp_ma')->where('dh_ma', $dh_ma)->select('chitietdonhang.ctsp_ma','chitietdonhang.soLuongDat','chitietsanpham.ctsp_soLuongTon')->get();
+           
+            $items_cancel = DB::table('cochitietdonhang')
+                                ->leftJoin('cochitietsanpham', function($join)
+                                     {
+                                         $join->on('cochitietsanpham.sp_ma', '=', 'cochitietdonhang.sp_ma');
+                                         $join->on('cochitietsanpham.kc_ma', '=', 'cochitietdonhang.kc_ma');
+                                         $join->on('cochitietsanpham.ms_ma', '=', 'cochitietdonhang.ms_ma');
+                                        
+                                     })
+                                ->where('dh_ma', $dh_ma)
+                                ->get();
             foreach ($items_cancel as $key => $item) {
                 try{
                     /*echo $item->soLuongDat;
                     echo $item->ctsp_soLuongTon;*/
-                   /*echo*/  $new_stock = $item->soLuongDat+$item->ctsp_soLuongTon;
+                   /*echo*/  $new_stock = $item->SoLuongDat+$item->soLuongTon;
 
-                    DB::table('chitietsanpham')->where('ctsp_ma', $item->ctsp_ma)->update(['ctsp_soLuongTon' => $new_stock]);
+                    DB::table('cochitietsanpham')
+                        ->where([['sp_ma','=',$item->sp_ma],
+                                 ['kc_ma','=',$item->kc_ma],
+                                 ['ms_ma','=',$item->ms_ma]])
+                        ->update(['soLuongTon' => $new_stock]);
                 }catch (\Illuminate\Database\QueryException $e) {
                     Session::put('fail_message','Cập nhật trạng thái đơn hàng không thành công!');
                 }
             }
 
-            
+            Session::put('success_message','Cập nhật trạng thái đơn hàng thành công!');
         } catch (\Illuminate\Database\QueryException $e) {
             Session::put('fail_message','Cập nhật trạng thái đơn hàng không thành công!');
         }
@@ -132,46 +145,96 @@ class OrderController extends Controller
 
     public function cusCancelOrder($dh_ma)
     {
+
         $this->authLogin();
-       
+        $nd_ma= Session::get('nd_ma');
         try {
     
-            $count = DB::table('donhang')->where('dh_ma', $dh_ma)->update(['dh_trangThai' => 'Đã hủy']);
-            Session::put('success_message','Cập nhật trạng thái đơn hàng thành công!');
-            $items_cancel = DB::table('chitietdonhang')->join('chitietsanpham','chitietdonhang.ctsp_ma','chitietsanpham.ctsp_ma')->where('dh_ma', $dh_ma)->select('chitietdonhang.ctsp_ma','chitietdonhang.soLuongDat','chitietsanpham.ctsp_soLuongTon')->get();
+            $count = DB::table('donhang')->where('dh_ma', $dh_ma)->update(['tt_ma' => 5]);
+           
+            $items_cancel = DB::table('cochitietdonhang')
+                                ->leftJoin('cochitietsanpham', function($join)
+                                     {
+                                         $join->on('cochitietsanpham.sp_ma', '=', 'cochitietdonhang.sp_ma');
+                                         $join->on('cochitietsanpham.kc_ma', '=', 'cochitietdonhang.kc_ma');
+                                         $join->on('cochitietsanpham.ms_ma', '=', 'cochitietdonhang.ms_ma');
+                                        
+                                     })
+                                ->where('dh_ma', $dh_ma)
+                                ->get();
             foreach ($items_cancel as $key => $item) {
                 try{
                     /*echo $item->soLuongDat;
                     echo $item->ctsp_soLuongTon;*/
-                   /*echo*/  $new_stock = $item->soLuongDat+$item->ctsp_soLuongTon;
+                   /*echo*/  $new_stock = $item->SoLuongDat+$item->soLuongTon;
 
-                    DB::table('chitietsanpham')->where('ctsp_ma', $item->ctsp_ma)->update(['ctsp_soLuongTon' => $new_stock]);
-
+                    DB::table('cochitietsanpham')
+                        ->where([['sp_ma','=',$item->sp_ma],
+                                 ['kc_ma','=',$item->kc_ma],
+                                 ['ms_ma','=',$item->ms_ma]])
+                        ->update(['soLuongTon' => $new_stock]);
                 }catch (\Illuminate\Database\QueryException $e) {
                     Session::put('fail_message','Cập nhật trạng thái đơn hàng không thành công!');
-                    $nd_ma= Session::get('nd_ma');
-                    $status=DB::table('donhang')->where('nd_ma',$nd_ma )->get();
-                    if($status!=NULL){
-                        return view('pages.customer.status_order')->with('status', $status);
-                    }
+                    return view('pages.customer.status_order');
                 }
             }
 
+            Session::put('success_message','Cập nhật trạng thái đơn hàng thành công!');
+            $orders=DB::table('donhang')->where('nd_ma',$nd_ma )->get();
+            if($orders!=NULL){
+                return view('pages.customer.status_order')->with('orders', $orders);
+            }
             
-        } catch (\Illuminate\Database\QueryException $e) {
+        } 
+        catch (\Illuminate\Database\QueryException $e) 
+        {
             Session::put('fail_message','Cập nhật trạng thái đơn hàng không thành công!');
-            $nd_ma= Session::get('nd_ma');
-            $status=DB::table('donhang')->where('nd_ma',$nd_ma )->get();
-            if($status!=NULL){
-                return view('pages.customer.status_order')->with('status', $status);
+            $orders=DB::table('donhang')->where('nd_ma',$nd_ma )->get();
+            if($orders!=NULL){
+                return view('pages.customer.status_order')->with('orders', $$orders);
             }
         }
-        Session::put('success_message','Cập nhật trạng thái đơn hàng thành công!');
-        $nd_ma= Session::get('nd_ma');
-        $status=DB::table('donhang')->where('nd_ma',$nd_ma )->get();
-        if($status!=NULL){
-            return view('pages.customer.status_order')->with('status', $status);
-        }
+
+        // $this->authLogin();
+       
+        // try {
+    
+        //     $count = DB::table('donhang')->where('dh_ma', $dh_ma)->update(['dh_trangThai' => 'Đã hủy']);
+        //     Session::put('success_message','Cập nhật trạng thái đơn hàng thành công!');
+        //     $items_cancel = DB::table('chitietdonhang')->join('chitietsanpham','chitietdonhang.ctsp_ma','chitietsanpham.ctsp_ma')->where('dh_ma', $dh_ma)->select('chitietdonhang.ctsp_ma','chitietdonhang.soLuongDat','chitietsanpham.ctsp_soLuongTon')->get();
+        //     foreach ($items_cancel as $key => $item) {
+        //         try{
+        //             /*echo $item->soLuongDat;
+        //             echo $item->ctsp_soLuongTon;*/
+        //            /*echo*/  $new_stock = $item->soLuongDat+$item->ctsp_soLuongTon;
+
+        //             DB::table('chitietsanpham')->where('ctsp_ma', $item->ctsp_ma)->update(['ctsp_soLuongTon' => $new_stock]);
+
+        //         }catch (\Illuminate\Database\QueryException $e) {
+        //             Session::put('fail_message','Cập nhật trạng thái đơn hàng không thành công!');
+        //             $nd_ma= Session::get('nd_ma');
+        //             $status=DB::table('donhang')->where('nd_ma',$nd_ma )->get();
+        //             if($status!=NULL){
+        //                 return view('pages.customer.status_order')->with('status', $status);
+        //             }
+        //         }
+        //     }
+
+            
+        // } catch (\Illuminate\Database\QueryException $e) {
+        //     Session::put('fail_message','Cập nhật trạng thái đơn hàng không thành công!');
+        //     $nd_ma= Session::get('nd_ma');
+        //     $status=DB::table('donhang')->where('nd_ma',$nd_ma )->get();
+        //     if($status!=NULL){
+        //         return view('pages.customer.status_order')->with('status', $status);
+        //     }
+        // }
+        // Session::put('success_message','Cập nhật trạng thái đơn hàng thành công!');
+        // $nd_ma= Session::get('nd_ma');
+        // $status=DB::table('donhang')->where('nd_ma',$nd_ma )->get();
+        // if($status!=NULL){
+        //     return view('pages.customer.status_order')->with('status', $status);
+        // }
         
        
     }

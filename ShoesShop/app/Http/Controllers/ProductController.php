@@ -676,6 +676,7 @@ class ProductController extends Controller
         $data['sp_moTa']=$request->pro_moTa;
         $data['th_ma']=$request->pro_brand;
         $data['dm_ma']=$request->pro_cate;
+        $data['km_ma']=$request->pro_km;
         try{
             if($request->hasFile('product_image')) {
             DB::table('sanpham')->where('sp_ma', $chinhsua_sp_ma)->update($data);
@@ -766,44 +767,91 @@ class ProductController extends Controller
        
     }
 
-    // start Ngân(13/5/2020)
-    public function showProCategory($category_id){
-        $list_cate_product = DB::table('hinhanh')            
+     public function showProCategory($category_id){
+        $list_cate_product = DB::table('hinhanh')
             ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
-            ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+            ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
+            ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
             ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
-            ->orderby('sanpham.sp_ma','desc')
+            ->join('khuyenmai', 'khuyenmai.km_ma','=','sanpham.km_ma')
+            ->where('sanpham.dm_ma',$category_id)
+            ->orderby('phieunhap.pn_ngayNhap','desc')
             ->groupby('hinhanh.sp_ma')
-            ->where([['sanpham.dm_ma','=',$category_id],['sp_trangThai','=',0]])
             ->limit(6)
             ->get();
 
-            // echo "<pre>";
-            // print_r($list_cate_product);
-            // echo "</pre>";
+         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
+         $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
 
-         $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
-         $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
+         Session::put('dm_hienhanh',$category_id);
 
-        return view("pages.product.show_cate_pro")->with('list_cate_pro',$list_cate_product)->with('list_cate',$cate)->with('list_brand',$brand);
+        // Đếm sản phẩm theo danh mục
+        $list_category = DB::table('danhmuc')->select('dm_ma')->get();
+        $count_dm = count($list_category);
+        $dm_array= array();
+        $dm=0;
+        foreach ($list_category as $key => $danhmuc){
+            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->count();
+            $dm_array[$dm] = $sl_dm;
+            $dm++;
+        }
+
+        // Đếm sản phẩm theo thương hiệu
+        $list_brand = DB::table('thuonghieu')->select('th_ma')->get();
+        $count_th = count($list_brand);
+        $th_array= array();
+        $th=0;
+        foreach ($list_brand as $key => $thuonghieu){
+            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->count();
+            $th_array[$th] = $sl_th;
+            $th++;
+        }
+
+        return view("pages.product.show_cate_pro")->with('list_cate_pro',$list_cate_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('list_cate_pro',$list_cate_product)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
     public function showProBrand($brand_id){
         $list_bra_product = DB::table('hinhanh')
             ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
-            ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+            ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
+            ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
             ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
-            ->orderby('sanpham.sp_ma','desc')
+            ->join('khuyenmai', 'khuyenmai.km_ma','=','sanpham.km_ma')
+            ->where('sanpham.th_ma',$brand_id)
+            ->orderby('phieunhap.pn_ngayNhap','desc')
             ->groupby('hinhanh.sp_ma')
-            ->where([['sanpham.th_ma','=',$brand_id],['sp_trangThai','=',0]])
             ->limit(6)
             ->get();
 
-         $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
-         $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
 
-        return view("pages.product.show_bra_pro")->with('list_bra_pro',$list_bra_product)->with('list_cate',$cate)->with('list_brand',$brand);
+        $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
+        $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
+
+        Session::put('th_hienhanh',$brand_id);
+
+        // Đếm sản phẩm theo danh mục
+        $list_category = DB::table('danhmuc')->select('dm_ma')->get();
+        $count_dm = count($list_category);
+        $dm_array= array();
+        $dm=0;
+        foreach ($list_category as $key => $danhmuc){
+            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->count();
+            $dm_array[$dm] = $sl_dm;
+            $dm++;
+        }
+
+        // Đếm sản phẩm theo thương hiệu
+        $list_brand = DB::table('thuonghieu')->select('th_ma')->get();
+        $count_th = count($list_brand);
+        $th_array= array();
+        $th=0;
+        foreach ($list_brand as $key => $thuonghieu){
+            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->count();
+            $th_array[$th] = $sl_th;
+            $th++;
+        }
+
+        return view("pages.product.show_bra_pro")->with('list_bra_pro',$list_bra_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
-    // end Ngân(13/5/2020)
 
 }

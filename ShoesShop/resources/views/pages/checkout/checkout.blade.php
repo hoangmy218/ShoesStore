@@ -34,16 +34,17 @@
                                     <th>{{ __('Mã sản phẩm') }}</th>
                                     <th>{{ __('Hình ảnh') }}</th>
                                     <th>{{ __('Tên sản phẩm') }}</th>
+                                    <th>Màu sắc</th>
                                     <th>{{ __('Kích cỡ') }}</th>
                                     <th>{{ __('Đơn giá') }}</th>
                                     <th>{{ __('Số lượng') }}</th>
-                                    <th>Khuyến mãi</th>
                                     <th>{{ __('Thành tiền') }}</th>
                                     
                                     
                                 </tr>
                             </thead>
-                            <?php $i=1; ?>
+                            <?php $i=1;
+                            $congTien=0; ?>
                             @foreach($content as $v_content)<!-- tien -->
                                 <tbody>
                                     <tr class="text-center">
@@ -59,9 +60,27 @@
                                             <h3>{{$v_content->name}}</h3>
                                             
                                         </td>
+
+                                        <?php
+                                        $tablemausac =DB::table('mausac')->where('ms_ma', $v_content->options->mausac)->get();
+                                        ?>
+                                        @foreach($tablemausac as $key => $ms)
                                         <td class="quantity">
-                                            <h3>{{$v_content->options->size}}</h3>                                          
+                                            <h3>{{$ms->ms_ten}}</h3>                                          
                                         </td>
+                                        @endforeach
+
+                                        <?php
+                                        $tablesize =DB::table('kichco')->where('kc_ma', $v_content->options->size)->get();
+                                        ?>
+                                        @foreach($tablesize as $key => $size)
+                                        <td class="quantity">
+                                            <h3>{{$size->kc_ten}}</h3>                                          
+                                        </td>
+                                        @endforeach
+
+
+                                        
                                         
                                         <td class="price">{{number_format($v_content->price).' '.'VND'}}</td>
                 
@@ -72,18 +91,25 @@
                                                         {{-- <input type="number" name="cart_quantity" class="quantity form-control input-number" value="{{$v_content->qty}}" min="1" max="100"> --}}       
                                                 
                                         </td>
-                                         <td class="khuyenmai">
-                                            <h3>{{$v_content->options->km}}</h3>                                          
-                                        </td>
+                                        {{-- LAN THÊM KHUYẾN MÃI 18/05/2020 --}}
+                                        <?php
+                                            $laykhuyenmai =DB::table('khuyenmai')->where('km_ma', $v_content->options->km)->get();
+                                        ?>
+                                        
+                                        
                                         <td class="total">
                                             <p class="cart_total_price">
-                                            
                                             <?php
-                                            $subtotal = $v_content->price * $v_content->qty;
-                                            echo number_format($subtotal).' '.'VND';
+                                            $thanhTien = $v_content->price*$v_content->qty;
+                                            
+                                            
+
+                                          
+                                            echo number_format($thanhTien).' '.'VND';
                                             ?><!-- Tien -->
                                         </p>
                                         </td>
+                                        
                                         </tr><!-- END TR-->
                                     </tbody>
                             @endforeach 
@@ -102,27 +128,19 @@
                                 <input type="text" name="dh_tenNhan" class="form-control" placeholder="{{ __('Họ và tên người nhận') }}" required="">
                                 <i class="ik ik-lock"></i>
                             </div>
-                            <div class="form-group">
-                                <input type="" name="dh_email" class="form-control" placeholder="{{ __('Email') }}"{{-- THÊM NÈ --}} required="" title="The domain portion of the email address is invalid (the portion after the @)." pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*(\.\w{2,})+$" >
-                                {{-- @if($errors->first('dh_email'))
-                                <p class="text-primary"> Email nhập sai định dạng!</p>
-                                @endif --}}
-                                {{-- <p class="help is-danger">{{ $errors->first('dh_email') }}</p> --}}
-                                <i class="ik ik-user"></i>
-                            </div>
                             
                             <div class="form-group">
                                 <textarea name="dh_diaChiNhan"  class="form-control" rows="3" cols="20" placeholder="{{ __('Địa chỉ nhận hàng') }}" required></textarea>                
                             </div>
                             <div class="form-group">
-                                <input type="tel" name="dh_dienThoai" class="form-control" placeholder="{{ __('SĐT') }}" required="" {{-- Thêm nè --}} pattern="[0]{1}[0-9]{9}" title="Số điện thoại phải là 10 số và bắt đầu bằng 0">
+                                <input type="tel" name="dh_dienThoai" class="form-control" placeholder="{{ __('Số điện thoại') }}" required="" {{-- Thêm nè --}} pattern="[0]{1}[0-9]{9}" title="Số điện thoại phải là 10 số và bắt đầu bằng 0">
                                {{--  @if($errors->first('dh_dienThoai'))
                                 <p class="text-primary"> Số điện thoại không đúng định dạng!</p>
                                 @endif --}}
                                 <i class="ik ik-lock"></i>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">{{ __('Hình thức vận chuyển') }}</label>
+                                
                                 <div>
                                     {{-- <input type="hidden" value="{{$v_content->rowId}}" id="rowId"> --}}
                                     <select {{-- THÊM NÈ --}} required="" id="vanc_id" name="vanc_id" class="form-control m-bot15">
@@ -147,13 +165,13 @@
                <div class="col-md-6 d-flex" id="show_total" >
                     <div class="cart-detail cart-total bg-light p-3 p-md-4">
                         {{-- Start Ngân (12/3/2020)  --}}
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                                 <input name="coupon_code" id="coupon_id" class="form-control" rows="3" cols="20" placeholder="{{ __('Mã khuyến mãi') }}" required>            
                         </div>
                         <div class="sign-btn text-center">
                                 <input type="button" value="{{ __('Áp dụng') }}" id="coupon_btn" class="btn btn-theme btn-primary py-3 px-4">
                         </div>
-                         <br>
+                         <br> --}}
                         {{-- ENd Ngân (12/3/2020) --}}
                         <h3 class="billing-heading mb-4">{{ __('Tổng tiền thanh toán') }}</h3>
                         <p class="d-flex">
@@ -166,7 +184,7 @@
                           {{-- <span><input id="price" value="0" type="number" name="price" disabled></span> --}}
                           <?php (int)$phi= 0; ?>
                             {{-- THÊM NÈ --}}
-                          <a id="price" name="price">{{number_format($phi).' VND'}}</a>
+                          <a id="price" name="price">{{number_format($congTien).' VND'}}</a>
                         </p>
                          <?php
                             Session::put('ti_le_giamgia', 0);
@@ -217,13 +235,16 @@
                                 console.log(data);
                                $('select[name="value"]').empty();
                                  $.each(data, function(key,value){
-                                   var tongn =parseInt(tongtien)+value;
+                                    //Lan thêm chuyển số
+                                    var phivc =value.toLocaleString("en");
+                                   var tongn =(parseInt(tongtien)+value).toLocaleString("en");;
+
                                    console.log(tongn,' tongn');
                                    console.log(tongtien,' tongtien');
                                    console.log(value,' value');
                                    console.log(typeof tongtien, ' type tongtien');
                                    console.log(typeof value,' type value')
-                                    $('a[name="price"]').replaceWith('<a id="price" name="price">'+value+' VND</a>');
+                                    $('a[name="price"]').replaceWith('<a id="price" name="price">'+phivc+' VND</a>');
                                      // $('input[name="tong"]').replaceWith('<input id="tong" name="tong" value="'+tongn+'" type="hidden" placeholder=""');
                                     $('div[id="tongtext"]').text(tongn+' VND');
                                  });

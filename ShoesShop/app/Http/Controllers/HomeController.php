@@ -28,23 +28,48 @@ class HomeController extends Controller
         //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);
 
         // Tiên  thêm where Ngan join km
-         $all_product = DB::table('hinhanh')
+        $all_product = DB::table('hinhanh')
                 ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
+                ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
+                ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
                 ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
-                ->orderby('sanpham.sp_ma','desc')
-                ->groupby('hinhanh.sp_ma')->limit(6)
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
-                ->where('sp_trangThai','=',0)->get(); 
-         $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
-         $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
-        
-       return view("pages.home")->with('list_ad',$list_ad)->with('all_product',$all_product)->with('list_cate',$cate)->with('list_brand',$brand);
-        // End Ngân (14/4/2020)
+                ->select()
+                ->orderby('phieunhap.pn_ngayNhap','desc')
+                ->groupby('hinhanh.sp_ma')->limit(6)
+                ->get(); 
 
-        // Tiên bản cũ 
-        /*
-        $all_product = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(4)->get(); 
-        return view("pages.home")->with('all_product',$all_product);*/
+         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
+         $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
+
+         $time_month = \Carbon\Carbon::now()->month;
+        
+       // Đếm sản phẩm theo danh mục
+        $list_category = DB::table('danhmuc')->select('dm_ma')->get();
+        $count_dm = count($list_category);
+        $dm_array= array();
+        $dm=0;
+        foreach ($list_category as $key => $danhmuc){
+            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->count();
+            $dm_array[$dm] = $sl_dm;
+            $dm++;
+        }
+
+        // Đếm sản phẩm theo thương hiệu
+        $list_brand = DB::table('thuonghieu')->select('th_ma')->get();
+        $count_th = count($list_brand);
+        $th_array= array();
+        $th=0;
+        foreach ($list_brand as $key => $thuonghieu){
+            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->count();
+            $th_array[$th] = $sl_th;
+            $th++;
+        }
+        // echo "<pre>";
+        // print_r($all_product);
+        // echo "</pre>";
+        
+       return view("pages.home")->with('list_ad',$list_ad)->with('all_product',$all_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
 
@@ -55,23 +80,52 @@ class HomeController extends Controller
 
     public function Home_u(){
         $this->authLogin();
-        // echo Session::get('ltk_ma');
-       // Start Ngân (14/4/2020)
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();
         //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);
 
-        // Tiên  thêm where Ngan join KM
+        // Tiên  thêm where Ngan join km
         $all_product = DB::table('hinhanh')
                 ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
+                ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
+                ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
                 ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
-                ->orderby('sanpham.sp_ma','desc')
-                ->groupby('hinhanh.sp_ma')->limit(6)
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
-                ->where('sp_trangThai','=',0)->get(); 
-         $cate = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
-         $brand = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
+                ->select()
+                ->orderby('phieunhap.pn_ngayNhap','desc')
+                ->groupby('hinhanh.sp_ma')->limit(6)
+                ->get(); 
+
+         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
+         $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
+
+         $time_month = \Carbon\Carbon::now()->month;
         
-       return view("pages.home")->with('list_ad',$list_ad)->with('all_product',$all_product)->with('list_cate',$cate)->with('list_brand',$brand);
+       // Đếm sản phẩm theo danh mục
+        $list_category = DB::table('danhmuc')->select('dm_ma')->get();
+        $count_dm = count($list_category);
+        $dm_array= array();
+        $dm=0;
+        foreach ($list_category as $key => $danhmuc){
+            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->count();
+            $dm_array[$dm] = $sl_dm;
+            $dm++;
+        }
+
+        // Đếm sản phẩm theo thương hiệu
+        $list_brand = DB::table('thuonghieu')->select('th_ma')->get();
+        $count_th = count($list_brand);
+        $th_array= array();
+        $th=0;
+        foreach ($list_brand as $key => $thuonghieu){
+            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->count();
+            $th_array[$th] = $sl_th;
+            $th++;
+        }
+        // echo "<pre>";
+        // print_r($all_product);
+        // echo "</pre>";
+        
+       return view("pages.home")->with('list_ad',$list_ad)->with('all_product',$all_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
     public function get_register(){
@@ -199,25 +253,24 @@ class HomeController extends Controller
 
 
     
-    //LAN
+    //LAN update 14/05/2020
 
     public function status_order(){
         $nd_ma= Session::get('nd_ma');
-        $status=DB::table('donhang')->where('nd_ma',$nd_ma )->orderby('dh_ma','desc')->get();
-        if($status!=NULL){
-            return view('pages.customer.status_order')->with('status', $status);
+        $orders=DB::table('donhang')->where('nd_ma',$nd_ma )->orderby('dh_ma','desc')->get();
+        if($orders!=NULL){
+            return view('pages.customer.status_order')->with('orders', $orders);
         }
     }
 
     public function view_customerdetails($dh_ma){
         $this->authLogin();
-        $disc = DB::table('donhang')->where('donhang.dh_ma','=',$dh_ma)->first();
-        if ($disc->km_ma != NULL){
-        $order = DB::table('donhang')->join('nguoidung','nguoidung.nd_ma','donhang.nd_ma')->join('thanhtoan','thanhtoan.tt_ma','donhang.tt_ma')->join('vanchuyen','vanchuyen.vc_ma','donhang.vc_ma')->join('khuyenmai','khuyenmai.km_ma','donhang.km_ma')->where('donhang.dh_ma','=',$dh_ma)->first();
-        } else{
-             $order = DB::table('donhang')->join('nguoidung','nguoidung.nd_ma','donhang.nd_ma')->join('thanhtoan','thanhtoan.tt_ma','donhang.tt_ma')->join('vanchuyen','vanchuyen.vc_ma','donhang.vc_ma')->where('donhang.dh_ma','=',$dh_ma)->first();
-        }
-        $items = DB::table('chitietdonhang')->join('chitietsanpham','chitietsanpham.ctsp_ma','chitietdonhang.ctsp_ma')->join('sanpham','sanpham.sp_ma','chitietsanpham.sp_ma')->where('dh_ma',$dh_ma)->get();
+        $items = DB::table('cochitietdonhang')->join('sanpham','sanpham.sp_ma','cochitietdonhang.sp_ma')->where('dh_ma',$dh_ma)->get();
+
+        
+            $order = DB::table('donhang')->join('nguoidung','nguoidung.nd_ma','donhang.nd_ma')->join('hinhthucthanhtoan','hinhthucthanhtoan.httt_ma','donhang.httt_ma')->join('hinhthucvanchuyen','hinhthucvanchuyen.htvc_ma','donhang.htvc_ma')->where('donhang.dh_ma','=',$dh_ma)->first();
+        
+        
         return view('pages.customer.view_customerdetails')->with('order',$order)->with('items',$items);
     }
 
