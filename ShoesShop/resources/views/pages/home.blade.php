@@ -112,7 +112,17 @@
                                    </div>
                                               
                               </div>
-                              <h3 ><a style="background-image: url({{asset('public/frontend/images/hot-icon-2.gif')}}); background-size: contain; background-repeat: no-repeat; background-position: right;" href="{{URL::to('/product-detail/'.$product->sp_ma)}}" >{{$product->sp_ten}} &emsp;&emsp;</a></h3>
+                               <!-- Tiên 13/05-->
+                                <?php
+                                  $request= DB::table('cochitietsanpham')->select('ms_ma')->where('sp_ma','=',$product->sp_ma)->first();
+                                  $ms=$request->ms_ma;
+                                  // echo "<pre>";
+                                  // print_r($ms);
+                                  // echo "</pre>";
+                                  // echo $ms_ma=$request->ms_ma;
+                                ?>
+                               
+                              <h3 ><a style="background-image: url({{asset('public/frontend/images/hot-icon-2.gif')}}); background-size: contain; background-repeat: no-repeat; background-position: right;" href="{{URL::to('/product-detail/'.$product->sp_ma.'/'.$ms)}}" >{{$product->sp_ten}} &emsp;&emsp;</a></h3>
                              
 
                               <!-- Show giá sp -->
@@ -148,7 +158,15 @@
                                    </div>
                                               
                               </div>
-                              <h3><a href="{{URL::to('/product-detail/'.$product->sp_ma)}}">{{$product->sp_ten}}</a></h3>
+                              <?php
+                                  $request= DB::table('cochitietsanpham')->select('ms_ma')->where('sp_ma','=',$product->sp_ma)->first();
+                                  $ms=$request->ms_ma;
+                                  // echo "<pre>";
+                                  // print_r($ms);
+                                  // echo "</pre>";
+                                  // echo $ms_ma=$request->ms_ma;
+                                ?>
+                              <h3><a href="{{URL::to('/product-detail/'.$product->sp_ma.'/'.$ms)}}">{{$product->sp_ten}}</a></h3>
 
                               <!-- Show giá sp -->
                               @if(($product->km_giamGia) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
