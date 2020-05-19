@@ -27,7 +27,7 @@
                         Session::put('success_message',null);
                     }
                 ?>
-				@if ($status->isempty())
+				@if ($orders->isempty())
                 <p class="text-center">Chưa có đơn hàng nào!<br><br><a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">{{ __('Mua sắm ngay') }}</a></p>
             @else
           		<div class="row">
@@ -50,27 +50,27 @@
 						    </thead>
 						    <tbody>
                                 <?php {{$i=1;}} ?>
-                                @foreach( $status as $key => $status)
+                                @foreach( $orders as $key => $order)
 								<tr>
                                     <th scope="row">{{$i}}</th>
-                                    <td>{{$status->dh_ma}}</td>
-                                    <td>{{$status->dh_tenNguoiNhan}}</td>
-                                    <td>{{$status->dh_ngayDat}}</td>
-                                    <td>{{number_format($status->dh_tongTien).' VND'}}</td>
+                                    <td>{{$order->dh_ma}}</td>
+                                    <td>{{$order->dh_tenNguoiNhan}}</td>
+                                    <td>{{$order->dh_ngayDat}}</td>
+                                    <td>{{number_format($order->dh_tongTien).' VND'}}</td>
                                     <?php
-                                    $donhang=DB::table('trangthai')->where('tt_ma', $status->tt_ma)->get();
+                                    $donhang=DB::table('trangthai')->where('tt_ma', $order->tt_ma)->get();
                                     ?>
                                     @foreach($donhang as $key =>$dh)
                                     <td>{{$dh->tt_ten}}</td>
                                     <td class="product-remove"> {{-- Hủy đơn M --}}
                                         @if ($dh->tt_ten != 'Đã hủy')
-                                    <a onclick="<?php echo "return confirm('"; ?>{{ __("Bạn có chắc chắn muốn hủy đơn hàng này?") }}<?php echo "')";?>" class="ion-ios-close" href="{{URL::to('/cus-cancel-order/'.$status->dh_ma)}}"><i class="fa fa-times"></i></a>
+                                    <a onclick="<?php echo "return confirm('"; ?>{{ __("Bạn có chắc chắn muốn hủy đơn hàng này?") }}<?php echo "')";?>" class="ion-ios-close" href="{{URL::to('/cus-cancel-order/'.$order->dh_ma)}}"><i class="fa fa-times"></i></a>
                                         @else
                                             &nbsp;
                                         @endif
                                     </td>
                                     @endforeach
-                                     <td><a href="{{URL::to('/view-customerdetails/'.$status->dh_ma)}}" class="btn btn-primary py-2 px-3">{{ __('Xem thêm') }}</a></td>
+                                     <td><a href="{{URL::to('/view-customerdetails/'.$order->dh_ma)}}" class="btn btn-primary py-2 px-3">{{ __('Xem thêm') }}</a></td>
                                 </tr>
                                 <?php {{$i++;}} ?>
                                 @endforeach

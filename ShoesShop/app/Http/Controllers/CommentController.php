@@ -30,19 +30,24 @@ class CommentController extends Controller
     public function postComment(Request $request, $id){
 
          try {
-    
-            $data = new Comment; // cách 1 insert vào model Comment
-        
-            $data->noiDung = $request->content;
-            $data->trangThai = 0;
-            $data->sp_ma = $id;
-            $data->nd_ma = Session::get('nd_ma');
-            $data->ngayBinhLuan=Carbon::now()->toDateString();
-            $data->rating= $request->rating;
-            $data->save();
+            $ratings = $request->rating;
 
-            Session::put('success_message','Viết bình luận thành công !');
-           
+            if($ratings == null ){
+                Session::put('fail_message','Bạn chưa đánh giá sản phẩm !');
+            }else{
+
+                $data = new Comment; // cách 1 insert vào model Comment
+        
+                $data->noiDung = $request->content;
+                $data->trangThai = 0;
+                $data->sp_ma = $id;
+                $data->nd_ma = Session::get('nd_ma');
+                $data->ngayBinhLuan=Carbon::now()->toDateString();
+                $data->rating= $request->rating;
+                $data->save();
+
+                Session::put('success_message','Viết bình luận thành công !');
+            }
             
         } catch (\Illuminate\Database\QueryException $e) {
             Session::put('fail_message','Bạn vừa viết bình luận của sản phẩm này xong !');

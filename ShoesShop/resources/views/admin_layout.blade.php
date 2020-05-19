@@ -197,7 +197,8 @@
                                 <div class="nav-item has-sub">
                                     <a id="thongke" href="javascript:void(0)"><i class="ik ik-bar-chart-2"></i><span>Thống kê</span> <span class="badge badge-danger"></span></a>
                                     <div class="submenu-content">
-                                        <a id="theosanpham" href="{{URL::to('/statistical_order')}}" class="menu-item">Theo sản phẩm</a>
+                                        <a id="theosanpham" href="{{URL::to('/statistical')}}" class="menu-item">Theo sản phẩm</a>
+                                        <a id="theospbanchaynhat" href="{{URL::to('statistical_top3')}}" class="menu-item">Theo sản phẩm bán chạy nhất</a>
                                         <a id="theodoanhthu" href= "{{URL::to('/statistical_Revenue')}}" class="menu-item">Theo doanh thu</a>
                                        
                                     </div>

@@ -77,6 +77,7 @@
                                 <tr>
                                     <td>{{$i++}}</td>
                                     <td>{{$item->sp_ten}}</td>
+
                                     <?php
                                     $tablemausac =DB::table('mausac')->where('ms_ma',$item->ms_ma)->get();
                                     ?>
@@ -89,6 +90,7 @@
                                     @foreach($tablesize as $key => $kc)
                                     <td>{{$kc->kc_ten}}</td>
                                     @endforeach
+
 
                                     <td>{{$item->SoLuongDat}}</td>
                                     <td>{{number_format($item->DonGiaBan).' VND'}}</td>
@@ -125,7 +127,7 @@
                 <div class="col-6 d-flex">
                    
                         <div class="cart-detail cart-total bg-light p-3 p-md-4">
-                            <h3 class="billing-heading mb-4">Cart Total</h3>
+                            <h3 class="billing-heading mb-4">TỔNG TIỀN THANH TOÁN</h3>
                             <p class="d-flex">
                                         <span>{{ __('Cộng tiền') }}</span>
                                         <span>{{number_format($congTien).' VND'}}</span>
