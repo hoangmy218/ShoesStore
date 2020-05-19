@@ -59,6 +59,8 @@
                               <tr class="text-center">
                                 <th>{{ __('STT') }}</th>
                                 <th>{{ __('Tên sản phẩm') }}</th>
+                                <th>Màu sắc</th>
+                                <th>Kích thước</th>
                                 <th>{{ __('Số lượng') }}</th>
                                 <th>{{ __('Đơn giá') }}</th>
                                 <th>Khuyến mãi</th>
@@ -75,6 +77,19 @@
                                 <tr>
                                     <td>{{$i++}}</td>
                                     <td>{{$item->sp_ten}}</td>
+                                    <?php
+                                    $tablemausac =DB::table('mausac')->where('ms_ma',$item->ms_ma)->get();
+                                    ?>
+                                    @foreach($tablemausac as $key => $ms)
+                                    <td>{{$ms->ms_ten}}</td>
+                                    @endforeach
+                                    <?php
+                                    $tablesize =DB::table('kichco')->where('kc_ma',$item->kc_ma)->get();
+                                    ?>
+                                    @foreach($tablesize as $key => $kc)
+                                    <td>{{$kc->kc_ten}}</td>
+                                    @endforeach
+
                                     <td>{{$item->SoLuongDat}}</td>
                                     <td>{{number_format($item->DonGiaBan).' VND'}}</td>
                                     <?php
@@ -83,11 +98,9 @@
                                     ?>
                                     @foreach($khuyenmai as $key => $km)
                                     <td>{{$km->km_chuDe}}</td>
-                                    <?php $tienkm = $item->DonGiaBan*$km->km_giamGia/100*$item->SoLuongDat;
-                                    $thanhTien =$item->DonGiaBan*$item->SoLuongDat- $tienkm;?>
                                     @endforeach
-                                    <td>{{number_format($thanhTien).' VND'}}</td>
-                                    <?php $congTien = $congTien + $thanhTien; ?>
+                                    <td>{{number_format($item->DonGiaBan*$item->SoLuongDat).' VND'}}</td>
+                                    <?php $congTien = $congTien + $item->DonGiaBan*$item->SoLuongDat; ?>
                                     
                                 </tr>
                                 @endforeach
