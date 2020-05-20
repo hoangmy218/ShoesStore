@@ -42,12 +42,7 @@
                             <p class="text-primary">Vui lòng điền tên chủ đề!</p>
                         @endif --}}
                     </div>
-                    <!--S Ngân (14/4/2020) -->
-                    <div class="form-group">
-                        <label for="exampleInputName1">Giới thiệu</label>
-                        <textarea type="areatext" name="ad_DoanQC" class="form-control" placeholder="Đoạn giới thiệu" required="" title="Vui lòng nhập đoạn giới thiệu"></textarea>
-                    </div>
-                    <!--E Ngân (14/4/2020) -->
+                    
                     <div class="form-group">
                                                 {{-- <div class="raw">
                                                     <div class="col-lg-8"></div>
