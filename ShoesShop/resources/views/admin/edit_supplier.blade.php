@@ -43,7 +43,7 @@
                                                 <input type="text" class="form-control" name="supplier_name" placeholder="Tên" value="{{$supplier->ncc_ten}}">
                                             </div>   
                                             <div class="form-group">
-                                                <label for="exampleInputName1">Email cung cấp</label>
+                                                <label for="exampleInputName1">Email nhà cung cấp</label>
                                                 <input type="text" class="form-control" name="supplier_email" placeholder="Email" value="{{$supplier->ncc_email}}">
                                             </div> 
                                             <div class="form-group">

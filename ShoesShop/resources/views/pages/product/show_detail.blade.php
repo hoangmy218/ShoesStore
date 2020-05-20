@@ -324,7 +324,7 @@
             <div class="nav nav-pills d-flex text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
               <a class="nav-link ftco-animate active mr-lg-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">{{ __('Mô tả') }}</a>
 
-              <a class="nav-link ftco-animate mr-lg-1" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">{{ __('Nhà sản xuất') }}</a>
+              <a class="nav-link ftco-animate mr-lg-1" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">{{ __('Nhà cung cấp') }}</a>
 
               <a class="nav-link ftco-animate" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">{{ __('Đánh giá') }}</a>
 
@@ -345,8 +345,18 @@
 
               <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-day-2-tab">
               	<div class="p-4">
-	              	<h3 class="mb-4">{{$details_product->th_ten}}</h3>
-	              	<p>...</p>
+	              	<h3 class="mb-4">
+	              		<?php $cnt = count($suppliers); $i = 1?>
+	              		@foreach($suppliers as $key => $sup)
+	              		{{$sup->ncc_ten}}
+	              			@if ($cnt != $i)
+	              				,&nbsp;
+	              			@endif
+	              			<?php $i++;?> 
+	              		@endforeach
+	              	</h3>
+
+	              	<p></p>
               	</div>
 
               </div>

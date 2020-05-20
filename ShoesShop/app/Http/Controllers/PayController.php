@@ -29,7 +29,7 @@ class PayController extends Controller
 
     public function manage_pay(){
     	 $this->authLogin();
-    	$list_pay = DB::table('hinhthucthanhtoan')->get();
+    	$list_pay = DB::table('hinhthucthanhtoan')->orderby('httt_ma','desc')->get();
     	$manager_pay = view('admin.manage_pay')->with('list_pay', $list_pay);
     	return view('admin_layout')->with('admin.manage_pay', $manager_pay);
     }

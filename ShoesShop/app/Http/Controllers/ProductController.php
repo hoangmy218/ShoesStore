@@ -118,6 +118,12 @@ class ProductController extends Controller
                     ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
                     ->where('sanpham.sp_ma','=',$product_id)
                     ->first(); 
+        $suppliers = DB::table('nhacungcap')
+                    ->join('phieunhap','phieunhap.ncc_ma','=','nhacungcap.ncc_ma')
+                    ->join('cochitietphieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')
+                    ->where('sp_ma','=',$details_product->sp_ma)
+                    ->groupby('phieunhap.ncc_ma')
+                    ->get();
         // tien 13/05
         $sz_product = DB::table('cochitietsanpham')
                     ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
@@ -176,7 +182,8 @@ class ProductController extends Controller
                 ->with('sold_product',$sold_product)
                 ->with('show_btn_mausac',$show_btn_mausac)
                 ->with('ms_ma',$ms_ma)
-                ->with('rating',$rating);
+                ->with('rating',$rating)
+                ->with('suppliers',$suppliers);
 
     }
     
