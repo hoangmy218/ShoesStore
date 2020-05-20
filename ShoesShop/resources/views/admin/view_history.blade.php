@@ -68,10 +68,17 @@
                                                     <tr>
                                                         <th scope="row">{{$i}}</th>
                                                         <td>{{$don_hang->dh_ma}}</td>
-                                                        <td>{{$don_hang->dh_tenNhan}}</td>
+                                                        <td>{{$don_hang->dh_tenNguoiNhan}}</td>
                                                         <td>{{date('d-m-Y',strtotime($don_hang->dh_ngayDat))}}</td>
                                                         <td>{{$don_hang->dh_tongTien}}</td>
-                                                        <td>{{$don_hang->dh_trangThai}}</td>
+
+                                                        <?php
+                                                        $tabletrangthai =DB::table('trangthai')->where('tt_ma',$don_hang->tt_ma)->get();
+                                                        ?>
+                                                        @foreach($tabletrangthai as $key => $tt)
+                                                        <td>{{$tt->tt_ten}}</td>
+                                                        @endforeach
+                                                        
                                                         {{-- @foreach($tam as $key => $tam)
                                                         <td>{{$tam}}</td>
                                                         @endforeach --}}

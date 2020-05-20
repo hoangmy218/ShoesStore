@@ -86,8 +86,9 @@ Route::get('/chinhsua-thongtin', 'HomeController@chinhsua_thongtin');
 Route::post('/capnhat-thongtin', 'HomeController@capnhat_thongtin');
 Route::post('capnhat-thongtin/{capnhat_nd_ma}','HomeController@capnhat_thongtin');
 
-//PRODUCT - Tiên 1305
-Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product'); 
+//PRODUCT - Tiên 13/05
+Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product');  
+
 //Ngân(13/5/2020)
 Route::get('/show-pro-category/{category_id}','ProductController@showProCategory');
 Route::get('/show-pro-brand/{brand_id}','ProductController@showProBrand');
@@ -140,9 +141,9 @@ Route::get('/view-history/{controll_nd_ma}', 'AdminController@view_history');
 
 
 //Cart
-Route::get('/show-cart','CartController@showCart');
+Route::get('/show-cart','CartController@showCart'); //My
 Route::get('/delete-to-cart/{rowId}','CartController@delete_to_cart');//Tien
-Route::post('/update-cart-quantity','CartController@update_cart_quantity');//Tien
+// Route::post('/update-cart-quantity','CartController@update_cart_quantity');//Tien
 Route::get('/update-qty/{sp_ma}','CartController@update_qty');//My
 Route::post('/save-cart','CartController@save_cart');//Tien
 
@@ -249,7 +250,9 @@ Route::post('/save-pay','PayController@save_pay');
 Route::get('/edit-pay/{edit_id}','PayController@edit_pay');
 Route::post('/update-pay/{update_id}','PayController@update_pay');
 Route::get('/delete-pay/{delete_id}','PayController@delete_pay');
-
+//Lan thêm 18/05/2020
+Route::get('/unactive-pay/{controll_httt_ma}', 'PayController@unactive_pay');
+Route::get('/active-pay/{controll_httt_ma}', 'PayController@active_pay');
 //transport hình thức vận chuyển
 Route::get('/manage-transport','TransportController@manage_transport');
 Route::get('/add-transport','TransportController@add_transport');
@@ -257,6 +260,9 @@ Route::post('/save-transport','TransportController@save_transport');
 Route::get('/edit-transport/{edit_id}','TransportController@edit_transport');
 Route::post('/update-transport/{update_id}','TransportController@update_transport');
 Route::get('/delete-transport/{delete_id}','TransportController@delete_transport');
+//Lan thêm 18/05/2020
+Route::get('/unactive-transport/{controll_htvc_ma}', 'TransportController@unactive_transport');
+Route::get('/active-transport/{controll_htvc_ma}', 'TransportController@active_transport');
 
 // Khuyến mãi (Ngân 14/3/2020)
 Route::get('/checkCoupon','CheckoutController@checkCoupon'); 

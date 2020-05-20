@@ -8,7 +8,7 @@ class Comment extends Model
 {
     // Tiên 14/03
     protected $table = 'binhluan';
-	protected $primaryKey = 'bl_id';
+	protected $primaryKey = 'nd_ma,sp_ma,ngayBinhLuan';
 	protected $guarded = [];
    
 }

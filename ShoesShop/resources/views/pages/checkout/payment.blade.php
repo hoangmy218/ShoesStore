@@ -50,6 +50,7 @@ display: none;
                                     <th>{{ __('Mã sản phẩm') }}</th>
                                     <th>{{ __('Hình ảnh') }}</th>
                                     <th>{{ __('Tên sản phẩm') }}</th>
+                                    <th>Màu sắc</th>
                                     <th>{{ __('Kích cỡ') }}</th>
                                     <th>{{ __('Đơn giá') }}</th>
                                     <th>{{ __('Số lượng') }}</th>
@@ -75,11 +76,25 @@ display: none;
                                             <h3>{{$v_content->name}}</h3>
                                             
                                         </td>
+                                       
+                                        <?php
+                                        $color_item =DB::table('mausac')->where('ms_ma', $v_content->options->mausac)->first();
+                                        ?>
                                         <td class="quantity">
-                                            <h3>{{$v_content->options->size}}</h3>                                          
+                                            <h4>{{$color_item->ms_ten}}</h4>                                          
                                         </td>
                                         
-                                        <td class="price">{{number_format($v_content->price).' '.'vnđ'}}</td>
+
+                                        <?php
+                                        $size_item =DB::table('kichco')->where('kc_ma', $v_content->options->size)->first();
+                                        ?>
+                                        
+                                        <td class="quantity">
+                                            <h3>{{$size_item->kc_ten}}</h3>                                          
+                                        </td>
+                                       
+                                        
+                                        <td class="price">{{number_format($v_content->price).' '.'VND'}}</td>
                                         
                                         <td class="quantity">
                                             <h4>{{$v_content->qty}}</h4>
@@ -91,7 +106,7 @@ display: none;
                                             
                                             <?php
                                             $subtotal = $v_content->price * $v_content->qty;
-                                            echo number_format($subtotal).' '.'vnđ';
+                                            echo number_format($subtotal).' '.'VND';
                                             ?><!-- Tien -->
                                             </p>
                                         </td>
@@ -118,9 +133,7 @@ display: none;
 						        echo '<p class="d-flex"><span>';
                                 echo __('Điện thoại').'</span>';
 						        echo '<span>'.Session::get('dh_dienThoai').'</span></p>';
-						        echo '<p class="d-flex"><span>';
-                                echo __('Email').'</span>';
-						        echo '<span>'.Session::get('dh_email').'</span></p>';
+						        
 						       
 						        echo '<p class="d-flex"><span>';
                                 echo __('Ngày đặt').'</span>';
@@ -129,7 +142,7 @@ display: none;
 						        					       
 						       echo '<p class="d-flex"><span>';
                                echo __('Hình thức vận chuyển').'</span>';
-						        echo '<span>'.Session::get('vc_ten').'</span></p>';
+						        echo '<span>'.Session::get('htvc_ten').'</span></p>';
 						        echo '<p class="d-flex"><span>';
                                 echo __('Ghi chú').'</span>';
 						        echo '<span>'.Session::get('dh_ghiChu').'</span></p>';
@@ -143,26 +156,16 @@ display: none;
                         </p>
                         <p class="d-flex">
                             <span>{{ __('Phí vận chuyển') }}</span>
-                            <?php (int)$phi = Session::get('vc_phi'); ?>
+                            <?php (int)$phi = Session::get('htvc_phi'); ?>
                             <span>{{number_format($phi).' VND'}}</span>
                         </p>
-                         <p class="d-flex">
-                            <span>{{ __('Khuyến mãi') }}</span>
-                            <?php 
-                               
-                            if (Session::get('tien_giamgia') != null){
-                                (int)$giamgia = Session::get('tien_giamgia');
-                            } else
-                                (int)$giamgia  = 0; ?>
-                            <span>{{number_format($giamgia).' VND'}}</span>
-                           {{--  <span>Tỉ lệ giảm {{Session::get('ti_le_giamgia')}}</span> --}}
-                        </p>
+                        
                         
                         <hr>
                         <p class="d-flex total-price">
                             <span>{{ __('Tổng tiền thanh toán') }}</span>
                             <?php $subtt =(double)Cart::subtotal(2,'.',''); ?> {{-- bo dau hang nghin, chuyen sau thap phan thanh , --}}
-                            <span>{{number_format($subtt + $phi - $giamgia).' VND'}}</span>
+                            <span>{{number_format($subtt + $phi).' VND'}}</span>
                             <?php Session::put('dh_tongTien',number_format((double)Cart::subtotal(2,'.','')));?>
                         </p>
                     </div>
@@ -175,7 +178,7 @@ display: none;
     			          			<div class="form-group">
     									<div class="col-md-12">
     										<div class="paymentradio">
-    											<label><input type="radio" name="optradio" id="btn{{$matt->tt_ma}}" value="{{$matt->tt_ma}}" class="mr-2">{{$matt->tt_ten}}</label>
+    											<label><input type="radio" name="optradio" id="btn{{$matt->httt_ma}}" value="{{$matt->httt_ma}}" class="mr-2">{{$matt->httt_ten}}</label>
     										</div>
     									</div>
     								</div> 

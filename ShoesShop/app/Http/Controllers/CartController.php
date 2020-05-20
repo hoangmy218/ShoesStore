@@ -76,54 +76,61 @@ class CartController extends Controller
 
      // Tien sua 08/05
     public function save_cart(Request $request){
-        $this->authLogin();
-        $size= $request->size; //size_id
-        $mausac= $request->ms_ma_hidden; //mausac_id
-        $sp_ma= $request->productid_hidden; //sp_ma
+    
+        $mand = Session::get('nd_ma');
 
-        $soluong = $request->quantity;
-        echo 'size'.$size.'\n';
-        echo 'mausac'.$mausac.'\n';
-        echo 'sp_ma'.$sp_ma.'\n';
-        echo 'soluong'.$soluong;
+        if ($mand != null) {
+
+            $size= $request->size; //size_id
+            $mausac= $request->ms_ma_hidden; //mausac_id
+            $sp_ma= $request->productid_hidden; //sp_ma
+
+            $soluong = $request->quantity;
+            echo 'size'.$size.'\n';
+            echo 'mausac'.$mausac.'\n';
+            echo 'sp_ma'.$sp_ma.'\n';
+            echo 'soluong'.$soluong;
+
+            $ctsp = DB::table('cochitietsanpham')
+                    ->join('sanpham','sanpham.sp_ma','=','cochitietsanpham.sp_ma')
+                    ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
+                    ->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')
+                    ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+                    ->where([['cochitietsanpham.kc_ma',$size],
+                            ['cochitietsanpham.ms_ma',$mausac],
+                            ['cochitietsanpham.sp_ma',$sp_ma]])
+                    ->first();
 
 
-        $ctsp = DB::table('cochitietsanpham')
-                ->join('sanpham','sanpham.sp_ma','=','cochitietsanpham.sp_ma')
-                ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
-                ->join('mausac','mausac.ms_ma','=','cochitietsanpham.ms_ma')
-                ->where([['cochitietsanpham.kc_ma',$size],
-                    ['cochitietsanpham.ms_ma',$mausac],
-                    ['cochitietsanpham.sp_ma',$sp_ma]])
-                ->first();
 
+            $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first(); 
 
-        $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first();
+            $data= array();
+            $data['id'] = $sp_ma;
+            $data['qty'] = $soluong;
+            $data['name'] = $ctsp->sp_ten;
+            $data['price'] = $ctsp->sp_donGiaBan*(100-$ctsp->km_giamGia)/100;
+            $data['weight'] = 0;
+            $data['options']['image'] = $hinhanh->ha_ten;
+            $data['options']['mausac'] = $ctsp->ms_ma;
+            $data['options']['size'] = $ctsp->kc_ma;
+              
+                    
+            Cart::add($data);
+            // echo "<pre>";
+            // print_r($data);
+            // echo "</pre>";
+            // return view("pages.cart.show_cart");
+               
+        }else{
 
-        //Lan thêm khuyển mãi
-        $makhuyenmai =DB::table('sanpham')->where('sp_ma',$sp_ma)->first();
+            Session::put('cart_message','Bạn vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ !');
+            return Redirect::to('/'); //sd jquery để load lại trang
 
-        $data= array();
-        $data['id'] = $sp_ma;
-        $data['qty'] = $soluong;
-        $data['name'] = $ctsp->sp_ten;
-        $data['price'] = $ctsp->sp_donGiaBan;
-        $data['weight'] = 0;
-        //lan thêm km
-        
-        
-        $data['options']['image'] = $hinhanh->ha_ten;
-        $data['options']['mausac'] = $ctsp->ms_ma;
-        $data['options']['size'] = $ctsp->kc_ma;
-        $data['options']['km']= $makhuyenmai->km_ma;
-        
-        Cart::add($data);
-        // echo "<pre>";
-        // print_r($data);
-        echo "</pre>";
-        // return view("pages.cart.show_cart");
+        }
         return Redirect::to('/show-cart');
-
+        
+       
     }// Tien 
     
     public function delete_to_cart($rowId){
@@ -131,94 +138,10 @@ class CartController extends Controller
         Session::put('success_message','Xóa sản phẩm thành công!');
         return Redirect::to('/show-cart');
     }
-    // Tien 
     
-    public function update_cart_quantity(Request $request){
-        $rowId = $request->rowId_cart;
-        $qty = $request->quantity;
-        $size = $request->size;
-        $outstock = array();
-        $content = Cart::get($rowId); 
-        $hethang = 0; //false
-            $ctsp_ton =  DB::table('cochitietsanpham')->where('ctsp_ma', $content->id)->first();
-            if ( ($qty > $ctsp_ton->ctsp_soLuongTon) || ($size != $ctsp_ton->ctsp_kichCo)){ //chon qua slt hoac doi kich co
-                if ($size == $ctsp_ton->ctsp_kichCo){ //chon qua slt, ko doi kich co
-                    $hethang = $hethang+1; //true
-                    $outstock[$hethang] = $ctsp_ton->sp_ma;
-                    /*foreach ($outstock as $key => $value) {*/
-                        $hang = DB::table('sanpham')->where('sp_ma',$ctsp_ton->sp_ma)->select('sp_ten')->first();
-                        $tenhang .= '';
-                        $tenhang .= $hang->sp_ten;
-                       /* if ($key != count($outstock))
-                        $tenhang .= ',';
-                    }*/
-                    Session::put('fail_message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng');
-                    return view('pages.cart.show_cart');
-                }else{ //doi kich co
-                   
-                    $sp_moi = DB::Table('cochitietsanpham')->where([['sp_ma',$ctsp_ton->sp_ma],['ctsp_kichCo',$size]])->get();  
-                    if ($qty > $sp_moi->ctsp_soLuongTon){ //SP MOI KHONG DU HANG
-                        $hethang = $hethang+1; //true
-                        $outstock[$hethang] = $ctsp_ton->sp_ma;
-                        /*foreach ($outstock as $key => $value) {*/
-                        $hang = DB::table('sanpham')->where('sp_ma',$ctsp_ton->sp_ma)->select('sp_ten')->first();
-                        $tenhang .= '';
-                        $tenhang .= $hang->sp_ten;
-                       /* if ($key != count($outstock))
-                        $tenhang .= ',';
-                        }*/
-                        Session::put('fail_message','<b>'.$tenhang.'</b> không đủ hàng');
-                        return view('pages.cart.show_cart');
-                    }else{  //SP MOI HOP LE
-                        Cart::remove($rowId);
-                        $sanpham = DB::table('sanpham')->where('sp_ma',$sp_moi->sp_ma)->first(); 
-                        $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_moi->sp_ma)->first(); 
-
-                        $data= array();
-                        $data['id'] = $sp_moi->ctsp_ma;
-                        $data['qty'] = $qty;
-                        $data['name'] = $sanpham->sp_ten;
-                        $data['price'] = $sanpham->sp_donGiaBan;
-                        $data['weight'] = 0;
-                        $data['options']['image'] = $hinhanh->ha_ten;
-                        $data['options']['size'] = $size;
-                        $data['options']['km']= $sanpham->km_ma;
-                        // return view("pages.cart.show_cart");
-                        Cart::add($data);
-                        Session::put('success_message','Cập nhật giỏ hàng thành công!');
-                    }
-                }
-
-            }else{ //khong chon qua slt va khong doi kich co
-                Cart::update($rowId,$qty);
-                return view('pages.cart.show_cart');
-            }
-        
-        /*if($hethang==0){
-            Cart::update($rowId,$qty);
-            return Redirect::to('/show-cart');
-        }
-        else {*/
-            $tenhang = '';
-            foreach ($outstock as $key => $value) {
-                $hang = DB::table('sanpham')->where('sp_ma',$value)->select('sp_ten')->first();
-                $tenhang .= ' ';
-                $tenhang .= $hang->sp_ten;
-                if ($key != count($outstock))
-                $tenhang .= ',';
-            }
-            
-       
-            Session::put('fail_message','Cập nhật giỏ hàng không thành công!<b>'.$tenhang.'</b> không đủ hàng');
-            return view('pages.cart.show_cart');
-        
-        
-       
-    }
 
     public function update_qty(Request $request, $sp_ma)
-    {
-        $qty = $request->qty;
+    {$qty = $request->qty;
         $rowId = $request->rowId;
         $kc_ma = $request->size;
         $ms_ma = $request->color;
@@ -251,16 +174,16 @@ class CartController extends Controller
                 $content = Cart::content();
                 return view('pages.cart.upCart',compact('content'));                
             }else{
-                Session::put('fail_message','failed! deleted '.$test); 
+                // Session::put('fail_message','failed! deleted '.$test); 
                 //Cart::remove($rowId);
                
                 $hinhanh= DB::table('hinhanh')->where('sp_ma',$sp_ma)->first(); 
-                $sanpham = DB::table('sanpham')->where('sp_ma',$sp_ma)->first(); 
+                $sanpham = DB::table('sanpham')->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')->where('sp_ma',$sp_ma)->first(); 
                 $data= array();
                 $data['id'] = $sp_ma;
                 $data['qty'] = $qty;
                 $data['name'] = $sanpham->sp_ten;
-                $data['price'] = $sanpham->sp_donGiaBan;
+                $data['price'] = $sanpham->sp_donGiaBan*(100 - $sanpham->km_giamGia)/100;
                 $data['weight'] = 0;
                 $data['options']['image'] = $hinhanh->ha_ten;
                 $data['options']['mausac'] = $ms_ma;
