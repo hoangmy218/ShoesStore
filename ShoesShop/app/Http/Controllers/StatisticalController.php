@@ -85,7 +85,7 @@ class StatisticalController extends Controller
 
         $sumorder = DB::table('donhang')
               ->select([DB::raw('sum(dh_tongTien) as doanhthu'),DB::raw("(date_format(dh_ngayDat, 'Tháng %m')) as month")])
-              ->where('tt_ma','=',3)
+              ->where('tt_ma','=',4)
               ->where(DB::raw("(date_format(dh_ngayDat,'%Y'))"),$nam)
               ->groupBy('month')
               ->orderBy('month','asc')
@@ -107,7 +107,7 @@ class StatisticalController extends Controller
 
         $sumorder1 = DB::table('donhang')
               ->select([DB::raw('sum(dh_tongTien) as doanhthu'),DB::raw("(date_format(dh_ngayDat,'%Y')) as year")])
-              ->where('tt_ma','=',3)
+              ->where('tt_ma','=',4)
               ->where(DB::raw("(date_format(dh_ngayDat,'%Y'))"),'>=',$ba_nam)
               ->groupBy('year')
               ->get();
@@ -135,7 +135,7 @@ class StatisticalController extends Controller
                           ->join('donhang','cochitietdonhang.dh_ma','=','donhang.dh_ma')
                           ->select([DB::raw('sum(cochitietdonhang.SoLuongDat) as sLDat'),'sanpham.sp_ten as tensanpham'])
                           ->where([
-                                ['donhang.tt_ma', '=', 3],
+                                ['donhang.tt_ma', '=', 4],
                                 ['donhang.dh_ngayDat', '>=', 'date_add()(NOW(), INTERVAL -30 DAY']
                             ])
                           ->groupBy('tensanpham')
