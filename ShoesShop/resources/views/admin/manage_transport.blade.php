@@ -82,8 +82,8 @@
                                                         <td>{{$transport->htvc_ten}}</td>
                                                         <td>{{number_format($transport->htvc_phi).' VND'}}</td>                                                       
                                                         <td><div class="table-actions">  
-                                                            <a href="{{URL::to('/edit-transport/'.$transport->htvc_ma)}}"><i class="ik ik-edit-2"></i></a>
-                                                            <a><i id="{{$transport->htvc_ma}}" class="ik ik-trash-2 cancel2"></i></a>
+                                                            <a href="{{URL::to('/edit-transport/'.$transport->htvc_ma)}}"><i class="ik ik-edit-2 text-yellow"></i></a>
+                                                            <a><i id="{{$transport->htvc_ma}}" class="ik ik-trash-2 text-red cancel2"></i></a>
                                                         </div></td>
                                                     </tr>
                                                     <?php {{$i++;}} ?>

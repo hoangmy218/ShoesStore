@@ -74,7 +74,7 @@
 <script>
     $(document).ready(function(){
 
-        $( '#mausac').parent().addClass('active open');
+        $('#mausac').parent().addClass('active open');
         $("#themmausac").addClass("active");
 
         $(document).on('click','.cancel', function(){

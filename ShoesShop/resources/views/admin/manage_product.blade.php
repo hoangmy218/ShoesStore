@@ -120,7 +120,7 @@
                                                             <?php
                                                           }else{
                                                             ?>
-                                                            <button type="button" id="{{$pro->sp_ma}}" class="btn btn-warning  cancel1" data-toggle="modal" >Ẩn</button>
+                                                            <button type="button" id="{{$pro->sp_ma}}" class="btn btn-danger  cancel1" data-toggle="modal" >Ẩn</button>
 
                                                            {{--  <span class="text-red ik ik-eye-off cancel1" id="{{$pro->sp_ma}}"></span> --}}
                                                           <?php
