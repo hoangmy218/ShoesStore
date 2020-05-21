@@ -74,7 +74,7 @@
                                                         <td>{{$don_hang->dh_ma}}</td>
                                                         <td>{{$don_hang->dh_tenNguoiNhan}}</td>
                                                         <td>{{date('d-m-Y',strtotime($don_hang->dh_ngayDat))}}</td>
-                                                        <td>{{$don_hang->dh_tongTien}}</td>
+                                                        <td> {{number_format($don_hang->dh_tongTien).' VND'}}</td>
 
                                                         <?php
                                                         $tabletrangthai =DB::table('trangthai')->where('tt_ma',$don_hang->tt_ma)->get();

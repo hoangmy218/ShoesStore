@@ -130,6 +130,7 @@
                                     <a id="sanpham" href="javascript:void(0)"><i class="ik ik-package"></i><span>Quản lý sản phẩm</span> <span class="badge badge-danger"></span></a>
                                     <div class="submenu-content">
                                         <a id="themsanpham" href="{{URL::to('/add-product')}}" class="menu-item">Thêm sản phẩm</a>
+                                        
                                         <a id="danhsachsanpham" href="{{URL::to('/manage-product')}}" class="menu-item">Danh sách sản phẩm</a>
                                         
                                     </div>

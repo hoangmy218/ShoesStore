@@ -64,7 +64,7 @@
                                                         <th>STT</th>
                                                         <th>Mã Người dùng</th>
                                                         <th>Tên người dùng</th>
-                                                        <th>Thao tác</th>
+                                                        <th>Trạng thái vô hiệu</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -80,12 +80,18 @@
                                                           if($customer->nd_trangThai==0){
                                                             ?>
                                                             {{-- <a href ="{{URL::to('unactive-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a> --}}
-                                                            <span class="{{-- ik ik-x-circle --}}fa-thumb-styling fa fa-thumbs-up cancel text-green"  id="{{$customer->nd_ma}}"></span>
+                                                            <button type="button" id="{{$customer->nd_ma}}" class="btn btn-primary cancel" data-toggle="modal" >Không</button>
+                
+
+                                                           {{--  <span class="fa-thumb-styling fa fa-thumbs-up cancel text-green"  id="{{$customer->nd_ma}}"></span> --}}
                                                             <?php
                                                           }else{
                                                              ?>
-                                                            <span class="{{-- ik ik-x-circle --}} fa-thumb-styling fa fa-thumbs-down cancel1 text-red" id="{{$customer->nd_ma}}"></span>
-                                                            {{-- <a href="{{URL::to('active-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a> --}}
+                                                              {{-- <a href="{{URL::to('active-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a> --}}
+                                                             <button type="button" id="{{$customer->nd_ma}}" class="btn btn-danger  cancel1" data-toggle="modal" >Vô hiệu</button>
+                                                             {{-- <span class="fa-thumb-styling fa fa-thumbs-down cancel1 text-red" id="{{$customer->nd_ma}}"></span> --}}
+
+                                                           
                                                           <?php
                                                           }
                                                           ?>

@@ -31,7 +31,7 @@
                             <thead class="thead-primary">
                                  <tr class="text-center">
                                     <th>{{ __('STT') }}</th>
-                                    <th>{{ __('Mã sản phẩm') }}</th>
+                                    <th>{{ __('Mã') }}</th>
                                     <th>{{ __('Hình ảnh') }}</th>
                                     <th>{{ __('Tên sản phẩm') }}</th>
                                     <th>Màu sắc</th>
