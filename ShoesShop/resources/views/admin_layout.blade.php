@@ -147,6 +147,7 @@
 
                                 <!--  Tiên 09/05 -->
                                 <div class="nav-item has-sub">
+
                                     <a id="kichco" href="javascript:void(0)"><i class="ik ik-aperture ik-1x"></i><span>Quản lý kích cỡ</span> <span class="badge badge-danger"></span></a>
                                     <div class="submenu-content">
                                         <a id="themkichco" href="{{URL::to('/add-size')}}" class="menu-item">Thêm kích cỡ</a>
