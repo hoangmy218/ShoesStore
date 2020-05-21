@@ -123,7 +123,7 @@
 <script>
 $(document).ready(function(){
 
-        $('#mausac').parent().addClass('active open');
+        $('#mausac1').parent().addClass('active open');
         $("#danhsachmausac").addClass("active");
          // Tien 07/05
          //dat thi gian tat thong bao

@@ -68,7 +68,7 @@
                                                         <th>Mã vận chuyển</th>
                                                         <th>Tên vận chuyển</th>
                                                         <th>Chi phí vận chuyển</th>
-                                                        <th>Trạng thái</th>
+                                                       {{--  <th>Trạng thái</th> --}}
                                                         <th>Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -80,25 +80,10 @@
                                                         <th scope="row">{{$i}}</th>
                                                         <td>{{$transport->htvc_ma}}</td>
                                                         <td>{{$transport->htvc_ten}}</td>
-                                                        <td>{{number_format($transport->htvc_phi).' VND'}}</td>
-                                                        <td><span class="text-ellipsis">
-                                                          <?php
-                                                          if($transport->htvc_trangThai==0){
-                                                            ?>
-                                                            <span class="text-green ik ik-eye cancel{{-- fa-thumb-styling fa fa-thumbs-up --}}" id="{{$transport->htvc_ma}}"></span>
-                                                            <?php
-                                                          }else{
-                                                            ?>
-                                                            <span class="text-red ik ik-eye-off cancel1{{-- fa-thumb-styling fa fa-thumbs-down --}}" id="{{$transport->htvc_ma}}"></span>
-                                                          <?php
-                                                          }
-
-                                                          ?>
-                                                        </span>
-                                                    </td>
+                                                        <td>{{number_format($transport->htvc_phi).' VND'}}</td>                                                       
                                                         <td><div class="table-actions">  
-                                                            <a href="{{URL::to('/edit-transport/'.$transport->htvc_ma)}}"><i class="ik ik-edit-2 text-red"></i></a>
-                                                            <a><i id="{{$transport->htvc_ma}}" class="ik ik-trash-2 cancel2"></i></a>
+                                                            <a href="{{URL::to('/edit-transport/'.$transport->htvc_ma)}}"><i class="ik ik-edit-2 text-yellow"></i></a>
+                                                            <a><i id="{{$transport->htvc_ma}}" class="ik ik-trash-2 text-red cancel2"></i></a>
                                                         </div></td>
                                                     </tr>
                                                     <?php {{$i++;}} ?>

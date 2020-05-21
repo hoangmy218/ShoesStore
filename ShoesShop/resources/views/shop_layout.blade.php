@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <title>Shoes Shop</title>
     <meta charset="utf-8">

@@ -43,7 +43,7 @@ class CouponController extends Controller
 
     public function showCoupon(){
         $this->authLogin();
-        $list_coupon = DB::table('khuyenmai')->get();
+        $list_coupon = DB::table('khuyenmai')->orderby('khuyenmai.km_ma','desc')->get();
         $manager_coupon = view('admin.manage_coupon')->with('list_coupon', $list_coupon);
         return view('admin_layout')->with('admin.manage_coupon', $manager_coupon);
         /*return view('admin.manage_category');*/

@@ -63,6 +63,7 @@
                                                     <tr>
                                                         <th>STT</th>
                                                         <th>Mã phiếu nhập</th>
+                                                        <th>Nhà cung cấp</th>
                                                         <th>Ngày nhập</th> 
                                                         <th>Số sản phẩm</th>
                                                         <th>Tổng tiền</th>
@@ -75,6 +76,7 @@
                                                     <tr>
                                                         <th scope="row">{{$i}}</th>
                                                         <td>{{$receipt->pn_ma}}</td>
+                                                        <td>{{$receipt->ncc_ten}}</td>
                                                         <td>{{ date('d-m-Y',strtotime($receipt->pn_ngayNhap))}}</td>
                                                         <td >{{$receipt->count}}</td>
                                                         <td style="text-align: right;">{{number_format($receipt->pn_tongTien).' VND'}}</td>

@@ -34,6 +34,7 @@ class HomeController extends Controller
                 ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
                 ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+                ->where('sp_trangThai','=',0)
                 ->select()
                 ->orderby('phieunhap.pn_ngayNhap','desc')
                 ->groupby('hinhanh.sp_ma')->limit(6)
@@ -50,7 +51,7 @@ class HomeController extends Controller
         $dm_array= array();
         $dm=0;
         foreach ($list_category as $key => $danhmuc){
-            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->count();
+            $sl_dm = db::table('sanpham')->where([['dm_ma',$danhmuc->dm_ma],['sp_trangThai',0]])->count();
             $dm_array[$dm] = $sl_dm;
             $dm++;
         }
@@ -61,7 +62,7 @@ class HomeController extends Controller
         $th_array= array();
         $th=0;
         foreach ($list_brand as $key => $thuonghieu){
-            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->count();
+            $sl_th = db::table('sanpham')->where([['th_ma',$thuonghieu->th_ma],['sp_trangThai',0]])->count();
             $th_array[$th] = $sl_th;
             $th++;
         }
@@ -98,6 +99,7 @@ class HomeController extends Controller
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
                 ->select()
                 ->orderby('phieunhap.pn_ngayNhap','desc')
+                ->where('sp_trangThai','=',0)
                 ->groupby('hinhanh.sp_ma')->limit(6)
                 ->get(); 
 
