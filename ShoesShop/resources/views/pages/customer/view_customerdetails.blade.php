@@ -19,9 +19,9 @@
                         <table class="table" border="0">
                             <thead class="thead-primary">
                               <tr class="text-center">
-                                <th><h3 class=" float-left">{{ __('Mã đơn hàng') }}: {{$order->dh_ma}}</h3></th>
+                                <th><h4 style="color: white;" class=" float-left">{{ __('Mã đơn hàng') }}: {{$order->dh_ma}}</h4></th>
                                 <th></th>
-                                <th><h3 class=" float-right">{{ __('Ngày đặt') }}: {{date('d-m-Y',strtotime($order->dh_ngayDat))}}</h3></th>
+                                <th><h4 style="color: white;" class=" float-right">{{ __('Ngày đặt') }}: {{date('d-m-Y',strtotime($order->dh_ngayDat))}}</h4></th>
                                 
                                 <th>&nbsp;</th>
                               </tr>

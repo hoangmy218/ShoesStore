@@ -45,7 +45,7 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <input type="text" name="user_phone" class="form-control" placeholder="{{ __('SĐT') }}" required="">
+                                    <input type="text" name="user_phone" class="form-control" placeholder="{{ __('Số điện thoại') }}" required="">
                                     <i class="ik ik-user"></i>
                                 </div>
                                 <div class="form-group">
