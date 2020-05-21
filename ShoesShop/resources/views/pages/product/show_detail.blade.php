@@ -390,8 +390,8 @@
 								   		<div class="desc">
 								   			<h4>
 								   				<span class="text-left">{{$comment->nd_ten}}</span>
-								   				<span class="text-right">{{$comment->ngayBinhLuan}}</span>
-								   				<!-- <span class="text-right">{{date('d/m/Y H:i',strtotime($comment->created_at))}}</span> -->
+								   				<span class="text-right">{{date('d/m/Y',strtotime($comment->ngayBinhLuan))}}</span>
+								   				
 								   			</h4>
 								   			<p class="star" >
 								   				<span> <!-- Tien 16/05 -->
@@ -400,7 +400,7 @@
 													@endfor
 							   					</span>
 
-							   					<span class="text-right"><a href="#" class="reply"><i class="icon-reply"></i></a></span>
+							   					
 								   			</p>
 								   				
 								   			<p>{{$comment->noiDung}}</p>

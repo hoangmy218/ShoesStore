@@ -73,7 +73,7 @@
         $('input[name="capnhat_nd_ngaySinh"]').on("change", function(){
             this.setAttribute(
                 "data-date",
-                moment(this.value, "MM/DD/YYYY")
+                moment(this.value, "DD/MM/YYYY")
                 .format( this.getAttribute("data-date-format") )
             )
         }).trigger("change")
