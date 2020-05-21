@@ -62,9 +62,9 @@
                                                     <th>STT</th>
                                                     <th>Tên sản phẩm</th>                                                   
                                                     <th>Màu sắc</th>
-                                                    <th>Kích cỡ</th>
-                                                    <th>Số lượng</th>
+                                                    <th>Kích cỡ</th>                                                    
                                                     <th>Đơn giá</th>
+                                                    <th>Số lượng</th>
                                                     <th>Thành tiền</th>
                                                    
                                                 </tr>
@@ -81,9 +81,9 @@
                                                     <td>{{$i++}}</td>
                                                     <td>{{$item->sp_ten}}</td>
                                                     <td>{{$item->ms_ten}}</td>
-                                                    <td>{{$item->kc_ten}}</td>
-                                                    <td>{{$item->SoLuongDat}}</td>
+                                                    <td>{{$item->kc_ten}}</td>  
                                                     <td>{{number_format($item->DonGiaBan).' VND'}}</td>
+                                                    <td>{{$item->SoLuongDat}}</td>
                                                     <?php $thanhTien = $item->DonGiaBan * $item->SoLuongDat; ?>
                                                     <td>{{number_format($thanhTien).' VND'}}</td>
                                                     <?php $congTien = $congTien + $thanhTien; ?>
@@ -121,18 +121,15 @@
                                                     <th style="width:50%">Cộng tiền:</th>
                                                     <td>{{number_format($congTien).' VND'}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <th>Khuyến mãi:</th>
-                                                    <td><?php 
+                                               <?php 
                                                             $disc = 0; 
                                                         /*if (($order->km_ma != NULL) || ($order->km_ma != 0))
                                                             $disc = $congTien*$order->km_giamGia/100;*/
                                                         
                                                                                                                    
                                                         ?>
-                                                        {{number_format($disc).' VND'}}
-                                                    </td>
-                                                </tr>
+                                                        
+                                                   
                                                 <tr>
                                                     <th>Phí vận chuyển:</th>
                                                     <td>{{number_format($order->htvc_phi).' VND'}}</td>

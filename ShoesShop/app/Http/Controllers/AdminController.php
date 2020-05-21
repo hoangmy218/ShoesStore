@@ -120,7 +120,7 @@ class AdminController extends Controller
         }
     public function history_customer(){
             //$this->AuthLogin();
-            $list_customer =DB::table('nguoidung')->get();
+            $list_customer =DB::table('nguoidung')->orderby('nd_ma','desc')->get();
             return view('admin.history_customer')->with('list_customer', $list_customer);
         }
     public function view_history($Controll_nd_ma){

@@ -45,7 +45,7 @@ class BrandController extends Controller
 
     public function showBrand(){
         $this->authLogin();
-    	$list_brands = DB::table('thuonghieu')->get();
+    	$list_brands = DB::table('thuonghieu')->orderby('th_ma','desc')->get();
     	$manager_brand = view('admin.manage_Brand')->with('list_brands', $list_brands);
     	return view('admin_layout')->with('admin.manage_Brand', $manager_brand);
     	/*return view('admin.manage_Brand');*/

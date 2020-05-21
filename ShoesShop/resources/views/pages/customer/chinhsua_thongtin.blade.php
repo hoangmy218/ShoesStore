@@ -49,7 +49,7 @@
                         </div>
                         <div class="form-group">
                             <h5><label for="">{{ __('Ngày sinh') }}</label><h5>
-                            <input  style="text-align: left;" type="date" class="form-control" name="capnhat_nd_ngaySinh" value="{{$ndma->nd_ngaySinh}}" required> 
+                            <input id="ngaysinh" style="text-align: left;" type="date" data-date="" data-date-format="DD/MM/YYYY" class="form-control" name="capnhat_nd_ngaySinh" value="{{$ndma->nd_ngaySinh}}" required> 
                         </div>
                         <div class="form-group">
                             <h5><label for="">{{ __('Địa chỉ') }}</label></h5>
@@ -66,6 +66,19 @@
       </div>
     </section> <!-- .section -->
 
+   <script src="http://www.codermen.com/js/jquery.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('input[name="capnhat_nd_ngaySinh"]').on("change", function(){
+            this.setAttribute(
+                "data-date",
+                moment(this.value, "MM/DD/YYYY")
+                .format( this.getAttribute("data-date-format") )
+            )
+        }).trigger("change")
+    });
+</script>
 
     
 @endsection

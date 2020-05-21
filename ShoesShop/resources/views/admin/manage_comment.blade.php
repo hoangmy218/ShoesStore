@@ -162,6 +162,9 @@ $(document).ready(function(){
            $("span.alert").remove();
         }, 5000 ); // 5 secs
 
+
+         $("#binhluan").parent().addClass("active");
+
         $(document).on('click','.cancel', function(){
 
             sp_nd_ngay =  $("a#an").attr("href");
