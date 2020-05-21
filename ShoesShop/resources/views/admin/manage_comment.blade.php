@@ -81,7 +81,7 @@
                                                         <td>{{$ds_binhluan->nd_ten}}</td>
                                                         
                                                         <td>{{$ds_binhluan->noiDung}}</td>
-                                                        <td>{{$ds_binhluan->ngayBinhLuan}}</td>
+                                                        <td>{{date('d-m-Y',strtotime($ds_binhluan->ngayBinhLuan))}}</td>
                                                         <td>
                                                             
                                                             <span class="text-ellipsis">
