@@ -114,11 +114,15 @@
                                                           <?php
                                                           if($pro->sp_trangThai==0){
                                                             ?>
-                                                            <span class="text-green ik ik-eye cancel{{-- fa-thumb-styling fa fa-thumbs-up --}}" id="{{$pro->sp_ma}}"></span>
+                                                            <button type="button" id="{{$pro->sp_ma}}" class="btn btn-primary cancel" data-toggle="modal" >Hiện</button>
+
+                                                            {{-- <span class="text-green ik ik-eye cancel" id="{{$pro->sp_ma}}"></span> --}}
                                                             <?php
                                                           }else{
                                                             ?>
-                                                            <span class="text-red ik ik-eye-off cancel1{{-- fa-thumb-styling fa fa-thumbs-down --}}" id="{{$pro->sp_ma}}"></span>
+                                                            <button type="button" id="{{$pro->sp_ma}}" class="btn btn-danger  cancel1" data-toggle="modal" >Ẩn</button>
+
+                                                           {{--  <span class="text-red ik ik-eye-off cancel1" id="{{$pro->sp_ma}}"></span> --}}
                                                           <?php
                                                           }
 
