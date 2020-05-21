@@ -33,7 +33,11 @@
                                 </div>
                             </div>
                         </div>
-
+                        
+                        @if ($don_hang->isempty())
+                <p class="text-center "><span class="alert alert-danger" >Chưa có đơn hàng nào!</span><br></p>
+                        @else
+                        
                         <div class="row">
                             <div class="col-md-12">
 								<div class="card">
@@ -97,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-
+                     @endif
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){

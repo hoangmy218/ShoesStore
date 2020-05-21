@@ -138,15 +138,16 @@
                                 <div class="nav-item has-sub">
                                     <a id="mausac" href="javascript:void(0)"><i class="ik ik-droplet ik-1x"></i><span>Quản lý màu sắc</span> <span class="badge badge-danger"></span></a>
                                     <div class="submenu-content">
-                                        <a id="themmausac" href="{{URL::to('/add-color')}}" class="menu-item">Thêm màu sắc</a>
+                                        <a id="themmausac" href="{{URL::to('/add-color')}}" class="menu-item">Thêm sản phẩm</a>
                                         <a id="danhsachmausac" href="{{URL::to('/manage-color')}}" class="menu-item">Danh sách màu sắc</a>
                                         
                                     </div>
                                 </div>
 
+
                                 <!--  Tiên 09/05 -->
                                 <div class="nav-item has-sub">
-                                    <a id="mausac" href="javascript:void(0)"><i class="ik ik-aperture ik-1x"></i><span>Quản lý kích cỡ</span> <span class="badge badge-danger"></span></a>
+                                    <a id="kichco" href="javascript:void(0)"><i class="ik ik-aperture ik-1x"></i><span>Quản lý kích cỡ</span> <span class="badge badge-danger"></span></a>
                                     <div class="submenu-content">
                                         <a id="themkichco" href="{{URL::to('/add-size')}}" class="menu-item">Thêm kích cỡ</a>
                                         <a id="danhsachkichco" href="{{URL::to('/manage-size')}}" class="menu-item">Danh sách kích cỡ</a>

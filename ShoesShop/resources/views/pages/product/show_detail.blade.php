@@ -271,10 +271,12 @@
 					        <div class="w-100"></div>
 					        
 					        <br>
+					       {{--  Tiên 21/05 --}}
 					        <div class="col-md-12">
-					        	<!-- @foreach($sz_product as $key => $conlai)
-					          		<p style="color: #000;">Size {{$conlai->kc_ten}} màu {{$conlai->ms_ten}} có sẵn {{$conlai->soLuongTon}} đôi</p> 
-					            @endforeach -->
+					        	@foreach($sz_product as $key => $conlai)
+					          		<p style="color: #000;">Size {{$conlai->kc_ten}}  có sẵn {{$conlai->soLuongTon}} sản phẩm</p> 
+					          		{{-- màu {{$conlai->ms_ten}} --}}
+					            @endforeach 
 					        </div>
 				        	</div>
 
@@ -288,21 +290,22 @@
     				<div class="col-lg-6 ">
     					
     				</div>
+    				
     				<div class="col-lg-6 ">
+    					<?php
+	                    	$message = Session::get('cart_message');
+	                        	if ($message){
+	                           	 	echo '<span class="alert alert-danger">'.$message."</span>";
+	                                
+	                            	Session::put('cart_message',null);
+	                        	}
+	                            
+	                	?><br><br>
     					<div class="sign-btn text-center ">
 				        	<button type="submit" class="btn btn-theme btn-primary py-3 px-5">{{ __('Thêm giỏ hàng') }}</button>
 				        	
 				        </div><br>
-							<!-- message -->
-				        <?php
-	                        $message = Session::get('cart_message');
-	                        if ($message){
-	                            echo '<span class="alert alert-danger">'.$message."</span>";
-	                                
-	                            Session::put('cart_message',null);
-	                        }
-	                            
-	                    ?>
+				        
     				</div>
     			</div>
     					
