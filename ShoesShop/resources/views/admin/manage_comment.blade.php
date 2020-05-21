@@ -88,11 +88,21 @@
                                                               <?php
                                                               if($ds_binhluan->trangThai==0){
                                                                 ?>
-                                                                <a id="an" href ="{{URL::to('unactive-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"><span class="text-green ik ik-eye cancel" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan"></span></a>
+                                                                <a id="an" href ="{{URL::to('unactive-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}">
+
+                                                                <button type="button" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" class="btn btn-primary cancel" data-toggle="modal" >Hiện</button>
+
+                                                                {{-- <span class="text-green ik ik-eye cancel" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan"></span> --}}
+                                                                </a>
                                                                 <?php
                                                               }else{
                                                                 ?>
-                                                                <a id="hien" href="{{URL::to('active-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"><span class="text-red ik ik-eye-off cancel1" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" ></span></a>
+                                                                <a id="hien" href="{{URL::to('active-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}">
+
+                                                                <button type="button" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" class="btn btn-danger  cancel1" data-toggle="modal" >Ẩn</button>
+
+                                                                    {{-- <span class="text-red ik ik-eye-off cancel1" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" ></span> --}}
+                                                                </a>
                                                               <?php
                                                               }
 
@@ -112,7 +122,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                <!-- <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             
@@ -129,9 +139,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="modal fade" id="cancelModal1" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                <!-- <div class="modal fade" id="cancelModal1" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             
@@ -148,7 +158,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -162,41 +172,43 @@ $(document).ready(function(){
            $("span.alert").remove();
         }, 5000 ); // 5 secs
 
-        $(document).on('click','.cancel', function(){
+       
 
-            sp_nd_ngay =  $("a#an").attr("href");
+        // $(document).on('click','.cancel', function(){
 
-            // console.log(sp_nd_ngay);
-            $('#cancelModal').modal('show');
+        //     sp_nd_ngay =  $("a#an").attr("href");
+
+        //     // console.log(sp_nd_ngay);
+        //     $('#cancelModal').modal('show');
             
-        });
-        $(document).on('click','.cancel1', function(){
-            sp_nd_ngay = $("a#hien").attr("href");
+        // });
+        // $(document).on('click','.cancel1', function(){
+        //     sp_nd_ngay = $("a#hien").attr("href");
             
-            // console.log(sp_nd_ngay);
-            $('#cancelModal1').modal('show');
-        });
+        //     // console.log(sp_nd_ngay);
+        //     $('#cancelModal1').modal('show');
+        // });
 
-        $('#ok_anbl_btn').click(function(){
-            $.ajax({
-                url: '<?php echo url('unactive-comment');?>/'+  sp_nd_ngay ,
-                type: 'get',
-                success: function(data)
-                {
-                    window.location.replace("<?php echo url('/manage-comment');?>");
-                }
-            });
-        });
-        $('#ok_hienthibl_btn').click(function(){
-            $.ajax({
-                url: '<?php echo url('active-comment');?>/'+  sp_nd_ngay,
-                type: 'get',
-                success: function(data)
-                {
-                    window.location.replace("<?php echo url('/manage-comment');?>");
-                }
-            });
-        });
+        // $('#ok_anbl_btn').click(function(){
+        //     $.ajax({
+        //         url: '<?php echo url('unactive-comment');?>/'+  sp_nd_ngay ,
+        //         type: 'get',
+        //         success: function(data)
+        //         {
+        //             window.location.replace("<?php echo url('/manage-comment');?>");
+        //         }
+        //     });
+        // });
+        // $('#ok_hienthibl_btn').click(function(){
+        //     $.ajax({
+        //         url: '<?php echo url('active-comment');?>/'+  sp_nd_ngay,
+        //         type: 'get',
+        //         success: function(data)
+        //         {
+        //             window.location.replace("<?php echo url('/manage-comment');?>");
+        //         }
+        //     });
+        // });
          
 
 });

@@ -97,7 +97,7 @@
                                                         </span>
                                                     </td>
                                                         <td><div class="table-actions">  
-                                                            <a href="{{URL::to('/edit-transport/'.$transport->htvc_ma)}}"><i class="ik ik-edit-2"></i></a>
+                                                            <a href="{{URL::to('/edit-transport/'.$transport->htvc_ma)}}"><i class="ik ik-edit-2 text-red"></i></a>
                                                             <a><i id="{{$transport->htvc_ma}}" class="ik ik-trash-2 cancel2"></i></a>
                                                         </div></td>
                                                     </tr>

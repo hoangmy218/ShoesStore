@@ -87,7 +87,9 @@ Route::post('/capnhat-thongtin', 'HomeController@capnhat_thongtin');
 Route::post('capnhat-thongtin/{capnhat_nd_ma}','HomeController@capnhat_thongtin');
 
 //PRODUCT - Tiên 13/05
-Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product');  
+Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product'); 
+
+Route::get('/load-pro/{sp_ma}/{ms_ma}','ProductController@load_pro');//Tien 21/05
 
 //Ngân(13/5/2020)
 Route::get('/show-pro-category/{category_id}','ProductController@showProCategory');
@@ -143,7 +145,7 @@ Route::get('/view-history/{controll_nd_ma}', 'AdminController@view_history');
 //Cart
 Route::get('/show-cart','CartController@showCart'); //My
 Route::get('/delete-to-cart/{rowId}','CartController@delete_to_cart');//Tien
-// Route::post('/update-cart-quantity','CartController@update_cart_quantity');//Tien
+
 Route::get('/update-qty/{sp_ma}','CartController@update_qty');//My
 Route::post('/save-cart','CartController@save_cart');//Tien
 

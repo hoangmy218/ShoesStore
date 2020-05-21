@@ -77,7 +77,7 @@
                                                         <td>{{$color->ms_ma}}</td>
                                                         <td>{{$color->ms_ten}}</td>
                                                         <td><div class="table-actions">                                                  
-                                                            <a href="{{URL::to('/edit-color/'.$color->ms_ma)}}"><i class="ik ik-edit-2"></i></a>
+                                                            <a href="{{URL::to('/edit-color/'.$color->ms_ma)}}"><i class="ik ik-edit-2 text-yellow"></i></a>
 
                                                              <i class="ik ik-trash-2 delete text-red" id="{{$color->ms_ma}}"></i>
 

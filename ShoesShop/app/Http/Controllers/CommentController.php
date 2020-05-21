@@ -43,7 +43,7 @@ class CommentController extends Controller
                 $data->sp_ma = $id;
                 $data->nd_ma = Session::get('nd_ma');
                 $data->ngayBinhLuan=Carbon::now()->toDateString();
-                $data->rating= $request->rating;
+                $data->danhGia= $request->rating;
                 $data->save();
 
                 Session::put('success_message','Viết bình luận thành công !');

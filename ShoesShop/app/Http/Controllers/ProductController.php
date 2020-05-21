@@ -164,6 +164,11 @@ class ProductController extends Controller
         $rating = DB::table('binhluan')
                     ->where('sp_ma',$product_id)
                     ->get();
+// Tiên 21/05   
+        $tong_danhgia = DB::table('binhluan')
+                    ->where('sp_ma',$product_id)
+                    ->count();    
+
        
         return view('pages.product.show_detail')
                 ->with('details_product',$details_product)
@@ -176,7 +181,8 @@ class ProductController extends Controller
                 ->with('sold_product',$sold_product)
                 ->with('show_btn_mausac',$show_btn_mausac)
                 ->with('ms_ma',$ms_ma)
-                ->with('rating',$rating);
+                ->with('rating',$rating)
+                ->with('tong_danhgia',$tong_danhgia);
 
     }
     
@@ -852,6 +858,16 @@ class ProductController extends Controller
         }
 
         return view("pages.product.show_bra_pro")->with('list_bra_pro',$list_bra_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
+    }
+
+     public function load_pro($sp_ma, $ms_ma)
+    {   
+        $mand = Session::get('nd_ma');
+                
+        if ($mand == null ){
+            Session::put('cart_message','Bạn vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ !');
+            return view('pages.product.loadProduct');
+        }
     }
 
 }
