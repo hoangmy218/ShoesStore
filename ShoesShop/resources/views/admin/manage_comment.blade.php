@@ -88,17 +88,20 @@
                                                               <?php
                                                               if($ds_binhluan->trangThai==0){
                                                                 ?>
-                                                                <a  href ="{{URL::to('unactive-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}">
+
+                                                                <a id="an" href ="{{URL::to('unactive-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}">
+
                                                                 <button type="button" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" class="btn btn-primary cancel" data-toggle="modal" >Hiện</button>
 
                                                                 {{-- <span class="text-green ik ik-eye cancel" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan"></span> --}}
-                                                            </a>
+                                                                </a>
                                                                 <?php
                                                               }else{
                                                                 ?>
-                                                                <a href="{{URL::to('active-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}">
+                                                                <a id="hien" href="{{URL::to('active-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}">
 
-                                                                    <button type="button" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" class="btn btn-danger  cancel1" data-toggle="modal" >Ẩn</button>
+                                                                <button type="button" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" class="btn btn-danger  cancel1" data-toggle="modal" >Ẩn</button>
+
 
                                                                     {{-- <span class="text-red ik ik-eye-off cancel1" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" ></span> --}}
                                                                 </a>
@@ -121,7 +124,8 @@
                     </div>
                 </div>
 
-                {{-- <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                <!-- <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             
@@ -138,9 +142,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
- --}}
-                {{-- <div class="modal fade" id="cancelModal1" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+
+                </div> 
+
+ 
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             
@@ -157,7 +162,9 @@
                             </div>
                         </div>
                     </div>
-                </div> --}}
+
+                </div> -->
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -172,7 +179,9 @@ $(document).ready(function(){
         }, 5000 ); // 5 secs
 
 
+
         $("#binhluan").parent().addClass("active");
+
          
 
 });
