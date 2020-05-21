@@ -18,6 +18,9 @@
 //FRONTEND hoạt động phía user
 
 Route::get('/','HomeController@index');
+Route::get('/contact','HomeController@contact');
+Route::get('/about','HomeController@about');
+Route::get('/return-and-exchange','HomeController@returnExchange');
 Route::get('/register','HomeController@get_register');
 Route::post('/postregister', 'HomeController@post_register');
 Route::get('/userLogin','HomeController@userLogin');

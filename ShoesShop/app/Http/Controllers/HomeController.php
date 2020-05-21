@@ -79,6 +79,17 @@ class HomeController extends Controller
         return view('pages.customer.user_login');
     }
 
+    public function contact(){
+        return view('pages.customer.contact');
+    }
+    public function about(){
+        return view('pages.customer.about');
+    }
+
+    public function returnExchange(){
+        return view('pages.customer.returnexchange');
+    }
+
     public function Home_u(){
         $this->authLogin();
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();

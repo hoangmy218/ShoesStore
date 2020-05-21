@@ -84,9 +84,9 @@
                 <a class="dropdown-item" href="{{URL::to('/payment')}}">{{ __('Thanh toán') }}</a>
               </div>
             </li> --}}
-            <li class="nav-item"><a href="about.html" class="nav-link">{{ __('Giới thiệu') }}</a></li>
+            <li class="nav-item"><a href="{{URL::to('/about')}}" class="nav-link">{{ __('Giới thiệu') }}</a></li>
          {{--   <li class="nav-item"><a href="blog.html" class="nav-link">{{ __('Blog') }}</a></li> --}}
-            <li class="nav-item"><a href="contact.html" class="nav-link">{{ __('Liên hệ') }}</a></li>
+            <li class="nav-item"><a href="{{URL::to('/contact')}}" class="nav-link">{{ __('Liên hệ') }}</a></li>
 
             <?php 
               $customer_name = Session::get('nd_ten');
@@ -200,7 +200,7 @@
               <div class="d-flex">
                 <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
                   <li><a href="#" class="py-2 d-block">{{ __('Thông tin vận chuyển') }}</a></li>
-                  <li><a href="#" class="py-2 d-block">{{ __('Đổi & trả hàng') }}</a></li>
+                  <li><a href="{{URL::to('/return-and-exchange')}}" class="py-2 d-block">{{ __('Đổi & trả hàng') }}</a></li>
                 </ul>
                 <ul class="list-unstyled">
                   <li><a href="#" class="py-2 d-block">{{ __('Câu hỏi thường gặp') }}</a></li>
