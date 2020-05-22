@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 session_start();
 
 class AdminController extends Controller
@@ -34,7 +36,159 @@ class AdminController extends Controller
     }
 
     public function show_dashboard(){
-       $this->authLogin();
+        $this->authLogin();
+        
+        $month = \Carbon\Carbon::now()->month;
+        $year = \Carbon\Carbon::now()->year;
+
+        // Tính sản phẩm nhập
+        $total_spd = DB::table('cochitietdonhang')
+                    ->join('donhang','cochitietdonhang.dh_ma','=','donhang.dh_ma')
+                    ->select(DB::raw('sum(cochitietdonhang.SoLuongDat) as slDat'))
+                    ->value('slDat');
+        Session::put('total_spd',$total_spd);
+
+        $prev_month_spd =  DB::table('cochitietdonhang')
+                    ->join('donhang','cochitietdonhang.dh_ma','=','donhang.dh_ma')
+                    ->select(DB::raw('sum(cochitietdonhang.SoLuongDat) as slDat'))
+                    ->where([
+                            [DB::raw("(date_format(donhang.dh_ngayDat,'%Y'))"),'=',$year],
+                            [DB::raw("(date_format(donhang.dh_ngayDat,'%m'))"),'=',$month-1],
+                            ['donhang.tt_ma','=',4]
+                           ])
+                    ->value('slDat');
+        
+        $month_spd = DB::table('cochitietdonhang')
+                    ->join('donhang','cochitietdonhang.dh_ma','=','donhang.dh_ma')
+                    ->select(DB::raw('sum(cochitietdonhang.SoLuongDat) as slDat'))
+                    ->where([
+                            [DB::raw("(date_format(donhang.dh_ngayDat,'%Y'))"),'=',$year],
+                            [DB::raw("(date_format(donhang.dh_ngayDat,'%m'))"),'=',$month],
+                            ['donhang.tt_ma','=',4]
+                           ])
+                    ->value('slDat');
+
+        if($prev_month_spd != 0 && $month_spd != 0){
+            $spd = ($month_spd - $prev_month_spd) * 100 / $prev_month_spd;
+            $spd = floor($spd);
+        }else if($prev_month_spd == 0){
+            $spd = 100;
+        } else{
+            $spd = -100;
+        }
+
+        Session::put('spd',$spd);
+
+        // Tính sản phẩm nhập
+        $total_spn = $sum_cate = DB::table('cochitietphieunhap')
+                    ->join('phieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')
+                    ->select(DB::raw('sum(cochitietphieunhap.SoLuongNhap) as slNhap'))
+                    ->value('slNhap');
+        Session::put('total_spn',$total_spn);
+
+        $prev_month_spn = DB::table('cochitietphieunhap')
+                    ->join('phieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')
+                    ->select(DB::raw('sum(cochitietphieunhap.SoLuongNhap) as slNhap'))
+                    ->where([
+                            [DB::raw("(date_format(phieunhap.pn_ngayNhap,'%Y'))"),'=',$year],
+                            [DB::raw("(date_format(phieunhap.pn_ngayNhap,'%m'))"),'=',$month-1]
+                           ])
+                    ->value('slNhap');
+        
+        $month_spn = DB::table('cochitietphieunhap')
+                    ->join('phieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')
+                    ->select(DB::raw('sum(cochitietphieunhap.SoLuongNhap) as slNhap'))
+                    ->where([
+                            [DB::raw("(date_format(phieunhap.pn_ngayNhap,'%Y'))"),'=',$year],
+                            [DB::raw("(date_format(phieunhap.pn_ngayNhap,'%m'))"),'=',$month]
+                           ])
+                    ->value('slNhap');
+
+        if($prev_month_spn != 0 && $month_spn != 0){
+            $spn = ($month_spn - $prev_month_spn) * 100 / $prev_month_spn;
+            $spn = floor($spn);
+        }else if($prev_month_spn == 0){
+            $spn = 100;
+        } else{
+            $spn = -100;
+        }
+
+        Session::put('spn',$spn);
+
+        // Tính tổng doanh thu
+        $total_ren = DB::table('donhang')
+                    ->select(DB::raw('sum(dh_tongTien) as dt'))
+                    ->where('tt_ma','=',4)
+                    ->value('dt');
+        Session::put('total_ren',$total_ren);
+
+        $prev_month_ren = DB::table('donhang')
+                   ->select(DB::raw('sum(dh_tongTien) as doanhthu'))
+                   ->where([
+                            [DB::raw("(date_format(dh_ngayDat,'%Y'))"),'=',$year],
+                            [DB::raw("(date_format(dh_ngayDat,'%m'))"),'=',$month-1],
+                            ['tt_ma','=',4]
+                   ])
+                   ->value('doanhthu');
+        
+        $month_ren = DB::table('donhang')
+                   ->select(DB::raw('sum(dh_tongTien) as doanhthu'))
+                   ->where([
+                            [DB::raw("(date_format(dh_ngayDat,'%Y'))"),'=',$year],
+                            [DB::raw("(date_format(dh_ngayDat,'%m'))"),'=',$month],
+                            ['tt_ma','=',4]
+                   ])
+                   ->value('doanhthu');
+
+        if($prev_month_ren != 0 && $month_ren != 0){
+            $Ren = ($month_ren - $prev_month_ren) * 100 / $prev_month_ren;
+            $Ren = floor($Ren);
+        }else if($prev_month_ren == 0){
+            $Ren = 100;
+        } else{
+            $Ren = -100;
+        }
+
+        Session::put('Ren',$Ren);
+
+        // Tính tổng bình luận
+        $total_comment = DB::table('binhluan')->count();
+        Session::put('total_comment',$total_comment);
+
+
+        $prev_month_comment = DB::table('binhluan')
+                   ->where([
+                            [DB::raw("(date_format(ngayBinhLuan,'%Y'))"),'=',$year],
+                            [DB::raw("(date_format(ngayBinhLuan,'%m'))"),'=',$month-1]
+                   ])
+                   ->count();
+
+        $month_comment = DB::table('binhluan')
+                   ->where([
+                            [DB::raw("(date_format(ngayBinhLuan,'%Y'))"),'=',$year],
+                            [DB::raw("(date_format(ngayBinhLuan,'%m'))"),'=',$month]
+                   ])
+                   ->count();
+
+        if($prev_month_comment != 0 && $month_comment != 0){
+            $comment = ($month_comment - $prev_month_comment) * 100 / $prev_month_comment;
+        }else if($prev_month_comment == 0){
+            $comment = 100;
+        } else{
+            $comment = -100;
+        }
+        Session::put('comment',$comment);
+
+        // echo "<pre>";
+        // print_r("Thang nay ");
+        // print_r($month_ren);
+        // print_r(" Thang truoc");
+        // print_r($prev_month_ren);
+        // print_r(" Ty le ");
+        // print_r($Ren);
+        // print_r(" Tong ");
+        // print_r($total_ren);
+        // echo "</pre>";
         return view('dashboard');
     }
 

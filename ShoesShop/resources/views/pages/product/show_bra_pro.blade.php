@@ -103,14 +103,8 @@
                     </div>
                     {{-- Phan trang --}}
                     <div class="row mt-5">
-                      <div class="col text-center">
-                        <div class="block-27">
-                          <ul>
-                            <li class="active"><span>1</span></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                          </ul>
-                        </div>
+                      <div class="col text-right">
+                          {{ $list_bra_pro->links() }}
                       </div>
                     </div>
                 </div>
