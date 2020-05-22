@@ -26,7 +26,7 @@ class HomeController extends Controller
         // Start Ngân (14/4/2020)
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();
         //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);
-
+        // $sp= Sanpham::paginate(3);
         // Tiên  thêm where Ngan join km
         $all_product = DB::table('hinhanh')
                 ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
@@ -34,13 +34,12 @@ class HomeController extends Controller
                 ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
                 ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
-                ->select()
                 ->orderby('phieunhap.pn_ngayNhap','desc')
-                ->groupby('hinhanh.sp_ma')->limit(6)
-                ->get(); 
+                ->groupby('hinhanh.sp_ma')
+                ->paginate(6);
 
-         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
-         $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
+        $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
+        $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
 
         $time_month = \Carbon\Carbon::now()->month;
         

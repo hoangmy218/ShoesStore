@@ -783,8 +783,7 @@ class ProductController extends Controller
             ->where('sanpham.dm_ma',$category_id)
             ->orderby('phieunhap.pn_ngayNhap','desc')
             ->groupby('hinhanh.sp_ma')
-            ->limit(6)
-            ->get();
+            ->paginate(6);
 
          $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
@@ -826,8 +825,7 @@ class ProductController extends Controller
             ->where('sanpham.th_ma',$brand_id)
             ->orderby('phieunhap.pn_ngayNhap','desc')
             ->groupby('hinhanh.sp_ma')
-            ->limit(6)
-            ->get();
+            ->paginate(6);
 
 
         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
@@ -858,16 +856,6 @@ class ProductController extends Controller
         }
 
         return view("pages.product.show_bra_pro")->with('list_bra_pro',$list_bra_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
-    }
-
-     public function load_pro($sp_ma, $ms_ma)
-    {   
-        $mand = Session::get('nd_ma');
-                
-        if ($mand == null ){
-            Session::put('cart_message','Bạn vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ !');
-            return view('pages.product.loadProduct');
-        }
     }
 
 }

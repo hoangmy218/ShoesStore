@@ -191,12 +191,21 @@
                   <div class="row mt-5">
                     <div class="col text-center">
                       <div class="block-27">
+                       <!--Tổng số trang--> <!--{{  $all_product ->lastPage() }} -->
                         <ul>
-                          <li class="active"><span>1</span></li>
-                          <li><a href="#">2</a></li>
-                          <li><a href="#">3</a></li>
+                          @for($i=1 ; $i <= $all_product ->lastPage() ; $i ++)
+                         <!--  <li><a href="#">Prev</a></li> -->
+                          <li class="active" >
+                              <a href="{{ str_replace('/?','?',$all_product->url($i)) }}">
+                                {{ $i }}
+                              </a>
+                          </li>
+                          <!-- <li><a href="#">Next</a></li> -->
+                          @endfor
                         </ul>
+
                       </div>
+                     
                     </div>
                   </div>
               </div>
