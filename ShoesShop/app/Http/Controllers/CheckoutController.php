@@ -62,7 +62,7 @@ class CheckoutController extends Controller
    
         $nd_id = Session::get('nd_ma');
         $time= Carbon::now('Asia/Ho_Chi_Minh');//lấy luôn giờ phút giây
-         $dh_ngayDat=$time->toDateString();// chỉ lấy ngày
+        $dh_ngayDat=$time->toDateString();// chỉ lấy ngày
         Session::put('dh_tenNhan', $request->dh_tenNhan);
         Session::put('dh_diaChiNhan', $request->dh_diaChiNhan);
         Session::put('dh_dienThoai', $request->dh_dienThoai);

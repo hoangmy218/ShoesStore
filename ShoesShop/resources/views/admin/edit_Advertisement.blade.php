@@ -50,12 +50,7 @@
                                 <label for="exampleInputName1">Chủ đề quảng cáo</label>
                                 <input type="text" name="ad_topic" class="form-control" id="exampleInputName1" value="{{$ad->qc_chuDe}}">
                             </div>
-                            <!-- S Ngân (14/4/2020) -->
-                            <div class="form-group">
-                                <label for="exampleInputName1">Đoạn giới thiệu</label>
-                                <input type="text" name="ad_DoanQC" class="form-control" id="exampleInputName1" value="{{$ad->qc_quangCao}}">
-                            </div>
-                           <!-- E Ngân (14/4/2020) -->
+                            
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh</label> <br>
 

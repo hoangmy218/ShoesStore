@@ -118,6 +118,12 @@ class ProductController extends Controller
                     ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
                     ->where('sanpham.sp_ma','=',$product_id)
                     ->first(); 
+        $suppliers = DB::table('nhacungcap')
+                    ->join('phieunhap','phieunhap.ncc_ma','=','nhacungcap.ncc_ma')
+                    ->join('cochitietphieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')
+                    ->where('sp_ma','=',$details_product->sp_ma)
+                    ->groupby('phieunhap.ncc_ma')
+                    ->get();
         // tien 13/05
         $sz_product = DB::table('cochitietsanpham')
                     ->join('kichco','kichco.kc_ma','=','cochitietsanpham.kc_ma')
@@ -183,6 +189,8 @@ class ProductController extends Controller
                 ->with('ms_ma',$ms_ma)
                 ->with('rating',$rating)
                 ->with('tong_danhgia',$tong_danhgia);
+                ->with('suppliers',$suppliers);
+
 
     }
     
@@ -387,7 +395,12 @@ class ProductController extends Controller
 
         // $list_receipts = DB::table('phieunhap')->join('cochitietsanpham','cochitietsanpham.pn_ma','=','phieunhap.pn_ma')->select('phieunhap.*',DB::raw("count(cochitietsanpham.pn_ma) as count"))->orderby('pn_ma','desc')->groupBy('cochitietphieunhap.pn_ma')->get();  
 
-        $list_receipts = DB::table('cochitietphieunhap')->join('phieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')->select('phieunhap.*',DB::raw("count(cochitietphieunhap.pn_ma) as count"))->orderby('cochitietphieunhap.pn_ma','desc')->groupBy('cochitietphieunhap.pn_ma')->get();        
+        $list_receipts = DB::table('cochitietphieunhap')
+                            ->join('phieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')
+                            ->join('nhacungcap','nhacungcap.ncc_ma','=','phieunhap.ncc_ma')
+                            ->select('phieunhap.*', 'nhacungcap.*',DB::raw("count(cochitietphieunhap.pn_ma) as count"))
+                            ->orderby('cochitietphieunhap.pn_ma','desc')
+                            ->groupBy('cochitietphieunhap.pn_ma')->get();        
         return view('admin.manage_goods_receipt')->with('list_receipts', $list_receipts);
     }
 

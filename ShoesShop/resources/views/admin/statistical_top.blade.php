@@ -47,7 +47,7 @@
 $(document).ready(function(){
 
         $('#thongke').parent().addClass('active open');
-         $("#theodoanhthu").addClass("active");
+         $("#theospbanchaynhat").addClass("active");
      });
 </script>
 @endsection

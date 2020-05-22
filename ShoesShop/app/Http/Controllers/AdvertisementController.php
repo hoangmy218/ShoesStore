@@ -23,7 +23,7 @@ class AdvertisementController extends Controller
     public function showAdvertisement(){
         $this->authLogin();
         $list_Advertisement = DB::table('quangcao')->orderby('qc_ma','desc')->get();
-        // $manager_Advertisement = view('admin.manage_Advertisement')->with('list_ad', $list_Advertisement);
+        
         return view('admin.manage_Advertisement')->with('list_ad',$list_Advertisement);
     }
 
@@ -38,7 +38,7 @@ class AdvertisementController extends Controller
         $data['qc_chuDe'] = $request->ad_topic;
         // S Ngân(14/4/2020)
         $data['qc_trangThai'] = 1;
-        $data['qc_quangCao'] = $request->ad_DoanQC;
+       
         // E Ngân(14/4/2020)
        
         if($request->hasFile('ad_image')) {
@@ -62,10 +62,6 @@ class AdvertisementController extends Controller
     public function updateAdvertisement(Request $request, $advertisement_id){
         $data= array();
         $data['qc_chuDe']=$request->ad_topic;
-        // S Ngân(14/4/2020)
-       
-        $data['qc_quangCao'] = $request->ad_DoanQC;
-        // E Ngân(14/4/2020)
 
         if($request->hasFile('ad_image')) {
             $photo = $request->ad_image;
@@ -90,7 +86,7 @@ class AdvertisementController extends Controller
         return Redirect::to('/manage-advertisement');
     }
 
-    // Start Ngân (14/4/2020)
+
 
     public function activeAdvertisement($advertisement_id){
             DB::table('quangcao')->where('qc_ma', $advertisement_id)->update(['qc_trangThai'=>0]);
@@ -103,7 +99,7 @@ class AdvertisementController extends Controller
             Session::put('message', 'Gỡ quảng cáo thành công');
             return Redirect::to('/manage-advertisement');
         }
-    // End Ngân (14/4/2020)
+
 
 
 }

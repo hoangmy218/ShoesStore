@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
     public function showCategory(){
         $this->authLogin();
-    	$list_categories = DB::table('danhmuc')->get();
+    	$list_categories = DB::table('danhmuc')->orderby('dm_ma','desc')->get();
     	$manager_category = view('admin.manage_category')->with('list_cate', $list_categories);
     	return view('admin_layout')->with('admin.manage_category', $manager_category);
     	/*return view('admin.manage_category');*/

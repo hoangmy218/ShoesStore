@@ -167,6 +167,7 @@ Route::get('get-price','CheckoutController@get_price');
 
 //Order M
 Route::get('/manage-order','OrderController@showOrder');
+Route::get('/filter-order/{tt_ma}','OrderController@filterOrder');
 Route::get('/view-order/{dh_ma}','OrderController@viewOrder');
 Route::get('/order-pdf/{dh_ma}','OrderController@orderPdf');
 Route::get('/approve-order/{dh_ma}','OrderController@approveOrder');

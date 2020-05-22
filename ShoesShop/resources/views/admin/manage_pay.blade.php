@@ -63,7 +63,7 @@
                                                          <th>STT</th>
                                                         <th>Mã thanh toán</th>
                                                         <th>Tên phương thức thanh toán</th>
-                                                        <th>Trạng thái</th>
+                                                        {{-- <th>Trạng thái</th> --}}
                                                         <th>Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -75,21 +75,6 @@
                                                         <th scope="row">{{$i}}</th>
                                                         <td>{{$pay->httt_ma}}</td>
                                                         <td>{{$pay->httt_ten}}</td>
-                                                        <td><span class="text-ellipsis">
-                                                          <?php
-                                                          if($pay->httt_trangThai==0){
-                                                            ?>
-                                                            <span class="text-green ik ik-eye cancel{{-- fa-thumb-styling fa fa-thumbs-up --}}" id="{{$pay->httt_ma}}"></span>
-                                                            <?php
-                                                          }else{
-                                                            ?>
-                                                            <span class="text-red ik ik-eye-off cancel1{{-- fa-thumb-styling fa fa-thumbs-down --}}" id="{{$pay->httt_ma}}"></span>
-                                                          <?php
-                                                          }
-
-                                                          ?>
-                                                        </span>
-                                                    </td>
                                                         <td><div class="table-actions">  
                                                             <a href="{{URL::to('/edit-pay/'.$pay->httt_ma)}}"><i class="ik ik-edit-2"></i></a>
                                                             <a><i id="{{$pay->httt_ma}}" class="ik ik-trash-2 cancel2"></i></a>

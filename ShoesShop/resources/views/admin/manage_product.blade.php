@@ -115,7 +115,7 @@
                                                           if($pro->sp_trangThai==0){
                                                             ?>
                                                             <button type="button" id="{{$pro->sp_ma}}" class="btn btn-primary cancel" data-toggle="modal" >Hiện</button>
-                                                            <!-- <span class="text-green ik ik-eye cancel{{-- fa-thumb-styling fa fa-thumbs-up --}}" id="{{$pro->sp_ma}}"></span> -->
+
                                                             <?php
                                                           }else{
                                                             ?>

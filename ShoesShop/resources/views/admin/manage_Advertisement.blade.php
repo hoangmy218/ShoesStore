@@ -52,8 +52,7 @@
                                     <th>Mã quảng cáo</th>
                                     <th>Hình ảnh</th>
                                     <th>Chủ đề quảng cáo</th>
-                                    <th>Đoạn giới thiệu</th><!-- Ngân (14/4/2020) -->
-                                    <th>Trạng thái</th> <!-- Ngân (14/4/2020) -->
+                                    <th>Trạng thái</th>
                                     <th>Thao tác</th>
                                    
                                 </tr>
@@ -69,7 +68,7 @@
 
                                             <td>{{$ad->qc_chuDe}}</td>
                                              <!-- Start Ngân (14/4/2020) -->
-                                            <td>{{$ad->qc_quangCao}}</td>
+                                            
                                            
                                             <td><span class="text-ellipsis">
                                                           <?php

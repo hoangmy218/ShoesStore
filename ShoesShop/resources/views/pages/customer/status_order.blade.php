@@ -28,7 +28,7 @@
                     }
                 ?>
 				@if ($orders->isempty())
-                <p class="text-center">Chưa có đơn hàng nào!<br><br><a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">{{ __('Mua sắm ngay') }}</a></p>
+                <p class="text-center "><span class="alert alert-danger" >Chưa có đơn hàng nào!</span><br><br><a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">{{ __('Mua sắm ngay') }}</a></p>
             @else
           		<div class="row">
     			<div class="col-md-12 ftco-animate">

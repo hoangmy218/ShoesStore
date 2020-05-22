@@ -23,8 +23,28 @@ class OrderController extends Controller
     public function showOrder()
     {
     	$this->authLogin();
+        $status_orders = DB::table('trangthai')->get();
         $orders = DB::table('donhang')->join('nguoidung','nguoidung.nd_ma','donhang.nd_ma')->join('hinhthucthanhtoan','hinhthucthanhtoan.httt_ma','donhang.httt_ma')->join('hinhthucvanchuyen','hinhthucvanchuyen.htvc_ma','donhang.htvc_ma')->join('trangthai','trangthai.tt_ma','donhang.tt_ma')->orderby('donhang.dh_ma','desc')->get();
-    	return view('admin.manage_order')->with('orders',$orders);
+    	return view('admin.manage_order')->with('orders',$orders)->with('status_orders', $status_orders);
+    }
+
+    public function filterOrder($tt_ma)
+    {
+        $this->authLogin();
+        $status_orders = DB::table('trangthai')->get();
+        $status = DB::table('trangthai')->where('tt_ma',$tt_ma)->first();
+        $orders = DB::table('donhang')
+                    ->join('nguoidung','nguoidung.nd_ma','donhang.nd_ma')
+                    ->join('hinhthucthanhtoan','hinhthucthanhtoan.httt_ma','donhang.httt_ma')
+                    ->join('hinhthucvanchuyen','hinhthucvanchuyen.htvc_ma','donhang.htvc_ma')
+                    ->join('trangthai','trangthai.tt_ma','donhang.tt_ma')
+                    ->where('donhang.tt_ma','=',$tt_ma)
+                    ->orderby('donhang.dh_ma','desc')
+                    ->get();
+        if ($orders->isempty()){
+            Session::put('fail_message','Không có đơn hàng nào '.$status->tt_ten."! ");
+        }
+        return view('admin.manage_order')->with('orders',$orders)->with('status_orders', $status_orders);
     }
 
     public function viewOrder($dh_ma)
