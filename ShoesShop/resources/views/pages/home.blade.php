@@ -151,7 +151,7 @@
                     {{-- Phan trang --}}
                   <div class="row mt-5">
                     <div class="col text-right">
-                        {{ $all_product->links() }}
+                        {{!! $all_product->links() !!}}
                     </div>
                   </div>
               </div>

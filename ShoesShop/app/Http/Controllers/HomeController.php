@@ -89,8 +89,8 @@ class HomeController extends Controller
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
                 ->select()
                 ->orderby('phieunhap.pn_ngayNhap','desc')
-                ->groupby('hinhanh.sp_ma')->limit(6)
-                ->get(); 
+                ->groupby('hinhanh.sp_ma')
+                ->paginate(3);  
 
          $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
@@ -122,7 +122,7 @@ class HomeController extends Controller
         // print_r($all_product);
         // echo "</pre>";
         
-       return view("pages.home")->with('list_ad',$list_ad)->with('all_product',$all_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
+       return view("pages.home",compact('all_product'))->with('list_ad',$list_ad)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
     public function get_register(){

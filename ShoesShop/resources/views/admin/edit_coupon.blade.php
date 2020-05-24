@@ -29,7 +29,7 @@
                             </div>
                         </div>
                                 <div class="card">
-                                    <div class="card-header"><h3>Thêm khuyến mãi</h3></div>
+                                    <div class="card-header"><h3>Chỉnh sửa khuyến mãi</h3></div>
                                      @foreach($edit_coupon as $key => $edit_value)
                                     <div class="card-body">
 

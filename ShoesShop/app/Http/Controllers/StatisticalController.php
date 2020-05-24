@@ -127,7 +127,7 @@ class StatisticalController extends Controller
 
     public function showStatistical_top3(){
         $this->authLogin();
-        $list_pro_top= DB::table('sanphgam')
+        $list_pro_top= DB::table('sanpham')
                           ->join('cochitietdonhang','cochitietdonhang.sp_ma','=','sanpham.sp_ma')
                           ->join('donhang','cochitietdonhang.dh_ma','=','donhang.dh_ma')
                           ->select([DB::raw('sum(cochitietdonhang.SoLuongDat) as sLDat'),'sanpham.sp_ten as tensanpham'])
