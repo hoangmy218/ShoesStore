@@ -20,10 +20,10 @@
                                             <li class="breadcrumb-item">
                                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                                             </li>
-                                            <li class="breadcrumb-item active">
-                                                <a href="#">Quản lý lịch sử</a>
+                                            <li class="breadcrumb-item">
+                                                <a>Quản lý người dùng</a>
                                             </li>
-                                            {{-- <li class="breadcrumb-item active" aria-current="page">Bootstrap Tables</li> --}}
+                                            <li class="breadcrumb-item active" aria-current="page">Quản lý Lịch sử</li>
                                         </ol>
                                     </nav>
                                 </div>
@@ -57,7 +57,7 @@
                                                         <td>{{$customer->nd_ma}}</td>
                                                         <td>{{$customer->nd_ten}}</td>
                                                         <td>                                                  
-                                                           <a href="{{URL::to('/view-history/'.$customer->nd_ma)}}"><i class="ik ik-eye"></i></a>
+                                                           <a href="{{URL::to('/view-history/'.$customer->nd_ma)}}"><i class="ik ik-eye text-blue"></i></a>
                                                         </td>
                                                     </tr>
                                                     <?php {{$i++;}} ?>

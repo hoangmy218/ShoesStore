@@ -48,7 +48,7 @@
                         <br><br>
                         <div class="row">
                             <div class="col-md-12">
-								<div class="card">
+                                <div class="card">
                                     <div class="card-header d-block">
                                         <h3>Danh sách bình luận</h3>
                                         <br>
@@ -110,7 +110,6 @@
                                                                 </a>
                                                               <?php
                                                               }
-
                                                               ?>
                                                             </span>
                                                         </td>
@@ -174,13 +173,11 @@
 <script src="http://www.codermen.com/js/jquery.js"></script>
 <script>
 $(document).ready(function(){
-
          // Tien 08/05
          //dat thi gian tat thong bao
         setTimeout(function(){
            $("span.alert").remove();
         }, 5000 ); // 5 secs
-
         $("#binhluan").parent().addClass("active");
 
         var nd_ma,sp_ma,ngayBinhLuan;
@@ -259,7 +256,6 @@ $(document).ready(function(){
             });
         });
          
-
 });
 </script>
 @endsection

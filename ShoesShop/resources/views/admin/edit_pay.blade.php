@@ -22,9 +22,9 @@
                                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                                             </li>
                                             <li class="breadcrumb-item">
-                                                <a href="{{URL::to('/manage-pay')}}">Quản lý phương thức thanh toán</a>
+                                                <a href="{{URL::to('/manage-pay')}}">Quản lý hình thức thanh toán</a>
                                             </li>
-                                            <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa phương thức thanh toán</li>
+                                            <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin</li>
                                         </ol>
                                     </nav>
                                 </div>
@@ -39,7 +39,7 @@
                                         <form class="forms-sample" action="{{URL::to('/update-pay/'.$edit->httt_ma)}}" method="POST" enctype="multipart/form-data" >
                                              {{csrf_field()}}
                                             <div class="form-group">
-                                                <label for="exampleInputName1">Tên hình phương thức thanh toán</label>
+                                                <label for="exampleInputName1">Tên hình hình thức thanh toán</label>
                                                 <input type="text" name="pay_name" class="form-control" id="exampleInputName1" value="{{$edit->httt_ten}}">
                                             </div>
                                             <button type="submit" name="add_pro" class="btn btn-primary mr-2">Cập nhật</button>

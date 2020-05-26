@@ -55,7 +55,18 @@
                             <h5><label for="">{{ __('Địa chỉ') }}</label></h5>
                             <input style="text-align: left;" type="text" class="form-control" name="capnhat_nd_diaChi" value="{{$ndma->nd_diaChi}}" required> 
                         </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-md-6">
+                
                         <button type="submit" class="btn btn-theme btn-primary py-3 px-4">{{ __('Cập nhật') }}</button>
+                            </div>
+
+                        <div class="col-md-6">
+                        <a href="{{URL::to('/info-customer')}}">
+                        <button  type="button" class="btn btn-theme btn-primary py-3 px-4">{{ __('Hủy') }}</button></a>
+                            </div>
+                        </div>
                         </form>
                         @endforeach
                     </div>

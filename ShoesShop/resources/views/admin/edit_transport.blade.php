@@ -22,9 +22,9 @@
                                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                                             </li>
                                             <li class="breadcrumb-item">
-                                                <a href="{{URL::to('/manage-product')}}">Quản lý hình thức vận chuyển</a>
+                                                <a href="{{URL::to('/manage-transport')}}">Quản lý hình thức vận chuyển</a>
                                             </li>
-                                            <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin hình thức vận chuyển</li>
+                                            <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin</li>
                                         </ol>
                                     </nav>
                                 </div>

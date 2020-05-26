@@ -23,7 +23,7 @@
                                             <li class="breadcrumb-item">
                                                 <a href="{{URL::to('/manage-transport')}}">Quản lý hình thức vận chuyển</a>
                                             </li>
-                                            {{-- <li class="breadcrumb-item active" aria-current="page">Thêm hình thức vận chuyển</li> --}}
+                                            <li class="breadcrumb-item active" aria-current="page">Thêm hình thức mới</li>
                                         </ol>
                                     </nav>
                                 </div>
@@ -59,7 +59,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                            Bạn có chắc chắn muốn hủy thêm hình thức vận chuyển này?
+                            Bạn có chắc chắn muốn hủy thêm hình thức vận chuyển mới?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
