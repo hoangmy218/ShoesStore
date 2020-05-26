@@ -47,8 +47,8 @@ Route::get('switchlang/{locale}', function ($locale) {
 Route::post('comment/{id}','CommentController@postComment');//Tiên 13/03
 
 Route::get('/manage-comment','CommentController@showComment'); 
-Route::get('/unactive-comment/{nd_ma}/{sp_ma}/{ngayBinhLuan}', 'CommentController@unactive_comment');// Tiên 08/05
-Route::get('/active-comment/{nd_ma}/{sp_ma}/{ngayBinhLuan}', 'CommentController@active_comment');// Tiên 08/05
+Route::get('/unactive-comment', 'CommentController@unactive_comment');// Tiên 08/05
+Route::get('/active-comment', 'CommentController@active_comment');// Tiên 08/05
 
 Route::get('/getSlt','ProductController@getSlt');//Tiên 07/05
 

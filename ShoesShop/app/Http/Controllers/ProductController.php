@@ -188,7 +188,7 @@ class ProductController extends Controller
                 ->with('show_btn_mausac',$show_btn_mausac)
                 ->with('ms_ma',$ms_ma)
                 ->with('rating',$rating)
-                ->with('tong_danhgia',$tong_danhgia);
+                ->with('tong_danhgia',$tong_danhgia)
                 ->with('suppliers',$suppliers);
 
 
