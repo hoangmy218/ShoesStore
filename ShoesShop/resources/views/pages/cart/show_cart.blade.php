@@ -1,7 +1,5 @@
 @extends('shop_layout')
 @section('content')
-
-
     <div class="hero-wrap hero-bread" style="background-image: url({{URL::to('public/frontend/images/bg_6.jpg')}});">
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
@@ -12,11 +10,8 @@
         </div>
       </div>
     </div>
-
     <section class="ftco-section ftco-cart">
-
 		<div class="container">
-			
             <?php
             	$success_message = Session::get('success_message');
             	if ($success_message){
@@ -30,12 +25,10 @@
             		
             		Session::put('fail_message',null);
             	}
-            	
             ?>
 			<?php
 				$content = Cart::content();
 			?>
-
 			@if ($content->isempty())
 				<p class="text-center"><a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">{{ __('Mua sắm ngay') }}</a></p>
 			@else
@@ -43,7 +36,6 @@
 			<div class="row">
     			<div class="col-md-12 ftco-animate">
     				<div id='updateDiv'>
-					
 		            <div class="cart-list">
 	    				<table class="table">
 						    <thead class="thead-primary">
@@ -69,13 +61,10 @@
 								        </td>
 								        <td class="product-id">
 								        	<h3>{{$v_content->id}}</h3>
-								        	
 								        </td>
 								        <td class="image-prod"><div class="img" style="background-image:url({{URL::to('public/upload/product/'.$v_content->options->image)}});" ></div></td>
-								        
 								        <td class="product-name">
 								        	<h3>{{$v_content->name}}</h3>
-								        	
 								        </td>
 								        <td class="quantity">
 								        	<select name="color" id="color"  class="form-control color<?php echo $count; ?>">
@@ -98,11 +87,9 @@
 						                 	
 								                 	foreach($colors as $key => $clr){
 								                 		
-								                 		$array[$clr->ms_ma] = $clr->ms_ten;
-								                 		
+								                 		$array[$clr->ms_ma] = $clr->ms_ten;	
 								                 	}  
 							                    ?>
-
 							                    {{-- @foreach($sizes as $key => $value) --}}
 							                    @foreach(array_unique($array) as $key => $val)
 							                    	@if ($v_content->options->mausac == $key )

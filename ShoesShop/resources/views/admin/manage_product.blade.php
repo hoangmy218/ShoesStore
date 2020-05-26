@@ -21,7 +21,7 @@
                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item active">
-                                <a href="#">Quản lý sản phẩm</a>
+                                <a>Quản lý sản phẩm</a>
                             </li>
                                             {{-- <li class="breadcrumb-item active" aria-current="page">Bootstrap Tables</li> --}}
                         </ol>
@@ -114,13 +114,13 @@
                                                           <?php
                                                           if($pro->sp_trangThai==0){
                                                             ?>
-                                                            <button type="button" id="{{$pro->sp_ma}}" class="btn btn-primary cancel" data-toggle="modal" >Hiện</button>
+                                                            <button type="button" id="{{$pro->sp_ma}}" class="btn btn-danger cancel" data-toggle="modal" >Ẩn</button>
 
                                                             {{-- <span class="text-green ik ik-eye cancel" id="{{$pro->sp_ma}}"></span> --}}
                                                             <?php
                                                           }else{
                                                             ?>
-                                                            <button type="button" id="{{$pro->sp_ma}}" class="btn btn-danger  cancel1" data-toggle="modal" >Ẩn</button>
+                                                            <button type="button" id="{{$pro->sp_ma}}" class="btn btn-primary  cancel1" data-toggle="modal" >Hiện</button>
 
                                                            {{--  <span class="text-red ik ik-eye-off cancel1" id="{{$pro->sp_ma}}"></span> --}}
                                                           <?php
@@ -131,10 +131,10 @@
                                                     </td>
                                             <td>
 
-                                                <a href="{{URL::to('/chitiet-sanpham/'.$pro->sp_ma)}}"><i class="ik ik-eye"></i></a>
-                                                <a href="{{URL::to('/chinhsua-sanpham/'.$pro->sp_ma)}}"><i class="ik ik-edit-2"></i></a>
+                                                <a href="{{URL::to('/chitiet-sanpham/'.$pro->sp_ma)}}"><i class="ik ik-eye text-blue"></i></a>
+                                                <a href="{{URL::to('/chinhsua-sanpham/'.$pro->sp_ma)}}"><i class="text-yellow ik ik-edit-2"></i></a>
                                                 {{-- THÊM --}}
-                                                <a><i id="{{$pro->sp_ma}}" class="ik ik-trash-2 cancel2"></i></a>
+                                                <a><i id="{{$pro->sp_ma}}" class="text-red ik ik-trash-2 cancel2"></i></a>
 
 
 

@@ -22,19 +22,19 @@
                                             <li class="breadcrumb-item">
                                                 <a href="{{URL::to('/manage-pay')}}">Quản lý Thanh toán</a>
                                             </li>
-                                            <li class="breadcrumb-item active" aria-current="page">Thêm phương thức thánh toán</li>
+                                            <li class="breadcrumb-item active" aria-current="page">Thêm hình thức mới</li>
                                         </ol>
                                     </nav>
                                 </div>
                             </div>
                         </div>
                                 <div class="card">
-                                    <div class="card-header"><h3>Thêm phương thức thanh toán</h3></div>
+                                    <div class="card-header"><h3>Thêm hình thức thanh toán</h3></div>
                                     <div class="card-body">
                                         <form class="forms-sample" action="{{URL::to('/save-pay')}}" method="POST">
                                              {{csrf_field()}}
                                             <div class="form-group">
-                                                <label for="exampleInputName1">Tên phương thức</label>
+                                                <label for="exampleInputName1">Tên hình thức</label>
                                                 <input type="text" class="form-control" id="exampleInputName1" name="pay_name" placeholder="Name">
                                             </div>
                                             <button type="submit" name="add_pay" class="btn btn-primary mr-2">Thêm</button>
@@ -54,7 +54,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                            Bạn có chắc chắn muốn hủy thêm hình thức thanh toán này?
+                            Bạn có chắc chắn muốn hủy thêm hình thức thanh toán mới?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>

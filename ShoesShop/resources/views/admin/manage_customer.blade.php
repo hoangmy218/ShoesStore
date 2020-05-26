@@ -21,9 +21,9 @@
                                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                                             </li>
                                             <li class="breadcrumb-item active">
-                                                <a href="#">Quản lý người dùng</a>
+                                                <a>Quản lý người dùng</a>
                                             </li>
-                                            {{-- <li class="breadcrumb-item active" aria-current="page">Bootstrap Tables</li> --}}
+                                            <li class="breadcrumb-item active" aria-current="page">Vô hiệu hóa người dùng</li>
                                         </ol>
                                     </nav>
                                 </div>
@@ -64,7 +64,7 @@
                                                         <th>STT</th>
                                                         <th>Mã Người dùng</th>
                                                         <th>Tên người dùng</th>
-                                                        <th>Trạng thái vô hiệu</th>
+                                                        <th>Vô hiệu hóa</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -80,7 +80,7 @@
                                                           if($customer->nd_trangThai==0){
                                                             ?>
                                                             {{-- <a href ="{{URL::to('unactive-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a> --}}
-                                                            <button type="button" id="{{$customer->nd_ma}}" class="btn btn-primary cancel" data-toggle="modal" >Không</button>
+                                                            <button type="button" id="{{$customer->nd_ma}}" class="btn btn-danger cancel" data-toggle="modal" >Bật</button>
                 
 
                                                            {{--  <span class="fa-thumb-styling fa fa-thumbs-up cancel text-green"  id="{{$customer->nd_ma}}"></span> --}}
@@ -88,7 +88,8 @@
                                                           }else{
                                                              ?>
                                                               {{-- <a href="{{URL::to('active-customer/'.$customer->nd_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a> --}}
-                                                             <button type="button" id="{{$customer->nd_ma}}" class="btn btn-danger  cancel1" data-toggle="modal" >Vô hiệu</button>
+                                                             <button type="button" id="{{$customer->nd_ma}}" class="
+                                                               btn btn-primary cancel1" data-toggle="modal" >Tắt</button>
                                                              {{-- <span class="fa-thumb-styling fa fa-thumbs-down cancel1 text-red" id="{{$customer->nd_ma}}"></span> --}}
 
                                                            
@@ -118,7 +119,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                            Bạn có chắc chắn muốn vô hiệu hóa người dùng này?
+                            Bạn có chắc chắn muốn bật vô hiệu hóa người dùng này?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
@@ -136,7 +137,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                            Bạn có chắc chắn muốn hủy vô hiệu hóa người dùng này?
+                            Bạn có chắc chắn muốn tắt vô hiệu hóa người dùng này?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>

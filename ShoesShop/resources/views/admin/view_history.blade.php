@@ -22,10 +22,11 @@
                                             <li class="breadcrumb-item">
                                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                                             </li>
-                                            <li class="breadcrumb-item active">
-                                               
+                                            <li class="breadcrumb-item">
+                                                <a>Quản lý người dùng</a>
+                                            </li>
+                                            <li class="breadcrumb-item">
                                                 <a href="{{URL::to('/history-customer')}}">Quản lý lịch sử</a>
-                                                
                                             </li>
                                             <li class="breadcrumb-item active" aria-current="page">Lịch sử đơn</li>
                                         </ol>
@@ -89,7 +90,7 @@
                                                         {{-- <td>{{$don_hang->dh_ngayDat}}</td>
                                                         <td>{{$don_hang->thanhTien}}</td> --}}
                                                         <td><div class="">                                                  
-                                                           <a href="{{URL::to('/view-order/'.$don_hang->dh_ma)}}"><i class="ik ik-eye"></i></a>
+                                                           <a href="{{URL::to('/view-order/'.$don_hang->dh_ma)}}"><i class="ik ik-eye text-blue"></i></a>
                                                         </div></td>
                                                     </tr>
                                                     <?php {{$i++;}} ?>

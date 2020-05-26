@@ -23,9 +23,9 @@
                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Quản lý sản phẩm</a>
+                                <a href="{{URL::to('manage-product')}}">Quản lý sản phẩm</a>
                             </li>
-                            {{-- <li class="breadcrumb-item active" aria-current="page">Thêm sản phẩm</li> --}}
+                            <li class="breadcrumb-item active" aria-current="page">Thêm sản phẩm</li>
                         </ol>
                     </nav>
                 </div>
@@ -152,6 +152,43 @@
                         </div>
                     </div>
                 </div>
+                {{-- lan 16/05/2020 --}}
+    <div class="modal fade" id="cancelImage" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Thông báo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Vui lòng chọn ảnh đúng định dạng (jpg, jpeg, png)!
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Đã hiểu</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="cancelToida" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Thông báo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Vui lòng chọn tối đa 3 ảnh!
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Đã hiểu</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
     {{-- 07052020 --}}
     {{-- THÊM+CHỈNH SỬA --}}
 <script src="http://www.codermen.com/js/jquery.js"></script>
@@ -174,8 +211,9 @@ $(document).ready(function(){
                     return true;
                 }
                 else
-                    alert("Vui lòng nhập hình đúng định dạng (jpg, jpeg, png).")
-                    $('#images').val('');
+                    $('#cancelImage').modal('show');
+                    // alert("Vui lòng nhập hình đúng định dạng (jpg, jpeg, png).");
+                    $('#images').val('');//trả về trường rỗng 
                     return false; 
                 }
     });
@@ -183,7 +221,8 @@ $(document).ready(function(){
         var files = $(this)[0].files;
         var limit = 3;
         if(files.length > limit){
-            alert("Bạn chỉ được nhập tối đa 3 hình ảnh");
+            $('#cancelToida').modal('show');
+            // alert("Bạn chỉ được nhập tối đa 3 hình ảnh");
             $('#images').val('');
             return false;
         }else{
