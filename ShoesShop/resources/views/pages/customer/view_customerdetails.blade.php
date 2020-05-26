@@ -19,9 +19,9 @@
                         <table class="table" border="0">
                             <thead class="thead-primary">
                               <tr class="text-center">
-                                <th><h3 class=" float-left">{{ __('Mã đơn hàng') }}: {{$order->dh_ma}}</h3></th>
+                                <th><h4 style="color: white;" class=" float-left">{{ __('Mã đơn hàng') }}: {{$order->dh_ma}}</h4></th>
                                 <th></th>
-                                <th><h3 class=" float-right">{{ __('Ngày đặt') }}: {{date('d-m-Y',strtotime($order->dh_ngayDat))}}</h3></th>
+                                <th><h4 style="color: white;" class=" float-right">{{ __('Ngày đặt') }}: {{date('d-m-Y',strtotime($order->dh_ngayDat))}}</h4></th>
                                 
                                 <th>&nbsp;</th>
                               </tr>
@@ -60,10 +60,9 @@
                                 <th>{{ __('STT') }}</th>
                                 <th>{{ __('Tên sản phẩm') }}</th>
                                 <th>Màu sắc</th>
-                                <th>Kích thước</th>
-                                <th>{{ __('Số lượng') }}</th>
+                                <th>Kích thước</th>   
                                 <th>{{ __('Đơn giá') }}</th>
-                                <th>Khuyến mãi</th>
+                                <th>{{ __('Số lượng') }}</th>
                                 <th>{{ __('Thành tiền') }}</th>
                                 <th>&nbsp;</th>
                               </tr>
@@ -90,17 +89,8 @@
                                     @foreach($tablesize as $key => $kc)
                                     <td>{{$kc->kc_ten}}</td>
                                     @endforeach
-
-
-                                    <td>{{$item->SoLuongDat}}</td>
                                     <td>{{number_format($item->DonGiaBan).' VND'}}</td>
-                                    <?php
-                                    //Lan chỉnh sửa 18/05/2020
-                                    $khuyenmai=DB::table('khuyenmai')->where('km_ma', $item->km_ma)->get();
-                                    ?>
-                                    @foreach($khuyenmai as $key => $km)
-                                    <td>{{$km->km_chuDe}}</td>
-                                    @endforeach
+                                     <td>{{$item->SoLuongDat}}</td>
                                     <td>{{number_format($item->DonGiaBan*$item->SoLuongDat).' VND'}}</td>
                                     <?php $congTien = $congTien + $item->DonGiaBan*$item->SoLuongDat; ?>
                                     

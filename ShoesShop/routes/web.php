@@ -18,6 +18,9 @@
 //FRONTEND hoạt động phía user
 
 Route::get('/','HomeController@index');
+Route::get('/contact','HomeController@contact');
+Route::get('/about','HomeController@about');
+Route::get('/return-and-exchange','HomeController@returnExchange');
 Route::get('/register','HomeController@get_register');
 Route::post('/postregister', 'HomeController@post_register');
 Route::get('/userLogin','HomeController@userLogin');
@@ -47,8 +50,8 @@ Route::get('switchlang/{locale}', function ($locale) {
 Route::post('comment/{id}','CommentController@postComment');//Tiên 13/03
 
 Route::get('/manage-comment','CommentController@showComment'); 
-Route::get('/unactive-comment/{nd_ma}/{sp_ma}/{ngayBinhLuan}', 'CommentController@unactive_comment');// Tiên 08/05
-Route::get('/active-comment/{nd_ma}/{sp_ma}/{ngayBinhLuan}', 'CommentController@active_comment');// Tiên 08/05
+Route::get('/unactive-comment', 'CommentController@unactive_comment');// Tiên 08/05
+Route::get('/active-comment', 'CommentController@active_comment');// Tiên 08/05
 
 Route::get('/getSlt','ProductController@getSlt');//Tiên 07/05
 
@@ -87,7 +90,7 @@ Route::post('/capnhat-thongtin', 'HomeController@capnhat_thongtin');
 Route::post('capnhat-thongtin/{capnhat_nd_ma}','HomeController@capnhat_thongtin');
 
 //PRODUCT - Tiên 13/05
-Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product');  
+Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product'); 
 
 //Ngân(13/5/2020)
 Route::get('/show-pro-category/{category_id}','ProductController@showProCategory');
@@ -143,7 +146,7 @@ Route::get('/view-history/{controll_nd_ma}', 'AdminController@view_history');
 //Cart
 Route::get('/show-cart','CartController@showCart'); //My
 Route::get('/delete-to-cart/{rowId}','CartController@delete_to_cart');//Tien
-// Route::post('/update-cart-quantity','CartController@update_cart_quantity');//Tien
+
 Route::get('/update-qty/{sp_ma}','CartController@update_qty');//My
 Route::post('/save-cart','CartController@save_cart');//Tien
 
@@ -167,6 +170,7 @@ Route::get('get-price','CheckoutController@get_price');
 
 //Order M
 Route::get('/manage-order','OrderController@showOrder');
+Route::get('/filter-order/{tt_ma}','OrderController@filterOrder');
 Route::get('/view-order/{dh_ma}','OrderController@viewOrder');
 Route::get('/order-pdf/{dh_ma}','OrderController@orderPdf');
 Route::get('/approve-order/{dh_ma}','OrderController@approveOrder');

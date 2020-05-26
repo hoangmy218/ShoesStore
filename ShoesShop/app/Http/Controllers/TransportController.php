@@ -21,7 +21,7 @@ class TransportController extends Controller
 
     public function manage_transport(){
     	 $this->authLogin();
-    	$list_transport = DB::table('hinhthucvanchuyen')->get();
+    	$list_transport = DB::table('hinhthucvanchuyen')->orderby('htvc_ma','desc')->get();
     	$manager_transport = view('admin.manage_transport')->with('list_transport', $list_transport);
     	return view('admin_layout')->with('admin.manage_transport', $manager_transport);
     }

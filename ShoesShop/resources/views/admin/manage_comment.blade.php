@@ -32,17 +32,17 @@
                         </div>
                         
                        <?php
-                            $message1 = Session::get('fail_message1');
-                            if ($message1){
-                                echo '<span class="alert alert-danger">'.$message1."</span>";
+                            $message = Session::get('fail_message');
+                            if ($message){
+                                echo '<span class="alert alert-danger">'.$message."</span>";
                                                 
-                                Session::put('fail_message1',null);
+                                Session::put('fail_message',null);
                             }
-                            $message1 = Session::get('success_message1');
-                            if ($message1){
-                                echo '<span class="alert alert-success">'.$message1."</span>";
+                            $message = Session::get('success_message');
+                            if ($message){
+                                echo '<span class="alert alert-success">'.$message."</span>";
                                                 
-                                Session::put('success_message1',null);
+                                Session::put('success_message',null);
                             }
                         ?>
                         <br><br>
@@ -81,18 +81,33 @@
                                                         <td>{{$ds_binhluan->nd_ten}}</td>
                                                         
                                                         <td>{{$ds_binhluan->noiDung}}</td>
-                                                        <td>{{$ds_binhluan->ngayBinhLuan}}</td>
+                                                        <td>{{date('d-m-Y',strtotime($ds_binhluan->ngayBinhLuan))}}</td>
                                                         <td>
-                                                            
+                                                            <input type="hidden" name="bl_sp_ma" id="spma" value="{{$ds_binhluan->sp_ma}}">
+                                                            <input type="hidden" name="bl_nd_ma" id="ndma" value="{{$ds_binhluan->nd_ma}}">
+                                                            <input type="hidden" name="bl_ngay" id="ngayBinhLuan" value="{{$ds_binhluan->ngayBinhLuan}}">
+
                                                             <span class="text-ellipsis">
                                                               <?php
                                                               if($ds_binhluan->trangThai==0){
                                                                 ?>
-                                                                <a id="an" href ="{{URL::to('unactive-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"><span class="text-green ik ik-eye cancel" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan"></span></a>
+
+                                                                <!-- <a id="an" href ="{{URL::to('unactive-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"> -->
+
+                                                                <button type="button" id="btn_an" class="btn btn-danger anbl" data-toggle="modal" >Ẩn</button>
+
+                                                                {{-- <span class="text-green ik ik-eye cancel" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan"></span> --}}
+                                                                </a>
                                                                 <?php
                                                               }else{
                                                                 ?>
-                                                                <a id="hien" href="{{URL::to('active-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"><span class="text-red ik ik-eye-off cancel1" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" ></span></a>
+                                                                <!-- <a id="hien" href="{{URL::to('active-comment/'.$ds_binhluan->nd_ma.'/'.$ds_binhluan->sp_ma.'/'.$ds_binhluan->ngayBinhLuan)}}"> -->
+
+                                                                <button type="button" id="btn_hien" class="btn btn-primary  hienbl" data-toggle="modal" >Hiện</button>
+
+
+                                                                    {{-- <span class="text-red ik ik-eye-off cancel1" id="$ds_binhluan->sp_ma/$ds_binhluan->nd_ma/$ds_binhluan->ngayBinhLuan" ></span> --}}
+                                                                </a>
                                                               <?php
                                                               }
 
@@ -112,7 +127,8 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                <div class="modal fade" id="anblModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             
@@ -129,9 +145,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="modal fade" id="cancelModal1" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                </div> 
+
+                <div class="modal fade" id="hienblModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             
@@ -148,7 +165,9 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -162,38 +181,80 @@ $(document).ready(function(){
            $("span.alert").remove();
         }, 5000 ); // 5 secs
 
-        $(document).on('click','.cancel', function(){
+        $("#binhluan").parent().addClass("active");
 
-            sp_nd_ngay =  $("a#an").attr("href");
+        var nd_ma,sp_ma,ngayBinhLuan;
 
-            // console.log(sp_nd_ngay);
-            $('#cancelModal').modal('show');
+        // anbl
+        $(document).on('click','.anbl', function(){
             
-        });
-        $(document).on('click','.cancel1', function(){
-            sp_nd_ngay = $("a#hien").attr("href");
+
+            nd_ma = $.trim(($(this).parent()).parent().children().eq(1).val());
+                    console.log(nd_ma,'nd_ma');
+
+            sp_ma = $.trim(($(this).parent()).parent().children().eq(0).val());
+                    console.log(sp_ma,'sp_ma');
+
+            ngayBinhLuan = $.trim(($(this).parent()).parent().children().eq(2).val());
+                    console.log(ngayBinhLuan,'ngayBinhLuan');
+
             
-            // console.log(sp_nd_ngay);
-            $('#cancelModal1').modal('show');
+            $('#anblModal').modal('show');
+
         });
 
         $('#ok_anbl_btn').click(function(){
+            
+
             $.ajax({
-                url: '<?php echo url('unactive-comment');?>/'+  sp_nd_ngay ,
-                type: 'get',
-                success: function(data)
-                {
-                    window.location.replace("<?php echo url('/manage-comment');?>");
+
+                url: "{{url('unactive-comment')}}",
+                type: 'GET',
+                data:{
+                    nd_ma: nd_ma,
+                    sp_ma : sp_ma,
+                    ngayBinhLuan : ngayBinhLuan
+                },
+                success: function(data){
+                    console.log(data,'data ');
+                            
+                    window.location.replace("<?php echo url('/manage-comment'); ?>");
                 }
             });
         });
+
+        // hien bl
+        $(document).on('click','.hienbl', function(){
+
+            nd_ma = $.trim(($(this).parent()).parent().children().eq(1).val());
+                    console.log(nd_ma,'nd_ma');
+
+            sp_ma = $.trim(($(this).parent()).parent().children().eq(0).val());
+                    console.log(sp_ma,'sp_ma');
+
+            ngayBinhLuan = $.trim(($(this).parent()).parent().children().eq(2).val());
+                    console.log(ngayBinhLuan,'ngayBinhLuan');
+
+            $('#hienblModal').modal('show');
+
+        });
+
         $('#ok_hienthibl_btn').click(function(){
-            $.ajax({
-                url: '<?php echo url('active-comment');?>/'+  sp_nd_ngay,
-                type: 'get',
-                success: function(data)
-                {
-                    window.location.replace("<?php echo url('/manage-comment');?>");
+
+           $.ajax({
+
+                url: "{{url('active-comment')}}",
+                type: 'GET',
+                data:{
+                    nd_ma: nd_ma,
+                    sp_ma : sp_ma,
+                    ngayBinhLuan : ngayBinhLuan
+                    
+                },
+                success: function(data){
+                    console.log(data,'data ');
+                            
+                    window.location.replace("<?php echo url('/manage-comment'); ?>");
                 }
             });
         });

@@ -32,22 +32,50 @@
                                 </div>
                             </div>
                         </div>
-                        <?php
-                            $message = Session::get('fail_message');
-                            if ($message){
-                                echo '<span class="alert alert-danger">'.$message."</span>";
-                                
-                                Session::put('fail_message',null);
-                            }
-                            $message = Session::get('success_message');
-                            if ($message){
-                                echo '<span class="alert alert-success">'.$message."</span>";
-                                
-                                Session::put('success_message',null);
-                            }
-                        ?>
 
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-2 clearfix">
+                                    <div class="btn-group float-md-left mr-1 mb-1">
+                                                <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Lọc
+                                                    <i class="ik ik-chevron-down mr-0 align-middle"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="{{URL::to('/manage-order/')}}">Tất cả đơn hàng</a>
+                                                    @foreach ( $status_orders as $key => $status)
+                                                    <a class="dropdown-item" href="{{URL::to('/filter-order/'.$status->tt_ma)}}">{{$status->tt_ten}}</a>
+                                                    @endforeach
+                                                   
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-2 clearfix">
+                                    <?php
+                                        $message = Session::get('fail_message');
+                                        if ($message){
+                                            echo '<span class="alert alert-danger">'.$message."</span>";
+                                            
+                                            Session::put('fail_message',null);
+                                        }
+                                        $message = Session::get('success_message');
+                                        if ($message){
+                                            echo '<span class="alert alert-success">'.$message."</span>";
+                                            
+                                            Session::put('success_message',null);
+                                        }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        @if ( !($orders->isempty()))
+                        <div class="row">
+
                             <div class="col-md-12">
 								<div class="card">
                                     <div class="card-header d-block">
@@ -160,6 +188,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
 

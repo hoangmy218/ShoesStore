@@ -47,7 +47,7 @@ class ColorController extends Controller
 
     public function showColor(){
         $this->authLogin();
-    	$list_color = DB::table('mausac')->get();
+    	$list_color = DB::table('mausac')->orderby('ms_ma','desc')->get();
     	$manager_color = view('admin.manage_color')->with('list_color', $list_color);
     	return view('admin_layout')->with('admin.manage_color', $manager_color);
     	/*return view('admin.manage_color');*/

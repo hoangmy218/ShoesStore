@@ -33,7 +33,11 @@
                                 </div>
                             </div>
                         </div>
-
+                        
+                        @if ($don_hang->isempty())
+                <p class="text-center "><span class="alert alert-danger" >Chưa có đơn hàng nào!</span><br></p>
+                        @else
+                        
                         <div class="row">
                             <div class="col-md-12">
 								<div class="card">
@@ -70,7 +74,7 @@
                                                         <td>{{$don_hang->dh_ma}}</td>
                                                         <td>{{$don_hang->dh_tenNguoiNhan}}</td>
                                                         <td>{{date('d-m-Y',strtotime($don_hang->dh_ngayDat))}}</td>
-                                                        <td>{{$don_hang->dh_tongTien}}</td>
+                                                        <td> {{number_format($don_hang->dh_tongTien).' VND'}}</td>
 
                                                         <?php
                                                         $tabletrangthai =DB::table('trangthai')->where('tt_ma',$don_hang->tt_ma)->get();
@@ -97,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-
+                     @endif
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){

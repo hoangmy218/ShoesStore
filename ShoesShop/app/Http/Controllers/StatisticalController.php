@@ -156,6 +156,7 @@ class StatisticalController extends Controller
         return view('admin.statistical_top',compact('bar_chart'));
     }
 
+
     public function Statis_Dashboard_Ban(){
         $this->AuthLogin();
         $thang = \Carbon\Carbon::now()->month(2);
@@ -174,3 +175,4 @@ class StatisticalController extends Controller
     }
 
 }
+

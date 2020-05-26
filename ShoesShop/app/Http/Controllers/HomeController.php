@@ -31,15 +31,16 @@ class HomeController extends Controller
                 ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
                 ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
-                ->select()
+                ->where('sp_trangThai','=',0)
                 ->orderby('phieunhap.pn_ngayNhap','desc')
                 ->groupby('hinhanh.sp_ma')
-                ->paginate(3); 
+                ->paginate(6);
 
-         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
-         $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
 
-         $time_month = \Carbon\Carbon::now()->month;
+        $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
+        $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
+
+        $time_month = \Carbon\Carbon::now()->month;
         
        // Đếm sản phẩm theo danh mục
         $list_category = DB::table('danhmuc')->select('dm_ma')->get();
@@ -47,7 +48,7 @@ class HomeController extends Controller
         $dm_array= array();
         $dm=0;
         foreach ($list_category as $key => $danhmuc){
-            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->count();
+            $sl_dm = db::table('sanpham')->where([['dm_ma',$danhmuc->dm_ma],['sp_trangThai',0]])->count();
             $dm_array[$dm] = $sl_dm;
             $dm++;
         }
@@ -58,7 +59,7 @@ class HomeController extends Controller
         $th_array= array();
         $th=0;
         foreach ($list_brand as $key => $thuonghieu){
-            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->count();
+            $sl_th = db::table('sanpham')->where([['th_ma',$thuonghieu->th_ma],['sp_trangThai',0]])->count();
             $th_array[$th] = $sl_th;
             $th++;
         }
@@ -66,13 +67,30 @@ class HomeController extends Controller
         // print_r($all_product);
         // echo "</pre>";
         
-       return view("pages.home",compact('all_product'))->with('list_ad',$list_ad)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
+       return view("pages.home")
+                ->with('list_ad',$list_ad)
+                ->with('all_product',$all_product)
+                ->with('list_cate',$cate)
+                ->with('list_brand',$brand)
+                ->with('dm_array',$dm_array)
+                ->with('th_array',$th_array);
     }
 
 
 
     public function userLogin(){
         return view('pages.customer.user_login');
+    }
+
+    public function contact(){
+        return view('pages.customer.contact');
+    }
+    public function about(){
+        return view('pages.customer.about');
+    }
+
+    public function returnExchange(){
+        return view('pages.customer.returnexchange');
     }
 
     public function Home_u(){
@@ -90,7 +108,9 @@ class HomeController extends Controller
                 ->select()
                 ->orderby('phieunhap.pn_ngayNhap','desc')
                 ->groupby('hinhanh.sp_ma')
-                ->paginate(3);  
+                ->paginate(6);  
+
+
 
          $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
@@ -273,12 +293,50 @@ class HomeController extends Controller
 
       public function search(Request $request){// Tiên 15/03
 
-        $list_brand = DB::table('thuonghieu')->get(); //tien 14/05
-        $list_cate = DB::table('danhmuc')->get();//tien 14/05
+        $brand = DB::table('thuonghieu')->get(); //tien 14/05
+        $cate = DB::table('danhmuc')->get();//tien 14/05
+        // tien thêm 21/05
+       
+        $time_month = \Carbon\Carbon::now()->month;
+        
+       // Đếm sản phẩm theo danh mục
+        $list_category = DB::table('danhmuc')->select('dm_ma')->get();
+        $count_dm = count($list_category);
+        $dm_array= array();
+        $dm=0;
+        foreach ($list_category as $key => $danhmuc){
+            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->count();
+            $dm_array[$dm] = $sl_dm;
+            $dm++;
+        }
+
+        // Đếm sản phẩm theo thương hiệu
+        $list_brand = DB::table('thuonghieu')->select('th_ma')->get();
+        $count_th = count($list_brand);
+        $th_array= array();
+        $th=0;
+        foreach ($list_brand as $key => $thuonghieu){
+            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->count();
+            $th_array[$th] = $sl_th;
+            $th++;
+        }
+        // echo "<pre>";
+        // print_r($all_product);
+        // echo "</pre>";
 
         $keywords = $request->keywords_submit;
 
-        $search = DB::table('hinhanh')->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')->orderby('sanpham.sp_ma','desc')->groupby('hinhanh.sp_ma')->limit(6)->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')->where('sp_ten','like','%'.$keywords.'%')->get(); 
+        $search = DB::table('hinhanh')
+                ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
+                ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+                ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
+                ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
+                ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
+                ->orderby('phieunhap.pn_ngayNhap','desc')
+                ->orderby('sanpham.sp_ma','desc')
+                ->groupby('hinhanh.sp_ma')
+                ->limit(6)
+                ->where('sp_ten','like','%'.$keywords.'%')->get(); 
 
            
         if(!($search->isempty())){
@@ -287,7 +345,12 @@ class HomeController extends Controller
              Session::put('fail_message','Không tìm thấy sản phẩm !');
         }
 
-        return view('pages.product.search')->with('search',$search)->with('list_brand',$list_brand)->with('list_cate',$list_cate);
+        return view('pages.product.search')
+                ->with('search',$search)
+                ->with('list_brand',$brand)
+                ->with('list_cate',$cate)
+                ->with('dm_array',$dm_array)
+                ->with('th_array',$th_array);
     }
 
     public function info_customer(){

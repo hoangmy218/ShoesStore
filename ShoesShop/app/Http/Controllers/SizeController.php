@@ -47,7 +47,7 @@ class SizeController extends Controller
 
     public function showSize(){
         $this->authLogin();
-    	$list_size = DB::table('kichco')->get();
+    	$list_size = DB::table('kichco')->orderby('kc_ma','desc')->get();
     	$manager_size = view('admin.manage_size')->with('list_size', $list_size);
     	return view('admin_layout')->with('admin.manage_size', $manager_size);
     	/*return view('admin.manage_size');*/

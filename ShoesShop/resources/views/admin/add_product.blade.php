@@ -160,6 +160,8 @@
 <script type="text/javascript" src="js/jquery.form.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+    $('#sanpham').parent().addClass('active open');
+    $("#themsanpham").addClass("active");
     $('#images').change(function(){
         var fileName = document.getElementById('images').files.length;
         console.log(fileName);
@@ -177,11 +179,6 @@ $(document).ready(function(){
                     return false; 
                 }
     });
-
-
-        $('#sanpham').parent().addClass('active open');
-         $("#themsanpham").addClass("active");
-    
     $('#images').change(function(){
         var files = $(this)[0].files;
         var limit = 3;
