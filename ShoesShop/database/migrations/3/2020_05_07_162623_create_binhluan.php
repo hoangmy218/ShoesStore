@@ -24,7 +24,7 @@ class CreateBinhluan extends Migration
             $table->Text('noiDung');
             $table->Boolean('trangThai');
             $table->Date('ngayBinhLuan');
-            $table->Integer('rating');
+            $table->Integer('danhGia');
             $table->timestamps();
         });
     }

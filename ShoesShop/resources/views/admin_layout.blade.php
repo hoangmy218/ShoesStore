@@ -42,9 +42,9 @@
                             <button type="button" class="btn-icon mobile-nav-toggle d-lg-none"><span></span></button>
                             <div class="header-search">
                                 <div class="input-group">
-                                    <span class="input-group-addon search-close"><i class="ik ik-x"></i></span>
+                                    {{-- <span class="input-group-addon search-close"><i class="ik ik-x"></i></span>
                                     <input type="text" class="form-control">
-                                    <span class="input-group-addon search-btn"><i class="ik ik-search"></i></span>
+                                    <span class="input-group-addon search-btn"><i class="ik ik-search"></i></span> --}}
                                 </div>
                             </div>
                            
@@ -61,7 +61,7 @@
                                                 echo $name;
                                         ?>
                                     </span>
-                                    {{-- <img class="avatar" src="{{asset('public/backend/img/user.jpg')}}" alt=""> --}}
+                                    
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                    <!-- start Ngân (7/5/2020) -->
@@ -139,7 +139,7 @@
                                 <div class="nav-item has-sub">
                                     <a id="mausac" href="javascript:void(0)"><i class="ik ik-droplet ik-1x"></i><span>Quản lý màu sắc</span> <span class="badge badge-danger"></span></a>
                                     <div class="submenu-content">
-                                        <a id="themmausac" href="{{URL::to('/add-color')}}" class="menu-item">Thêm sản phẩm</a>
+                                        <a id="themmausac" href="{{URL::to('/add-color')}}" class="menu-item">Thêm màu sắc</a>
                                         <a id="danhsachmausac" href="{{URL::to('/manage-color')}}" class="menu-item">Danh sách màu sắc</a>
                                         
                                     </div>
@@ -148,6 +148,7 @@
 
                                 <!--  Tiên 09/05 -->
                                 <div class="nav-item has-sub">
+
                                     <a id="kichco" href="javascript:void(0)"><i class="ik ik-aperture ik-1x"></i><span>Quản lý kích cỡ</span> <span class="badge badge-danger"></span></a>
                                     <div class="submenu-content">
                                         <a id="themkichco" href="{{URL::to('/add-size')}}" class="menu-item">Thêm kích cỡ</a>

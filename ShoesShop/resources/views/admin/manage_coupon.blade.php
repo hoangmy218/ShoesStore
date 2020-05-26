@@ -78,7 +78,7 @@
                                                         <td>{{date('d-m-Y',strtotime($cate->km_ngayKT))}}</td>
                                                         <td>-{{$cate->km_giamGia}}%</td>
                                                         <td><div class="table-actions">   
-                                                            <a href="{{URL::to('/edit-coupon/'.$cate->km_ma)}}"><i class="ik ik-edit-2 text-blue"></i></a>
+                                                            <a href="{{URL::to('/edit-coupon/'.$cate->km_ma)}}"><i class="ik ik-edit-2 text-yellow"></i></a>
                                                             <a><i class="ik ik-trash-2 f-16 mr-15 delete text-red" id="{{$cate->km_ma}}"></i></a>
                                                         </div></td>
                                                         

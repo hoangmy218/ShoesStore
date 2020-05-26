@@ -92,14 +92,12 @@ class AdvertisementController extends Controller
             DB::table('quangcao')->where('qc_ma', $advertisement_id)->update(['qc_trangThai'=>0]);
             Session::put('message', 'Đăng quảng cáo thành công.');
             return Redirect::to('/manage-advertisement');
-        }
+    }
     public function unactiveAdvertisement($advertisement_id){
             //$this->AuthLogin();
           DB::table('quangcao')->where('qc_ma', $advertisement_id)->update(['qc_trangThai'=>1]);
             Session::put('message', 'Gỡ quảng cáo thành công');
             return Redirect::to('/manage-advertisement');
-        }
-
-
+    }
 
 }

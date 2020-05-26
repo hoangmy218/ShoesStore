@@ -170,6 +170,11 @@ class ProductController extends Controller
         $rating = DB::table('binhluan')
                     ->where('sp_ma',$product_id)
                     ->get();
+// Tiên 21/05   
+        $tong_danhgia = DB::table('binhluan')
+                    ->where('sp_ma',$product_id)
+                    ->count();    
+
        
         return view('pages.product.show_detail')
                 ->with('details_product',$details_product)
@@ -183,7 +188,9 @@ class ProductController extends Controller
                 ->with('show_btn_mausac',$show_btn_mausac)
                 ->with('ms_ma',$ms_ma)
                 ->with('rating',$rating)
+                ->with('tong_danhgia',$tong_danhgia)
                 ->with('suppliers',$suppliers);
+
 
     }
     
@@ -388,7 +395,12 @@ class ProductController extends Controller
 
         // $list_receipts = DB::table('phieunhap')->join('cochitietsanpham','cochitietsanpham.pn_ma','=','phieunhap.pn_ma')->select('phieunhap.*',DB::raw("count(cochitietsanpham.pn_ma) as count"))->orderby('pn_ma','desc')->groupBy('cochitietphieunhap.pn_ma')->get();  
 
-        $list_receipts = DB::table('cochitietphieunhap')->join('phieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')->select('phieunhap.*',DB::raw("count(cochitietphieunhap.pn_ma) as count"))->orderby('cochitietphieunhap.pn_ma','desc')->groupBy('cochitietphieunhap.pn_ma')->get();        
+        $list_receipts = DB::table('cochitietphieunhap')
+                            ->join('phieunhap','cochitietphieunhap.pn_ma','=','phieunhap.pn_ma')
+                            ->join('nhacungcap','nhacungcap.ncc_ma','=','phieunhap.ncc_ma')
+                            ->select('phieunhap.*', 'nhacungcap.*',DB::raw("count(cochitietphieunhap.pn_ma) as count"))
+                            ->orderby('cochitietphieunhap.pn_ma','desc')
+                            ->groupBy('cochitietphieunhap.pn_ma')->get();        
         return view('admin.manage_goods_receipt')->with('list_receipts', $list_receipts);
     }
 
@@ -775,7 +787,7 @@ class ProductController extends Controller
     }
 
      public function showProCategory($category_id){
-        $list_cate_product = DB::table('hinhanh')
+        $list_cate_pro = DB::table('hinhanh')
             ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
             ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
             ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
@@ -784,8 +796,8 @@ class ProductController extends Controller
             ->where('sanpham.dm_ma',$category_id)
             ->orderby('phieunhap.pn_ngayNhap','desc')
             ->groupby('hinhanh.sp_ma')
-            ->limit(6)
-            ->get();
+            ->paginate(6);
+
 
          $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
@@ -814,11 +826,11 @@ class ProductController extends Controller
             $th++;
         }
 
-        return view("pages.product.show_cate_pro")->with('list_cate_pro',$list_cate_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('list_cate_pro',$list_cate_product)->with('dm_array',$dm_array)->with('th_array',$th_array);
+        return view("pages.product.show_cate_pro",compact('list_cate_pro'))->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
     public function showProBrand($brand_id){
-        $list_bra_product = DB::table('hinhanh')
+        $list_bra_pro = DB::table('hinhanh')
             ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
             ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
             ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
@@ -827,8 +839,8 @@ class ProductController extends Controller
             ->where('sanpham.th_ma',$brand_id)
             ->orderby('phieunhap.pn_ngayNhap','desc')
             ->groupby('hinhanh.sp_ma')
-            ->limit(6)
-            ->get();
+            ->paginate(6);
+
 
 
         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
@@ -858,7 +870,7 @@ class ProductController extends Controller
             $th++;
         }
 
-        return view("pages.product.show_bra_pro")->with('list_bra_pro',$list_bra_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
+        return view("pages.product.show_bra_pro", compact('list_bra_pro'))->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
 }

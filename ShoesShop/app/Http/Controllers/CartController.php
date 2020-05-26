@@ -121,14 +121,15 @@ class CartController extends Controller
             // print_r($data);
             // echo "</pre>";
             // return view("pages.cart.show_cart");
+            return Redirect::to('/show-cart');
                
         }else{
 
             Session::put('cart_message','Bạn vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ !');
-            return Redirect::to('/'); //sd jquery để load lại trang
+            return back(); 
 
         }
-        return Redirect::to('/show-cart');
+        // return Redirect::to('/show-cart');
         
        
     }// Tien 
@@ -141,7 +142,8 @@ class CartController extends Controller
     
 
     public function update_qty(Request $request, $sp_ma)
-    {$qty = $request->qty;
+    {   
+        $qty = $request->qty;
         $rowId = $request->rowId;
         $kc_ma = $request->size;
         $ms_ma = $request->color;

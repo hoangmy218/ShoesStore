@@ -49,11 +49,13 @@
     </div>
 
     <section class="ftco-section">
+    	
     	<div class="container">
-    		
+    	   <!-- <div id='updateDiv'> -->
     		<form action="{{URL::to('/save-cart')}}" method="POST">
 				{{ csrf_field() }}
-    		<div class="row">
+			<div id='updateDiv'>
+    			<div class="row">
     		
     			{{-- <div class="col-lg-6 mb-5 ftco-animate">
     				<a href="{{URL::to('/product-detail')}}">
@@ -269,46 +271,45 @@
 					        <input type="hidden" name="productid_hidden" id="spma" value="{{$details_product->sp_ma}}">
 					        
 					        <div class="w-100"></div>
+
 					        
 					        <br>
-					       {{--  Tiên 21/05 --}}
-					        <div class="col-md-12">
-					        	@foreach($sz_product as $key => $conlai)
-					          		<p style="color: #000;">Size {{$conlai->kc_ten}}  có sẵn {{$conlai->soLuongTon}} sản phẩm</p> 
-					          		{{-- màu {{$conlai->ms_ten}} --}}
-					            @endforeach 
+			        <div class="col-md-12">
+					        	
+					           <p id="spconlai" style="color: #000;"></p>
+					         
 					        </div>
+					        <br><br>
+					        <?php
+			                    $message = Session::get('cart_message');
+			                    if ($message){
+			                        echo '<span class="alert alert-danger">'.$message."</span>";
+			                                
+			                        Session::put('cart_message',null);
+			                    }
+			                            
+			                ?>
 				        	</div>
+				</div>
+					
+    		</div>
 
-				          	<!-- <p><a href="cart.html" class="btn btn-primary py-3 px-5">{{ __('Mua ngay') }}</a></p> -->
-
-						</div>	
-    			</div>
-
-    			<div class="row">
+    		<div class="row">
     				
-    				<div class="col-lg-6 ">
+    			<div class="col-lg-6 ">
     					
-    				</div>
+
+    			</div>
+    			<div class="col-lg-6 ">
     				
-    				<div class="col-lg-6 ">
-    					<?php
-	                    	$message = Session::get('cart_message');
-	                        	if ($message){
-	                           	 	echo '<span class="alert alert-danger">'.$message."</span>";
-	                                
-	                            	Session::put('cart_message',null);
-	                        	}
-	                            
-	                	?><br><br>
-    					<div class="sign-btn text-center ">
-				        	<button type="submit" class="btn btn-theme btn-primary py-3 px-5">{{ __('Thêm giỏ hàng') }}</button>
-				        	
-				        </div><br>
+	    			<div class="sign-btn text-center ">
+					     <button type="submit" class="btn btn-theme btn-primary py-3 px-5">{{ __('Thêm giỏ hàng') }}</button>
+					        	
+					</div>
 				        
-    				</div>
     			</div>
-    					
+    		</div>
+    		</div>		
     		</form>
 
 <!-- Tien 13/3 -->
@@ -322,7 +323,7 @@
 			</form> -->
 		
 
-    		<div class="row mt-5">
+    	<div class="row mt-5">
           <div class="col-md-12 nav-link-wrap">
             <div class="nav nav-pills d-flex text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
               <a class="nav-link ftco-animate active mr-lg-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">{{ __('Mô tả') }}</a>
@@ -393,17 +394,17 @@
 								   		<div class="desc">
 								   			<h4>
 								   				<span class="text-left">{{$comment->nd_ten}}</span>
-								   				<span class="text-right">{{$comment->ngayBinhLuan}}</span>
-								   				<!-- <span class="text-right">{{date('d/m/Y H:i',strtotime($comment->created_at))}}</span> -->
+								   				<span class="text-right">{{date('d/m/Y',strtotime($comment->ngayBinhLuan))}}</span>
+								   				
 								   			</h4>
 								   			<p class="star" >
 								   				<span> <!-- Tien 16/05 -->
 								   					@for ($i = 0; $i < 5; ++$i)
-													    <i class="ion-ios-star{{ $comment->rating<=$i?'-outline':'' }}" aria-hidden="true"></i>
+													    <i class="ion-ios-star{{ $comment->danhGia<=$i?'-outline':'' }}" aria-hidden="true"></i>
 													@endfor
 							   					</span>
 
-							   					<span class="text-right"><a href="#" class="reply"><i class="icon-reply"></i></a></span>
+							   					
 								   			</p>
 								   				
 								   			<p>{{$comment->noiDung}}</p>
@@ -421,12 +422,14 @@
 							   		
 							   			<?php
 							   				$a = array();
+							   				$nd = array();
 							   				foreach($rating as $key => $value){
-							   					$a[] = $value->rating;
-								   			}						   			
+							   					$a[] = $value->danhGia;
+							   					
+								   			}		   			
 									        
 									        // echo "<pre>";
-									        // print_r(array_count_values($a));
+									        // print_r($tong_danhgia);
 									        // // print_r($a);
 									        // echo "</pre>";
 							   			?>
@@ -443,115 +446,144 @@
 										   	</p> -->
 
 									   			<p class="star">
-									   				<span>
-									   					<i class="ion-ios-star"></i>
-									   					<i class="ion-ios-star-outline"></i>
-									   					<i class="ion-ios-star-outline"></i>
-									   					<i class="ion-ios-star-outline"></i>
-									   					<i class="ion-ios-star-outline"></i>
-									   					&nbsp;&nbsp;&nbsp;( 98% )
-								   					</span>
-
-								   					<?php
-								   						$temp = 0;
+									   				<?php
+								   						$temp1 = 0;
 
 									   					foreach(array_count_values($a) as $key => $val){
 										   					if ($key == 1 ){
-										   						$temp=$val;
+										   						$temp1=$val;
 										   					}
 										   					
 									   					}
 								   					?>
-								   					<span> {{$temp}} Reviews</span>
+									   				<span>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					&nbsp;&nbsp;&nbsp;
+									   					@if($tong_danhgia == 0)
+									   						( {{($temp1)*100}} % )
+									   					@else
+									   						( {{($temp1/$tong_danhgia)*100}} % )
+									   					@endif
+								   					</span>
+
+								   					<span> {{$temp1}} Reviews</span>
 									   			</p>
 
 									   			<p class="star">
-									   				<span>
-									   					<i class="ion-ios-star"></i>
-									   					<i class="ion-ios-star"></i>
-									   					<i class="ion-ios-star-outline"></i>
-									   					<i class="ion-ios-star-outline"></i>
-									   					<i class="ion-ios-star-outline"></i>
-									   					&nbsp;&nbsp;&nbsp;( 98% )
-								   					</span>
-
-								   					<?php
-								   						$temp = 0;
+									   				<?php
+								   						$temp2 = 0;
 
 									   					foreach(array_count_values($a) as $key => $val){
 										   					if ($key == 2 ){
-										   						$temp=$val;
+										   						$temp2=$val;
 										   					}
 										   					
 									   					}
 								   					?>
-								   					<span> {{$temp}} Reviews</span>
-									   			</p>
-
-									   			<p class="star">
 									   				<span>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star"></i>
-									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star-outline"></i>
 									   					<i class="ion-ios-star-outline"></i>
-									   					&nbsp;&nbsp;&nbsp;( 98% )
+									   					<i class="ion-ios-star-outline"></i>
+									   					&nbsp;&nbsp;&nbsp;
+									   					@if($tong_danhgia == 0)
+									   						( {{($temp2)*100}} % )
+									   					@else
+									   						( {{($temp2/$tong_danhgia)*100}} % )
+									   					@endif
 								   					</span>
-								   					<?php
-								   						$temp = 0;
+
+								   					
+								   					<span> {{$temp2}} Reviews</span>
+									   			</p>
+
+									   			<p class="star">
+									   				<?php
+								   						$temp3 = 0;
 
 									   					foreach(array_count_values($a) as $key => $val){
 										   					if ($key == 3 ){
-										   						$temp=$val;
+										   						$temp3=$val;
 										   					}
 										   					
 									   					}
 								   					?>
-								   					<span> {{$temp}} Reviews</span>
+									   				<span>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					<i class="ion-ios-star-outline"></i>
+									   					&nbsp;&nbsp;&nbsp;
+									   					@if($tong_danhgia == 0)
+									   						( {{($temp3)*100}} % )
+									   					@else
+									   						( {{($temp3/$tong_danhgia)*100}} % )
+									   					@endif
+								   					</span>
+								   					
+								   					<span> {{$temp3}} Reviews</span>
 									   			</p>
 
 									   			<p class="star">
+									   				<?php
+								   						$temp4 = 0;
+
+									   					foreach(array_count_values($a) as $key => $val){
+										   					if ($key == 4 ){
+										   						$temp4=$val;
+										   					}
+										   					
+									   					}
+								   					?>
 									   				<span>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star-outline"></i>
-									   					&nbsp;&nbsp;&nbsp;( 98% )
+									   					&nbsp;&nbsp;&nbsp;
+									   					@if($tong_danhgia == 0)
+									   						( {{($temp4)*100}} % )
+									   					@else
+									   						( {{($temp4/$tong_danhgia)*100}} % )
+									   					@endif
 								   					</span>
-								   					<?php
-								   						$temp = 0;
+								   					
+								   					<span> {{$temp4}} Reviews</span>
+									   			</p>
+
+									   			<p class="star">
+									   				<?php
+								   						$temp5 = 0;
 
 									   					foreach(array_count_values($a) as $key => $val){
-										   					if ($key == 4 ){
-										   						$temp=$val;
+										   					if ($key == 5 ){
+										   						$temp5=$val;
 										   					}
 										   					
 									   					}
 								   					?>
-								   					<span> {{$temp}} Reviews</span>
-									   			</p>
-
-									   			<p class="star">
 									   				<span>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star"></i>
 									   					<i class="ion-ios-star"></i>
-									   					&nbsp;&nbsp;&nbsp;( 98% )
+									   					&nbsp;&nbsp;&nbsp;
+									   					@if($tong_danhgia == 0)
+									   						( {{($temp5)*100}} % )
+									   					@else
+									   						( {{($temp5/$tong_danhgia)*100}} % )
+									   					@endif
 								   					</span>
-								   					<?php
-								   						$temp = 0;
-
-									   					foreach(array_count_values($a) as $key => $val){
-										   					if ($key == 5 ){
-										   						$temp=$val;
-										   					}
-										   					
-									   					}
-								   					?>
-								   					<span> {{$temp}} Reviews</span>
+								   					
+								   					<span> {{$temp5}} Reviews</span>
 									   			</p>
 							   		</div>
 								</div> 
@@ -620,6 +652,7 @@
             </div>
           </div>
         </div>
+   <!--  </div> -->
     	</div>
     </section>
    <script src="http://www.codermen.com/js/jquery.js"></script>
@@ -664,15 +697,18 @@
                         success: function(data){
                             console.log(data,'data size');
                             
-                             $.each(data, function(name,stock){
+                            $.each(data, function(name,stock){
                                 $('input[name="quantity"]').attr({
 								       "max" : stock,   // substitute your own
 								       "min" : 1       // values (or variables) here
 								    });
-                              console.log(stock, 'stock');
-                              $('input[name="quantity"]').val("1");
-                              slt = stock;
-                              console.log(slt,"slt get size");
+                              	console.log(stock, 'stock');
+                             		$('input[name="quantity"]').val("1");
+                              	slt = stock;
+
+                              	$('#spconlai').replaceWith('<p id="spconlai" style="color: #000;">Còn '+slt+' sản phẩm</p>')
+                              	console.log(slt,"slt get size");
+
                     		});
                         }
                     });
@@ -717,9 +753,10 @@
 
 		    //rating final
 
+		    //dan gia trị vào input rating
 			function setRating(rating) {
 
-			    $('#rating-input').val(rating);
+			    // $('#rating-input').val(rating);
 
 			    var valueclicked = $('#rating-input').val();//value input
 			    console.log(valueclicked,'sl rating');
@@ -732,19 +769,25 @@
 			}
 			  
 			$('.rating-star')
-			  .on('mouseover', function(e) {
-			    var rating = $(e.target).data('rating');
-			    // fill all the stars
-			    $('.rating-star').removeClass('ion-ios-star-outline').addClass('ion-ios-star');
-			    // empty all the stars to the right of the mouse
-			    $('.rating-star#rating-' + rating + ' ~ .rating-star').removeClass('ion-ios-star').addClass('ion-ios-star-outline');
-			  })
+			// // rơi chuột vào rating
+			  // .on('mouseover', function(e) {
+			  //   var rating = $(e.target).data('rating');
+			  //   // fill all the stars
+			  //   $('.rating-star').removeClass('ion-ios-star-outline').addClass('ion-ios-star');
+			  //   // empty all the stars to the right of the mouse
+			  //   $('.rating-star#rating-' + rating + ' ~ .rating-star').removeClass('ion-ios-star').addClass('ion-ios-star-outline');
+			  // })
+			  // // rơi chuột ra ngoài rating
 			  // .on('mouseleave', function (e) {
 			  //   // empty all the stars except those with class .selected
 			  //   $('.rating-star').removeClass('ion-ios-star').addClass('ion-ios-star-outline');
+
 			  // })
 			  .on('click', function(e) {
 			    var rating = $(e.target).data('rating');
+
+			    $('.rating-star').removeClass('ion-ios-star-outline').addClass('ion-ios-star');
+
 			    setRating(rating);
 			  })
 			  .on('keyup', function(e){
@@ -756,6 +799,7 @@
 			    }
 			});
 
+			
 
 		});
 
