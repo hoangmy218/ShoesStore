@@ -787,7 +787,7 @@ class ProductController extends Controller
     }
 
      public function showProCategory($category_id){
-        $list_cate_product = DB::table('hinhanh')
+        $list_cate_pro = DB::table('hinhanh')
             ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
             ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
             ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
@@ -797,6 +797,7 @@ class ProductController extends Controller
             ->orderby('phieunhap.pn_ngayNhap','desc')
             ->groupby('hinhanh.sp_ma')
             ->paginate(6);
+
 
          $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
@@ -825,11 +826,11 @@ class ProductController extends Controller
             $th++;
         }
 
-        return view("pages.product.show_cate_pro")->with('list_cate_pro',$list_cate_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('list_cate_pro',$list_cate_product)->with('dm_array',$dm_array)->with('th_array',$th_array);
+        return view("pages.product.show_cate_pro",compact('list_cate_pro'))->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
     public function showProBrand($brand_id){
-        $list_bra_product = DB::table('hinhanh')
+        $list_bra_pro = DB::table('hinhanh')
             ->join('sanpham','sanpham.sp_ma','=','hinhanh.sp_ma')
             ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
             ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
@@ -839,6 +840,7 @@ class ProductController extends Controller
             ->orderby('phieunhap.pn_ngayNhap','desc')
             ->groupby('hinhanh.sp_ma')
             ->paginate(6);
+
 
 
         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
@@ -868,7 +870,7 @@ class ProductController extends Controller
             $th++;
         }
 
-        return view("pages.product.show_bra_pro")->with('list_bra_pro',$list_bra_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
+        return view("pages.product.show_bra_pro", compact('list_bra_pro'))->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
 }

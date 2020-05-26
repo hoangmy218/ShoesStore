@@ -61,7 +61,7 @@
                                                 echo $name;
                                         ?>
                                     </span>
-                                    {{-- <img class="avatar" src="{{asset('public/backend/img/user.jpg')}}" alt=""> --}}
+                                    
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                    <!-- start Ngân (7/5/2020) -->

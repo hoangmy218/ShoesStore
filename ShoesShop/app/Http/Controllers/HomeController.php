@@ -23,11 +23,8 @@ class HomeController extends Controller
     }
    public function index()
     {
-        // Start Ngân (14/4/2020)
         $list_ad = DB::table('quangcao')->where('qc_trangThai',0)->get();
-        //$manager_Advertisement = view('pages.home')->with('list_ad',$list_ad);
-        // $sp= Sanpham::paginate(3);
-        // Tiên  thêm where Ngan join km
+
         $all_product = DB::table('hinhanh')
                 ->join('sanpham','hinhanh.sp_ma','=','sanpham.sp_ma')
                 ->join('cochitietphieunhap','sanpham.sp_ma','=','cochitietphieunhap.sp_ma')
@@ -38,6 +35,7 @@ class HomeController extends Controller
                 ->orderby('phieunhap.pn_ngayNhap','desc')
                 ->groupby('hinhanh.sp_ma')
                 ->paginate(6);
+
 
         $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
         $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
@@ -109,9 +107,10 @@ class HomeController extends Controller
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
                 ->select()
                 ->orderby('phieunhap.pn_ngayNhap','desc')
-                ->where('sp_trangThai','=',0)
-                ->groupby('hinhanh.sp_ma')->limit(6)
-                ->get(); 
+                ->groupby('hinhanh.sp_ma')
+                ->paginate(6);  
+
+
 
          $cate = DB::table('danhmuc')->orderby('dm_ma','asc')->get();
          $brand = DB::table('thuonghieu')->orderby('th_ma','asc')->get();
@@ -143,7 +142,7 @@ class HomeController extends Controller
         // print_r($all_product);
         // echo "</pre>";
         
-       return view("pages.home")->with('list_ad',$list_ad)->with('all_product',$all_product)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
+       return view("pages.home",compact('all_product'))->with('list_ad',$list_ad)->with('list_cate',$cate)->with('list_brand',$brand)->with('dm_array',$dm_array)->with('th_array',$th_array);
     }
 
     public function get_register(){

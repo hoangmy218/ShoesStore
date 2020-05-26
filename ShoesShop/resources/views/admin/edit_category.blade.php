@@ -46,7 +46,7 @@
                                             
                                             <div class="form-group pull-right">
                                                 <button type="submit" name="update_cate" class="btn btn-primary mr-2">Cập nhật</button>
-                                                <a href="{{url()->previous()}}" class="btn btn-default">Hủy</a>
+                                               <button id="cancel" class="btn btn-light">Hủy</button>
                                               
                                             </div>
                                             
@@ -61,7 +61,15 @@
 $(document).ready(function(){
 
         $('#danhmuc').parent().addClass('active open');
-         $("#danhsachdanhmuc").addClass("active");
+        $("#danhsachdanhmuc").addClass("active");
      });
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#cancel').click(function(e){
+        e.preventDefault();
+        window.location.replace("<?php echo url('/manage-category');?>");
+    })
+});
 </script>
 @endsection
