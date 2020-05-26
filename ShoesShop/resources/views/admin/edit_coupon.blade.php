@@ -56,7 +56,7 @@
                                             
                                             <div class="form-group pull-right">
                                                 <button type="submit" name="update_coupon" class="btn btn-primary mr-2">Cập nhật</button>
-                                                <a href="{{url()->previous()}}" class="btn btn-default">Hủy</a>
+                                                <a id="cancel" class="btn btn-default">Hủy</a>
                                               
                                             </div>
 
@@ -72,7 +72,15 @@
 $(document).ready(function(){
 
         $('#khuyenmai').parent().addClass('active open');
-         $("#danhsachkhuyenmai").addClass("active");
+        $("#danhsachkhuyenmai").addClass("active");
      });
-</script>                
+</script>   
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#cancel').click(function(e){
+        e.preventDefault();
+        window.location.replace("<?php echo url('/manage-coupon');?>");
+    })
+});
+</script>             
 @endsection

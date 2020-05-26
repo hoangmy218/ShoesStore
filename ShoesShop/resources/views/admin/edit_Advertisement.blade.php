@@ -64,7 +64,7 @@
                            
                                 <button type="submit" id="capnhat" name="update_ad" class="btn btn-primary mr-2">Cập nhật</button>
                                 
-                                <button type="reset" class="btn btn-light">Hủy</button>
+                                <button id="cancel" class="btn btn-light">Hủy</button>
                      </form>
 
                  @endforeach
@@ -132,8 +132,17 @@ $(document).ready(function(){
                     return false; 
                 }
     });
+
 });
-</script>               
+</script>  
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#cancel').click(function(e){
+        e.preventDefault();
+        window.location.replace("<?php echo url('/manage-advertisement');?>");
+    })
+});
+</script>             
 @endsection
 
 

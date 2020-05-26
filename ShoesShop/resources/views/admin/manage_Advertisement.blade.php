@@ -47,12 +47,11 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
-                                <tr>
+                                <tr style="text-align: center;">
                                     <th>STT</th>
                                     <th>Mã quảng cáo</th>
                                     <th>Hình ảnh</th>
                                     <th>Chủ đề quảng cáo</th>
-                                    <th>Trạng thái</th>
                                     <th>Thao tác</th>
                                    
                                 </tr>
@@ -67,27 +66,19 @@
                                             <td><img src="{{URL::to('public/upload/advertisement/'.$ad->qc_hinhAnh)}}" height="100" width="200"></td> 
 
                                             <td>{{$ad->qc_chuDe}}</td>
-                                             <!-- Start Ngân (14/4/2020) -->
-                                            
-                                           
-                                            <td><span class="text-ellipsis">
-                                                          <?php
-                                                          if($ad->qc_trangThai==0){
-                                                            ?>
-                                                            <a href ="{{URL::to('/unactive-advertisement/'.$ad->qc_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a>
-                                                            <?php
-                                                          }else{
-                                                            ?>
-                                                            <a href="{{URL::to('/active-advertisement/'.$ad->qc_ma)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a>
-                                                          <?php
-                                                          }
-
-                                                          ?>
-                                                        </span>
-                                            </td>
-                                            <!-- End Ngân (14/4/2020) -->
                                           
-                                            <td><div class="table-actions">   
+                                            <td><div class="table-actions" style="text-align: center;">  
+                                                @switch($ad->qc_trangThai)
+                                                @case(0)
+                                                    <button type="button" id="{{$ad->qc_ma}}" class="btn btn-primary Dangqc" data-toggle="modal" >Đăng quảng cáo</button>
+                                                    @break
+
+                                                @case(1)
+                                                    <button type="button" id="{{$ad->qc_ma}}" class="btn btn-danger Goqc" data-toggle="modal">Gỡ quảng cáo</button>
+                                                    @break
+                                                 @default
+                                                                    
+                                            @endswitch  
                                                     <a href="{{URL::to('/edit-advertisement/'.$ad->qc_ma)}}"><i class="ik ik-edit-2 text-yellow"></i></a>
                                                     <a><i class="ik ik-trash-2 f-16 mr-15 delete text-red" id="{{$ad->qc_ma}}"></i></a>
                                                         </div></td>
@@ -104,6 +95,42 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="DangqcModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                           
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Đăng quảng cáo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn đăng quảng cáo này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="ok_Dangqc_btn" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<div class="modal fade" id="GoqcModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                           
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Gỡ quảng cáo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Bạn có chắc chắn muốn gỡ bỏ quảng cáo này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                <button type="button" id="ok_Goqc_btn" class="btn btn-success">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -141,11 +168,48 @@ $(document).ready(function(){
 
         $('#ok_delete_btn').click(function(){
             $.ajax({
-                url: '<?php echo url('delete-coupon');?>/'+qc_ma,
+                url: '<?php echo url('delete-advertisement');?>/'+qc_ma,
                 type: 'get',
                 success: function(data)
                 {
                     window.location.replace("<?php echo url('/manage-advertisement');?>");
+                }
+            });
+        });
+
+        // Đăng quảng cáo
+        $(document).on('click','.Dangqc', function(){
+            qc_ma = $(this).attr('id');
+            console.log(qc_ma,'qc_ma');
+            $('#DangqcModal').modal('show');
+
+        });
+
+        $('#ok_Dangqc_btn').click(function(){
+            $.ajax({
+                url: '<?php echo url('/unactive-advertisement'); ?>/'+qc_ma,
+                type: 'get',
+                success: function(data)
+                {
+                    window.location.replace("<?php echo url('/manage-advertisement'); ?>");
+                }
+            });
+        });
+
+        // Gỡ quảng cáo
+        $(document).on('click','.Goqc', function(){
+            qc_ma = $(this).attr('id');
+            $('#GoqcModal').modal('show');
+
+        });
+
+        $('#ok_Goqc_btn').click(function(){
+            $.ajax({
+                url: '<?php echo url('/active-advertisement'); ?>/'+qc_ma,
+                type: 'get',
+                success: function(data)
+                {
+                    window.location.replace("<?php echo url('/manage-advertisement'); ?>");
                 }
             });
         });

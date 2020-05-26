@@ -40,7 +40,7 @@
                                                 <input type="text" class="form-control" id="exampleInputName1" name="cate_name" placeholder="Name">
                                             </div>   
                                             <button type="submit" name="add_cate" class="btn btn-primary mr-2">Thêm</button>
-                                            <button class="btn btn-light">Hủy</button>
+                                            <button id="cancel" class="btn btn-light">Hủy</button>
                                         </form>
                                     </div>
                                 </div>
@@ -51,7 +51,16 @@
 $(document).ready(function(){
 
         $('#danhmuc').parent().addClass('active open');
-         $("#themdanhmuc").addClass("active");
-     });
+        $("#themdanhmuc").addClass("active");
+
+        });
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#cancel').click(function(e){
+        e.preventDefault();
+        window.location.replace("<?php echo url('/manage-category');?>");
+    })
+});
 </script>
 @endsection

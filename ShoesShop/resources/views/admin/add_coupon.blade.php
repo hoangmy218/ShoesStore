@@ -51,7 +51,7 @@
                                                 <input class="form-control datetimepicker-input" name="coupon_discount" type="number" value="1">
                                             </div> 
                                             <button type="submit" name="add_coupon" class="btn btn-primary mr-2">Thêm</button>
-                                            <button onclick="history.go(0)" class="btn btn-light">Hủy</button>
+                                            <button id="cancel" class="btn btn-light">Hủy</button>
                                         </form>
                                     </div>
                                 </div>
@@ -62,7 +62,15 @@
 $(document).ready(function(){
 
         $('#khuyenmai').parent().addClass('active open');
-         $("#themkhuyenmai").addClass("active");
+        $("#themkhuyenmai").addClass("active");
      });
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#cancel').click(function(e){
+        e.preventDefault();
+        window.location.replace("<?php echo url('/manage-coupon');?>");
+    })
+});
 </script>
 @endsection
