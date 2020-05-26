@@ -145,7 +145,7 @@
                                 <div class="row no-print">
                                     <div class="col-12">
                                         {{-- <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button> --}}
-                                        <a href="{{URL::to('/createOrderPdf/'.$order->dh_ma)}}"><button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</button></a>
+                                        <a href="{{URL::to('/createOrderPdf/'.$order->dh_ma)}}"><button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Tải về PDF</button></a>
                                     </div>
                                 </div>
                             </div>
