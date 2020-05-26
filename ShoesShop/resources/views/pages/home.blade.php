@@ -191,9 +191,9 @@
                   <div class="row mt-5">
                     <div class="col text-center">
                       <div class="block-27">
-                       <!--Tổng số trang--> <!--{{  $all_product ->lastPage() }} -->
+                       <!--Tổng số trang--> <!--{{$all_product ->lastPage()}} -->
                         <ul>
-                          @for($i=1 ; $i <= $all_product ->lastPage() ; $i ++)
+                          @for($i=1 ; $i <= $all_product->lastPage() ; $i ++)
                          <!--  <li><a href="#">Prev</a></li> -->
                           <li class="active" >
                               <a href="{{ str_replace('/?','?',$all_product->url($i)) }}">
