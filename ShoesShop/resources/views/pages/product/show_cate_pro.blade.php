@@ -28,12 +28,18 @@
                     ?>
                     @if( $days <= 30)
                       <div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex">
-                        <div class="product d-flex flex-column">
+                        <div class="product d-flex flex-column" >
                           <!-- Show hình sp -->
+<<<<<<< HEAD
+                          <a href="#" class="img-prod" ><img  class="img-fluid" src="{{asset('public/upload/product/'.$product->ha_ten)}}" alt="Colorlib Template">
+                            <span class="status" style="background-color: red; color: yellow;"><b>MỚI</b></span>
+                            <div class="overlay" ></div></a>
+=======
                           <a class="img-prod"><img class="img-fluid" src="{{asset('public/upload/product/'.$product->ha_ten)}}" alt="Colorlib Template">
                              <span class="status" style="background-color: red; color: yellow;"><b>MỚI</b></span>
                             <div class="overlay"></div></a>
 
+>>>>>>> 9177047ee8cdfd88f57d50d48779208b2fef809e
 
                           <div class="text py-3 pb-4 px-3">
                             <!-- Show hình sp -->
@@ -43,7 +49,12 @@
                                    </div>
                                               
                               </div>
+<<<<<<< HEAD
+                               <!-- Tiên 13/05-->
+                                <?php
+=======
                               <?php
+>>>>>>> 9177047ee8cdfd88f57d50d48779208b2fef809e
                                   $request= DB::table('cochitietsanpham')->select('ms_ma')->where('sp_ma','=',$product->sp_ma)->first();
                                   $ms=$request->ms_ma;
                                   // echo "<pre>";
@@ -51,7 +62,13 @@
                                   // echo "</pre>";
                                   // echo $ms_ma=$request->ms_ma;
                                 ?>
+<<<<<<< HEAD
+                               
+                              <h3 ><a style="background-image: url({{asset('public/frontend/images/hot-icon-2.gif')}}); background-size: contain; background-repeat: no-repeat; background-position: right;" href="{{URL::to('/product-detail/'.$product->sp_ma.'/'.$ms)}}" >{{$product->sp_ten}} &emsp;&emsp;</a></h3>
+                             
+=======
                                <h3 ><a style="background-image: url({{asset('public/frontend/images/hot-icon-2.gif')}}); background-size: contain; background-repeat: no-repeat; background-position: right;" href="{{URL::to('/product-detail/'.$product->sp_ma.'/'.$ms)}}" >{{$product->sp_ten}} &emsp;&emsp;</a></h3>
+>>>>>>> 9177047ee8cdfd88f57d50d48779208b2fef809e
 
                               <!-- Show giá sp -->
                               @if(($product->km_giamGia != 0) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
@@ -86,7 +103,15 @@
                                    </div>
                                               
                               </div>
-                              <h3><a href="{{URL::to('/product-detail/'.$product->sp_ma)}}">{{$product->sp_ten}}</a></h3>
+                              <?php
+                                  $request= DB::table('cochitietsanpham')->select('ms_ma')->where('sp_ma','=',$product->sp_ma)->first();
+                                  $ms=$request->ms_ma;
+                                  // echo "<pre>";
+                                  // print_r($ms);
+                                  // echo "</pre>";
+                                  // echo $ms_ma=$request->ms_ma;
+                                ?>
+                              <h3><a href="{{URL::to('/product-detail/'.$product->sp_ma.'/'.$ms)}}">{{$product->sp_ten}}</a></h3>
 
                               <!-- Show giá sp -->
                               @if(($product->km_giamGia) && ($product->km_ngayBD <= $today) && ($today <= $product->km_ngayKT))
@@ -110,16 +135,25 @@
                     </div>
                     {{-- Phan trang --}}
                     <div class="row mt-5">
-                      <div class="col text-center">
-                        <div class="block-27">
-                          <ul>
-                            <li class="active"><span>1</span></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                          </ul>
-                        </div>
+                    <div class="col text-center">
+                      <div class="block-27">
+                       <!--Tổng số trang--> <!--{{  $list_cate_pro ->lastPage() }} -->
+                        <ul>
+                          @for($i=1 ; $i <= $list_cate_pro ->lastPage() ; $i ++)
+                         <!--  <li><a href="#">Prev</a></li> -->
+                          <li class="active" >
+                              <a href="{{ str_replace('/?','?',$list_cate_pro->url($i)) }}">
+                                {{ $i }}
+                              </a>
+                          </li>
+                          <!-- <li><a href="#">Next</a></li> -->
+                          @endfor
+                        </ul>
+
                       </div>
+                     
                     </div>
+                  </div>
                 </div>
 
                <div class="col-md-4 col-lg-2">
