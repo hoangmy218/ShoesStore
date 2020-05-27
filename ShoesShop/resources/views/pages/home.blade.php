@@ -27,47 +27,7 @@
     </section>
 <!-- End: Show quảng cáo -->
 
-<!-- Start: Show dịch vụ -->
-    <section class="ftco-section ftco-no-pt ftco-no-pb">
-        <div class="container">
-            <div class="row no-gutters ftco-services">
-              <div class="col-lg-4 text-center d-flex align-self-stretch ftco-animate">
-                <div class="media block-6 services p-4 py-md-5">
-                  <div class="icon d-flex justify-content-center align-items-center mb-4">
-                        <span class="flaticon-bag"></span>
-                  </div>
-                  <div class="media-body">
-                    <h3 class="heading">{{ __('Khuyến mãi') }}</h3>
-                    <p>{{ __('Nhiều mã giảm giá hấp dẫn') }}</p>
-                  </div>
-                </div>      
-              </div>
-              <div class="col-lg-4 text-center d-flex align-self-stretch ftco-animate">
-                <div class="media block-6 services p-4 py-md-5">
-                  <div class="icon d-flex justify-content-center align-items-center mb-4">
-                        <span class="flaticon-customer-service"></span>
-                  </div>
-                  <div class="media-body">
-                    <h3 class="heading">{{ __('Hỗ trợ khách hàng') }}</h3>
-                    <p>{{ __('Nhanh chóng, kinh nghiệm và hiệu quả. Chúng tôi luôn luôn sẵn sàng giải đáp tất cả các thằc mắc và giải quyết nhanh chóng vấn đề của bạn!') }}</p>
-                  </div>
-                </div>    
-              </div>
-              <div class="col-lg-4 text-center d-flex align-self-stretch ftco-animate">
-                <div class="media block-6 services p-4 py-md-5">
-                  <div class="icon d-flex justify-content-center align-items-center mb-4">
-                        <span class="flaticon-payment-security"></span>
-                  </div>
-                  <div class="media-body">
-                    <h3 class="heading">{{ __('Thanh toán bảo mật') }}</h3>
-                    <p>{{ __('Dịch vụ được đảm bảo an toàn, nhanh chóng và bảo mật với hình thức thanh toán trực tuyến.') }}</p>
-                  </div>
-                </div>      
-              </div>
-            </div>
-        </div>
-    </section>
-<!-- End: Show quảng cáo -->
+
 
 
   <section class="ftco-section bg-light">
@@ -187,16 +147,13 @@
                     @endif
                   @endforeach
                 </div>
+                
                     {{-- Phan trang --}}
                   <div class="row mt-5">
-                    <div class="col text-center">
-                      <div class="block-27">
-                        <ul>
-                          <li class="active"><span>1</span></li>
-                          <li><a href="#">2</a></li>
-                          <li><a href="#">3</a></li>
-                        </ul>
-                      </div>
+
+                    <div class="col text-right">
+                        {{!! $all_product->links() !!}}
+
                     </div>
                   </div>
               </div>
@@ -318,6 +275,8 @@
 
     <!--  Tien 16/05 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script src="http://www.codermen.com/js/jquery.js"></script>
 <script>

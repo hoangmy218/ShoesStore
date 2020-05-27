@@ -94,10 +94,7 @@ class StatisticalController extends Controller
         $chart = Charts::database($sumorder,'bar', 'highcharts')
                     ->title("Thống kê theo tháng")
                     ->elementLabel('Tổng doanh thu tháng')
-
-                    // ->labels(['Tháng 1', 'Tháng 2', 'Tháng 3' , 'Tháng 4' , 'Tháng 5' , 'Tháng 6' , 'Tháng 7' , 'Tháng 8' , 'Tháng 9' , 'Tháng 10' , 'Tháng 11' , 'Tháng 12']) 
                     ->labels($sumorder->pluck('month')->all())
-
                     ->values($sumorder->pluck('doanhthu')->all())
                     ->colors(['gold', 'green', 'red', 'darkblue'])
                     ->dimensions(1080, 400)
@@ -159,4 +156,23 @@ class StatisticalController extends Controller
         return view('admin.statistical_top',compact('bar_chart'));
     }
 
+
+    public function Statis_Dashboard_Ban(){
+        $this->AuthLogin();
+        $thang = \Carbon\Carbon::now()->month(2);
+        
+        return view('dashboard');
+    }
+    public function Statis_D_Nhap(){
+        $this->AuthLogin();
+        
+        return view('dashboard');
+    }
+    public function Statis_D_Reve(){
+        $this->AuthLogin();
+        
+        return view('dashboard');
+    }
+
 }
+

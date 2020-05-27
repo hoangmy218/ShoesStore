@@ -68,8 +68,8 @@
 $(document).ready(function(){
     $('#cancel').click(function(e){
         e.preventDefault();
-        window.history.back();
-    });
+        window.location.replace("<?php echo url('/manage-advertisement');?>");
+    })
 });
 </script>
 <script type="text/javascript">

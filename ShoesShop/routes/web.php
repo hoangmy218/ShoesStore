@@ -50,8 +50,8 @@ Route::get('switchlang/{locale}', function ($locale) {
 Route::post('comment/{id}','CommentController@postComment');//Tiên 13/03
 
 Route::get('/manage-comment','CommentController@showComment'); 
-Route::get('/unactive-comment/{nd_ma}/{sp_ma}/{ngayBinhLuan}', 'CommentController@unactive_comment');// Tiên 08/05
-Route::get('/active-comment/{nd_ma}/{sp_ma}/{ngayBinhLuan}', 'CommentController@active_comment');// Tiên 08/05
+Route::get('/unactive-comment', 'CommentController@unactive_comment');// Tiên 08/05
+Route::get('/active-comment', 'CommentController@active_comment');// Tiên 08/05
 
 Route::get('/getSlt','ProductController@getSlt');//Tiên 07/05
 
@@ -91,8 +91,6 @@ Route::post('capnhat-thongtin/{capnhat_nd_ma}','HomeController@capnhat_thongtin'
 
 //PRODUCT - Tiên 13/05
 Route::get('/product-detail/{product_id}/{ms_ma}','ProductController@details_product'); 
-
-Route::get('/load-pro/{sp_ma}/{ms_ma}','ProductController@load_pro');//Tien 21/05
 
 //Ngân(13/5/2020)
 Route::get('/show-pro-category/{category_id}','ProductController@showProCategory');

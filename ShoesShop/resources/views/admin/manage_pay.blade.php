@@ -8,7 +8,7 @@
                                     <div class="page-header-title">
                                         <i class="ik ik-credit-card bg-blue"></i>
                                         <div class="d-inline">
-                                            <h5>Quản lý phương thức thanh toán</h5>
+                                            <h5>Quản lý hình thức thanh toán</h5>
                                             {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
                                         </div>
                                     </div>
@@ -20,7 +20,7 @@
                                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                                             </li>
                                             <li class="breadcrumb-item active">
-                                                <a href="#">Quản lý phương thức thanh toán</a>
+                                                <a href="#">Quản lý hình thức thanh toán</a>
                                             </li>
                                             {{-- <li class="breadcrumb-item active" aria-current="page">Bootstrap Tables</li> --}}
                                         </ol>
@@ -46,7 +46,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header d-block">
-                                        <h3>Danh sách phương thức thanh toán</h3>
+                                        <h3>Danh sách hình thức thanh toán</h3>
                                         <?php
                                         $message =Session::get('message');
                                         if($message){
@@ -62,7 +62,7 @@
                                                     <tr>
                                                          <th>STT</th>
                                                         <th>Mã thanh toán</th>
-                                                        <th>Tên phương thức thanh toán</th>
+                                                        <th>Tên hình thức thanh toán</th>
                                                         {{-- <th>Trạng thái</th> --}}
                                                         <th>Thao tác</th>
                                                     </tr>
@@ -76,8 +76,8 @@
                                                         <td>{{$pay->httt_ma}}</td>
                                                         <td>{{$pay->httt_ten}}</td>
                                                         <td><div class="table-actions">  
-                                                            <a href="{{URL::to('/edit-pay/'.$pay->httt_ma)}}"><i class="ik ik-edit-2"></i></a>
-                                                            <a><i id="{{$pay->httt_ma}}" class="ik ik-trash-2 cancel2"></i></a>
+                                                            <a href="{{URL::to('/edit-pay/'.$pay->httt_ma)}}"><i class="ik ik-edit-2 text-yellow"></i></a>
+                                                            <a><i id="{{$pay->httt_ma}}" class="ik ik-trash-2 text-red cancel2"></i></a>
                                                         </div></td>
                                                     </tr>
                                                     <?php {{$i++;}} ?>

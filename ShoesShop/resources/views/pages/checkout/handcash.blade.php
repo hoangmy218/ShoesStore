@@ -26,12 +26,9 @@
 						</p>
 						<a href="{{URL::to('/')}}" class="btn btn-primary py-3 px-4">TRANG CHỦ</a>
 					</div>
-
 				</div>
 			</div>
 		</div>
 	</section>
-
-	
 
 @endsection

@@ -5,7 +5,7 @@
                     <div class="container-fluid">
                         <div class="page-header">`
                             <div class="row align-items-end">
-                                <div class="col-lg-8">
+                                <div class="col-lg-6">
                                     <div class="page-header-title">
                                         <i class="ik ik-file-text bg-blue"></i>
                                         <div class="d-inline">
@@ -14,16 +14,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <nav class="breadcrumb-container" aria-label="breadcrumb">
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item">
                                                 <a href="{{URL::to('/dashboard')}}"><i class="ik ik-home"></i></a>
                                             </li>
                                             <li class="breadcrumb-item">
-                                                <a href="{{URL::to('/manage-order')}}">Quản lý đơn hàng</a>
+                                                <a>Quản lý người dùng</a>
                                             </li>
-                                            
+                                            <li class="breadcrumb-item">
+                                                <a href="{{URL::to('/history-customer')}}">Quản lý lịch sử</a>
+                                            </li>
+                                            <li class="breadcrumb-item active" aria-current="page"><a href="{{URL::to('/view-history/'.$order->nd_ma)}}">Lịch sử đơn</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Chi tiết đơn hàng</li>
                                         </ol>
                                     </nav>

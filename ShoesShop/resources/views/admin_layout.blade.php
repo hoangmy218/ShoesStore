@@ -61,7 +61,7 @@
                                                 echo $name;
                                         ?>
                                     </span>
-                                    {{-- <img class="avatar" src="{{asset('public/backend/img/user.jpg')}}" alt=""> --}}
+                                    
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                    <!-- start Ngân (7/5/2020) -->
@@ -198,10 +198,10 @@
                                     </div>
                                 </div>
                                 <div class="nav-item has-sub">
-                                    <a id="thanhtoan" href="javascript:void(0)"><i class="ik ik-dollar-sign"></i><span>Phương thức thanh toán</span> <span class="badge badge-danger"></span></a>
+                                    <a id="thanhtoan" href="javascript:void(0)"><i class="ik ik-dollar-sign"></i><span>Hình thức thanh toán</span> <span class="badge badge-danger"></span></a>
                                     <div class="submenu-content">
-                                        <a id="themthanhtoan" href="{{URL::to('/add-pay')}}" class="menu-item">Thêm phương thức thanh toán</a>
-                                        <a id="danhsachthanhtoan" href="{{URL::to('/manage-pay')}}" class="menu-item">Danh sách phương thức <br> thanh toán</a>
+                                        <a id="themthanhtoan" href="{{URL::to('/add-pay')}}" class="menu-item">Thêm hình thức thanh toán</a>
+                                        <a id="danhsachthanhtoan" href="{{URL::to('/manage-pay')}}" class="menu-item">Danh sách hình thức <br> thanh toán</a>
                                        
                                     </div>
                                 </div>

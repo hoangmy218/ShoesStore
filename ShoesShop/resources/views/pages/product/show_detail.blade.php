@@ -290,7 +290,6 @@
 			                            
 			                ?>
 				        	</div>
-
 				</div>
 					
     		</div>
@@ -698,17 +697,17 @@
                         success: function(data){
                             console.log(data,'data size');
                             
-                             $.each(data, function(name,stock){
+                            $.each(data, function(name,stock){
                                 $('input[name="quantity"]').attr({
 								       "max" : stock,   // substitute your own
 								       "min" : 1       // values (or variables) here
 								    });
-                              console.log(stock, 'stock');
-                              $('input[name="quantity"]').val("1");
-                              slt = stock;
+                              	console.log(stock, 'stock');
+                             		$('input[name="quantity"]').val("1");
+                              	slt = stock;
 
-                              $('#spconlai').replaceWith('<p id="spconlai" style="color: #000;">Còn '+slt+' sản phẩm</p>')
-                              console.log(slt,"slt get size");
+                              	$('#spconlai').replaceWith('<p id="spconlai" style="color: #000;">Còn '+slt+' sản phẩm</p>')
+                              	console.log(slt,"slt get size");
 
                     		});
                         }

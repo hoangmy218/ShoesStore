@@ -130,7 +130,7 @@
                                     
                                     <td><img src="{{URL::to('public/upload/product/'.$image->ha_ten)}}"height="100" width="100"></td>
                                     <td>
-                                        <a><i class="ik ik-trash-2 cancel text-red" id="{{$image->ha_ma}}"></i></a>
+                                        <a id="xoa"><i class="ik ik-trash-2 cancel text-red" id="{{$image->ha_ma}}"></i></a>
 
                                         {{-- <a id="xoa" onclick="return confirm('Bạn chắc chắn muốn xóa ảnh này?')" href="{{URL::to('delete-image-product/'.$image->ha_ma)}}"><i class="ik ik-trash-2"></i></a> --}}
                                        
@@ -197,6 +197,61 @@
                         </div>
                     </div>
                 </div>
+                {{-- lan 26/05/2020 --}}
+    <div class="modal fade" id="cancelImage1" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Thông báo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Phải có ít nhất 1 hình ảnh cho sản phẩm này!
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Đã hiểu</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="cancelImage2" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Thông báo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                             Vui lòng chọn tối đa 3 ảnh!
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Đã hiểu</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="cancelImage3" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Thông báo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            Vui lòng chọn ảnh đúng định dạng (jpg, jpeg, png)!
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Đã hiểu</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
 {{-- THÊM+CHỈNH SỬA --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -208,7 +263,8 @@ $(document).ready(function(){
         var limit = 3-parseInt(soluong);
         console.log(soluong);
         if(files.length > limit){
-            alert("Bạn chỉ được nhập tối đa 3 hình ảnh");
+            $('#cancelImage2').modal('show');
+            // alert("Bạn chỉ được nhập tối đa 3 hình ảnh");
             $('#images').val('');
             return false;
         }else{
@@ -244,7 +300,8 @@ $(document).ready(function(){
         var x = parseInt(soluong);
         console.log(soluong);
         if(x==1){
-            alert("Phải có ít nhất 1 hình ảnh cho sản phẩm này");
+            $('#cancelImage1').modal('show');
+            // alert("Phải có ít nhất 1 hình ảnh cho sản phẩm này");
             return false;
         }else{
             return true;
@@ -273,7 +330,8 @@ $(document).ready(function(){
                     return true;
                 }
                 else
-                    alert("Vui lòng nhập hình đúng định dạng (jpg, jpeg, png).")
+                    $('#cancelImage3').modal('show');
+                    // alert("Vui lòng nhập hình đúng định dạng (jpg, jpeg, png).")
                     $('#images').val('');
                     return false; 
                 }

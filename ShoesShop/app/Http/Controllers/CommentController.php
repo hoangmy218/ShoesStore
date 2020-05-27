@@ -64,28 +64,32 @@ class CommentController extends Controller
         /*return view('admin.manage_category');*/
     }
 // Tiên 08/05
-    public function active_comment($nd_ma, $sp_ma,$ngayBinhLuan){
+    public function active_comment(Request $request){
         try {
     
-            DB::table('binhluan')->where([['nd_ma', $nd_ma],['sp_ma', $sp_ma],['ngayBinhLuan', $ngayBinhLuan]])->update(['trangThai'=>0]);
-            Session::put('success_message1','Hiển thị bình luận thành công !');
+            DB::table('binhluan')->where([['nd_ma', '=',$request->nd_ma],['sp_ma','=',$request->sp_ma],['ngayBinhLuan','=',$request->ngayBinhLuan]])->update(['trangThai'=>0]);
+            Session::put('success_message','Hiển thị bình luận thành công !');
+        
             
         } catch (\Illuminate\Database\QueryException $e) {
-            Session::put('fail_message1','Hiển thị bình luận không thành công !');
+            Session::put('fail_message','Hiển thị bình luận không thành công !');
         }
-            return Redirect::to('manage-comment');
+            // return Redirect::to('manage-comment');
+
     }
     // Tiên 08/05
-    public function unactive_comment($nd_ma, $sp_ma,$ngayBinhLuan){
+    public function unactive_comment(Request $request){
             //$this->AuthLogin();
         try {
     
-            DB::table('binhluan')->where([['nd_ma', $nd_ma],['sp_ma', $sp_ma],['ngayBinhLuan', $ngayBinhLuan]])->update(['trangThai'=>1]);
-            Session::put('success_message1','Ẩn bình luận thành công !');
+            DB::table('binhluan')->where([['nd_ma', '=',$request->nd_ma],['sp_ma','=',$request->sp_ma],['ngayBinhLuan', '=',$request->ngayBinhLuan]])->update(['trangThai'=>1]);
+            Session::put('success_message','Ẩn bình luận thành công !');
+
             
         } catch (\Illuminate\Database\QueryException $e) {
-            Session::put('fail_message1','Ẩn bình luận không thành công !');
+            Session::put('fail_message','Ẩn bình luận không thành công !');
         }
-        return Redirect::to('manage-comment');
+        // return Redirect::to('manage-comment');
+
     }
 }
