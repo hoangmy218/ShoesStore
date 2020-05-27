@@ -40,7 +40,7 @@
                                             </div> --}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên thương hiệu</label>
-                                                <input type="text" class="form-control" name="brand_name" placeholder="Tên">
+                                                <input type="text" class="form-control" name="brand_name" required="" placeholder="Tên">
                                             </div>   
                                             <button type="submit" name="add_brand" class="btn btn-primary mr-2">Thêm</button>
                                             <button type="button" class="btn btn-light cancel">Hủy</button>

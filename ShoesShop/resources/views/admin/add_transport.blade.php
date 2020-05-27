@@ -36,11 +36,11 @@
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên hình thức vận chuyển</label>
-                                                <input type="text" class="form-control" id="exampleInputName1" name="transport_name" placeholder="Name">
+                                                <input type="text" class="form-control" id="exampleInputName1" name="transport_name" required="" placeholder="Name">
                                             </div>
                                              <div class="form-group">
                                                 <label for="exampleInputName1">Chi phí vận chuyển</label>
-                                                <input type="text" class="form-control" id="exampleInputName1" name="transport_price" placeholder="Name">
+                                                <input type="text" class="form-control" id="exampleInputName1" name="transport_price" required="" placeholder="Name">
                                             </div>
                                             <button type="submit" name="add_transport" class="btn btn-primary mr-2">Thêm</button>
                                             <button type="button" class="btn btn-light cancel">Hủy</button>

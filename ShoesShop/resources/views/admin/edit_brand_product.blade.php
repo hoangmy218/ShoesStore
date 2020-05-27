@@ -42,7 +42,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên thương hiệu</label>
-                                                <input type="text" value="{{$edit_value->th_ten}}" name="brand_name" class="form-control" id="exampleInputName1" placeholder="Name" >
+                                                <input type="text" value="{{$edit_value->th_ten}}" name="brand_name" class="form-control" id="exampleInputName1" required="" placeholder="Name" >
                                             </div>
                                             
                                            

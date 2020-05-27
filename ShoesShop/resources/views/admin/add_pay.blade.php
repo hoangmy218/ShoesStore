@@ -35,7 +35,7 @@
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên hình thức</label>
-                                                <input type="text" class="form-control" id="exampleInputName1" name="pay_name" placeholder="Name">
+                                                <input type="text" class="form-control"  required="" id="exampleInputName1" name="pay_name" placeholder="Name">
                                             </div>
                                             <button type="submit" name="add_pay" class="btn btn-primary mr-2">Thêm</button>
                                             <button type="button" class="btn btn-light cancel">Hủy</button>

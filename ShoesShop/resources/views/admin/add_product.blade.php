@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputName1">Đơn giá bán</label>
-                        <input type="number" class="form-control" name="pro_price" id="exampleInputName1" min="100000" step="1000" max="5000000" required="" placeholder="Giá  tối thiểu 100,000 VND">
+                        <input type="number" class="form-control" name="pro_price" id="exampleInputName1" min="100000" required="" step="1000" max="5000000" required="" placeholder="Giá  tối thiểu 100,000 VND">
 
                         
                         {{-- @if($errors->first('pro_price'))

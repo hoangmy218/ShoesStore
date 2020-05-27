@@ -36,23 +36,23 @@
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Mã nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_id"  placeholder="Mã" value="{{$count_supplier+1}}">
+                                                <input type="text" class="form-control" required="" name="supplier_id"  placeholder="Mã" value="{{$count_supplier+1}}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_name" placeholder="Tên">
+                                                <input type="text" class="form-control" required="" name="supplier_name" placeholder="Tên">
                                             </div>   
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Email nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_email" placeholder="Email">
+                                                <input type="text" class="form-control" required="" name="supplier_email" placeholder="Email">
                                             </div> 
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Số điện thoại nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_phone" placeholder="Số điện thoại">
+                                                <input type="text" class="form-control" required="" name="supplier_phone" placeholder="Số điện thoại">
                                             </div> 
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Địa chỉ nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_address" placeholder="Địa chỉ">
+                                                <input type="text" class="form-control" required="" name="supplier_address" placeholder="Địa chỉ">
                                             </div> 
 
                                             <button type="submit" name="add_supplier" class="btn btn-primary mr-2">Thêm</button>

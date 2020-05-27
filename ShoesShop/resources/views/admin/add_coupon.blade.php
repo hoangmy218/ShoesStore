@@ -36,19 +36,19 @@
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Chủ đề khuyến mãi</label>
-                                                <input type="text" class="form-control" id="exampleInputName1" name="coupon_topic" placeholder="Mừng Quốc tế Phụ nữ 8/3, khuyến mãi 5% từ 8/3/2020 - 10/3/2020">
+                                                <input type="text" class="form-control" id="exampleInputName1" name="coupon_topic" required="" placeholder="Mừng Quốc tế Phụ nữ 8/3, khuyến mãi 5% từ 8/3/2020 - 10/3/2020">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Ngày bắt đầu</label>
-                                                <input type="date" class="form-control datetimepicker-input" name="coupon_dateB" />
+                                                <input type="date" required="" class="form-control datetimepicker-input" name="coupon_dateB" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Ngày kết thúc</label>
-                                                <input type="date" class="form-control datetimepicker-input" name="coupon_dateE" />
+                                                <input type="date" required="" class="form-control datetimepicker-input" name="coupon_dateE" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Giá trị % được giảm</label>
-                                                <input class="form-control datetimepicker-input" name="coupon_discount" type="number" value="1">
+                                                <input class="form-control datetimepicker-input" required="" name="coupon_discount" type="number" value="1">
                                             </div> 
                                             <button type="submit" name="add_coupon" class="btn btn-primary mr-2">Thêm</button>
                                             <button id="cancel" class="btn btn-light">Hủy</button>

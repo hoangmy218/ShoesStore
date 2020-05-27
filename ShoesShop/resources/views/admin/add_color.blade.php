@@ -40,7 +40,7 @@
                                             </div> --}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên màu sắc</label>
-                                                <input type="text" class="form-control" name="color_name" placeholder="Tên">
+                                                <input type="text" class="form-control" required="" name="color_name" placeholder="Tên">
                                             </div>   
                                             <button type="submit" name="add_color" class="btn btn-primary mr-2">Thêm</button>
                                             <button type="button" class="btn btn-light cancel">Hủy</button>

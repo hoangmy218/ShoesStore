@@ -40,11 +40,11 @@
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên hình thức vận chuyển</label>
-                                                <input type="text" name="transport_name" class="form-control" id="exampleInputName1" value="{{$edit->htvc_ten}}">
+                                                <input type="text" name="transport_name" class="form-control" required="" id="exampleInputName1" value="{{$edit->htvc_ten}}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Chi phí</label>
-                                                <input type="text" name="transport_price" class="form-control" id="exampleInputName1" value="{{$edit->htvc_phi}}">
+                                                <input type="text" name="transport_price" required="" class="form-control" id="exampleInputName1" value="{{$edit->htvc_phi}}">
                                             </div>
                                             
                                             <button type="submit" name="add_pro" class="btn btn-primary mr-2">Cập nhật</button>

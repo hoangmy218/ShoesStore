@@ -153,11 +153,11 @@
 
                                                     <label for="exampleInputName1">Số lượng nhập </label>
                                                     <div class="form-group mb-2 mr-sm-2 mb-sm-0">
-                                                        <input type="number" class="form-control" name="SoLuongNhap" min="1" step="1" max="40" value="10">
+                                                        <input type="number" required="" class="form-control" name="SoLuongNhap" min="1" step="1" max="40" value="10">
                                                     </div>
                                                     <label for="exampleInputName1">Đơn giá nhập </label>
                                                     <div class="form-group  mb-2 mr-sm-2 mb-sm-0">
-                                                        <input type="number" class="form-control" name="DonGiaNhap" min="50000" step="1000" max="10000000" value="50000">
+                                                        <input type="number" required="" class="form-control" name="DonGiaNhap" min="50000" step="1000" max="10000000" value="50000">
                                                     </div>
                                                     <button data-repeater-delete type="button" class="btn btn-danger btn-icon ml-2" ><i class="ik ik-trash-2"></i></button>
                                                 </div>

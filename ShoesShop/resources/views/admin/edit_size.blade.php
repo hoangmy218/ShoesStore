@@ -42,7 +42,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên kích cỡ</label>
-                                                <input type="text" value="{{$edit_value->kc_ten}}" name="size_name" class="form-control" id="exampleInputName1" placeholder="Name" >
+                                                <input type="text" value="{{$edit_value->kc_ten}}" required="" name="size_name" class="form-control" id="exampleInputName1" placeholder="Name" >
                                             </div>
                                             
                                            

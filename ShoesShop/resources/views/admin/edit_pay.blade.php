@@ -40,7 +40,7 @@
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên hình hình thức thanh toán</label>
-                                                <input type="text" name="pay_name" class="form-control" id="exampleInputName1" value="{{$edit->httt_ten}}">
+                                                <input type="text" required="" name="pay_name" class="form-control" id="exampleInputName1" value="{{$edit->httt_ten}}">
                                             </div>
                                             <button type="submit" name="add_pro" class="btn btn-primary mr-2">Cập nhật</button>
                                             <button type="button" class="btn btn-light cancel">Hủy</button>

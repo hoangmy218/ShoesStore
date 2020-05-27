@@ -44,7 +44,7 @@
                         {{csrf_field()}}
                         <div class="form-group">
                                 <label for="exampleInputName1">Mã quảng cáo</label>
-                                <input type="text" class="form-control" id="exampleInputName1" value="{{$ad->qc_ma}}" disabled="disabled" >
+                                <input type="text" class="form-control" id="exampleInputName1" required="" value="{{$ad->qc_ma}}" disabled="disabled" >
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputName1">Chủ đề quảng cáo</label>
@@ -57,7 +57,7 @@
                                 <img src="{{URL::to('public/upload/advertisement/'.$ad->qc_hinhAnh)}}"height="100" width="200">
 
                             &nbsp
-                                <input type="file" name="ad_image"  class="selectImage" id="images" max_file_uploads="1" multiple /> 
+                                <input type="file" name="ad_image" class="selectImage" id="images" max_file_uploads="1" multiple /> 
 
                             </div>
                             

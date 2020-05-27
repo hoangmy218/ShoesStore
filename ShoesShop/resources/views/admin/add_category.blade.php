@@ -37,7 +37,7 @@
                                             
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên danh mục</label>
-                                                <input type="text" class="form-control" id="exampleInputName1" name="cate_name" placeholder="Name">
+                                                <input type="text" class="form-control" required="" id="exampleInputName1" name="cate_name" placeholder="Name">
                                             </div>   
                                             <button type="submit" name="add_cate" class="btn btn-primary mr-2">Thêm</button>
                                             <button id="cancel" class="btn btn-light">Hủy</button>

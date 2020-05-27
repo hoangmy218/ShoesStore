@@ -41,7 +41,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên danh mục</label>
-                                                <input type="text" value="{{$edit_value->dm_ten}}" class="form-control" id="exampleInputName1" name="cate_name" >
+                                                <input type="text" value="{{$edit_value->dm_ten}}" required="" class="form-control" id="exampleInputName1" name="cate_name" >
                                             </div>   
                                             
                                             <div class="form-group pull-right">

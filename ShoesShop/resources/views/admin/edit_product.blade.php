@@ -58,7 +58,7 @@
                         {{csrf_field()}}
                             <div class="form-group">
                                 <label for="exampleInputName1">Tên sản phẩm</label>
-                                <input type="text" name="pro_name" class="form-control" id="exampleInputName1" value="{{$pro->sp_ten}}">
+                                <input type="text" name="pro_name" required="" class="form-control" id="exampleInputName1" value="{{$pro->sp_ten}}">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputName1">Đơn giá bán</label>
