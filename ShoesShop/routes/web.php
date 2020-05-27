@@ -243,7 +243,7 @@ Route::post('/save-edit-receipt/{pn_ma}','ProductController@saveEditReceipt');
 
 Route::get('/update-Price','ProductController@updateSumPrice');
 
-Route::get('/delete-goods/{ctsp_ma}','ProductController@deleteGoods');
+Route::get('/delete-goods','ProductController@deleteGoods');
 Route::get('/getDetailGoods','ProductController@getDetailGoods');
 Route::post('/save-edit-goods/{pn_ma}','ProductController@saveEditGoods');
 

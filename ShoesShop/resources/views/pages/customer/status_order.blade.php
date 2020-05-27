@@ -63,7 +63,7 @@
                                     @foreach($donhang as $key =>$dh)
                                     <td>{{$dh->tt_ten}}</td>
                                     <td class="product-remove"> {{-- Hủy đơn M --}}
-                                        @if ($dh->tt_ten != 'Đã hủy')
+                                        @if (($order->tt_ma != 4) &&($order->tt_ma != 5))
                                     <a onclick="<?php echo "return confirm('"; ?>{{ __("Bạn có chắc chắn muốn hủy đơn hàng này?") }}<?php echo "')";?>" class="ion-ios-close" href="{{URL::to('/cus-cancel-order/'.$order->dh_ma)}}"><i class="fa fa-times"></i></a>
                                         @else
                                             &nbsp;

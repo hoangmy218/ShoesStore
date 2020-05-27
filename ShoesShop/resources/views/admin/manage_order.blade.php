@@ -172,7 +172,7 @@
                                                             @endswitch
                                                             <br>
                                                             <a href="{{URL::to('/view-order/'.$order->dh_ma)}}"><i class="ik ik-eye f-16 mr-15 text-blue"></i></a>  
-                                                            @if ($order->tt_ma != 5)
+                                                            @if (($order->tt_ma != 5 ) && ($order->tt_ma != 4) )
                                                             <i class="ik ik-x-circle cancel text-red" id="{{$order->dh_ma}}"></i>
                                                             @endif
                                                              {{-- <button type="button"  class="btn btn-danger " ><i class="ik ik-x-circle cancel" id="{{$order->dh_ma}}" ></i></button> --}}

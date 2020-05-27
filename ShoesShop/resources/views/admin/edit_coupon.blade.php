@@ -37,7 +37,7 @@
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Chủ đề khuyến mãi</label>
-                                                <input type="text" class="form-control" id="exampleInputName1" name="coupon_topic" value="{{$edit_value->km_chuDe}}">
+                                                <input type="text" class="form-control" id="exampleInputName1" name="coupon_topic" value="{{$edit_value->km_chuDe}}" required="">
                                             </div>
 
                                             <div class="form-group">

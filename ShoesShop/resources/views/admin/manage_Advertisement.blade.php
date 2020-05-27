@@ -69,11 +69,11 @@
                                           
                                             <td><div class="table-actions" style="text-align: center;">  
                                                 @switch($ad->qc_trangThai)
-                                                @case(0)
+                                                @case(1)
                                                     <button type="button" id="{{$ad->qc_ma}}" class="btn btn-primary Dangqc" data-toggle="modal" >Đăng quảng cáo</button>
                                                     @break
 
-                                                @case(1)
+                                                @case(0)
                                                     <button type="button" id="{{$ad->qc_ma}}" class="btn btn-danger Goqc" data-toggle="modal">Gỡ quảng cáo</button>
                                                     @break
                                                  @default
@@ -187,7 +187,7 @@ $(document).ready(function(){
 
         $('#ok_Dangqc_btn').click(function(){
             $.ajax({
-                url: '<?php echo url('/unactive-advertisement'); ?>/'+qc_ma,
+                url: '<?php echo url('/active-advertisement'); ?>/'+qc_ma,
                 type: 'get',
                 success: function(data)
                 {
@@ -205,7 +205,7 @@ $(document).ready(function(){
 
         $('#ok_Goqc_btn').click(function(){
             $.ajax({
-                url: '<?php echo url('/active-advertisement'); ?>/'+qc_ma,
+                url: '<?php echo url('/unactive-advertisement'); ?>/'+qc_ma,
                 type: 'get',
                 success: function(data)
                 {

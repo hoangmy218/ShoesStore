@@ -36,23 +36,23 @@
                                              {{csrf_field()}}
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Mã nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_id"  placeholder="Mã" value="{{$supplier->ncc_ma}}">
+                                                <input type="text" class="form-control" name="supplier_id"  placeholder="Mã" value="{{$supplier->ncc_ma}}" required="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Tên nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_name" placeholder="Tên" value="{{$supplier->ncc_ten}}">
+                                                <input type="text" class="form-control" name="supplier_name" placeholder="Tên" value="{{$supplier->ncc_ten}}" required="">
                                             </div>   
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Email nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_email" placeholder="Email" value="{{$supplier->ncc_email}}">
+                                                <input type="text" class="form-control" name="supplier_email" placeholder="Email" value="{{$supplier->ncc_email}}" required="">
                                             </div> 
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Số điện thoại nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_phone" placeholder="Số điện thoại" value="{{$supplier->ncc_dienThoai}}">
+                                                <input type="text" class="form-control" name="supplier_phone" placeholder="Số điện thoại" value="{{$supplier->ncc_dienThoai}}" required="">
                                             </div> 
                                             <div class="form-group">
                                                 <label for="exampleInputName1">Địa chỉ nhà cung cấp</label>
-                                                <input type="text" class="form-control" name="supplier_address" placeholder="Địa chỉ" value="{{$supplier->ncc_diaChi}}">
+                                                <input type="text" class="form-control" name="supplier_address" placeholder="Địa chỉ" value="{{$supplier->ncc_diaChi}}" required="">
                                             </div> 
 
                                             <button type="submit" name="edit_supplier" class="btn btn-primary mr-2">Cập nhật</button>

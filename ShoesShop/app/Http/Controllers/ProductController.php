@@ -500,11 +500,24 @@ class ProductController extends Controller
     }
 
     //Edit Goods of Receipt
-    public function deleteGoods($ctsp_ma)
+    public function deleteGoods(Request $request)
     {
         $this->authLogin();
         try {
-            DB::table('chitietsanpham')->where('ctsp_ma', $ctsp_ma)->delete();
+            $receipt_good = DB::Table('cochitietphieunhap') 
+                ->leftJoin('cochitietsanpham', function($join)
+                         {
+                             $join->on('cochitietsanpham.sp_ma', '=', 'cochitietphieunhap.sp_ma');
+                             $join->on('cochitietsanpham.kc_ma', '=', 'cochitietphieunhap.kc_ma');
+                             $join->on('cochitietsanpham.ms_ma', '=', 'cochitietphieunhap.ms_ma');
+                            
+                         }) 
+                ->where([['cochitietphieunhap.pn_ma', '=', $request->pn_ma],
+                          ['cochitietphieunhap.kc_ma', '=', $request->kc_ma],
+                          ['cochitietphieunhap.ms_ma', '=', $request->ms_ma],
+                          ['cochitietphieunhap.sp_ma', '=', $request->sp_ma]])
+                ->delete(); 
+            //DB::table('chitietsanpham')->where('ctsp_ma', $ctsp_ma)->delete();
            //DB::table('phieunhap')->where('pn_ma', $pn_ma)->delete(); //Neu doi ctsp cascade thi xoa dong nay
             Session::put('success_message','Xóa sản phẩm thành công!');
             

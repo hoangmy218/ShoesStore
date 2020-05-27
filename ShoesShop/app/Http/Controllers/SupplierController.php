@@ -83,15 +83,14 @@ class SupplierController extends Controller
     public function deleteSupplier($ncc_ma){
     	$this -> authLogin();
 
-
     	try{
     		$count = DB::table('nhacungcap')->where('ncc_ma',$ncc_ma)->delete();
     		Session::put('success_message','Xóa Nhà cung cấp thành công!');
 
     	} catch (\Illuminate\Database\QueryException $e) {
         	
-            Session::put('fail_message','Xóa Nhà cung cấp thất bại!');
+            Session::put('fail_message','Xóa Nhà cung cấp không thành công!');
         }
-        return Redirect::to('/manage-suppliers');
+        //return Redirect::to('/manage-suppliers');
     }
 }

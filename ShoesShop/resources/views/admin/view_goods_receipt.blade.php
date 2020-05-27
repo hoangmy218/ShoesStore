@@ -121,7 +121,7 @@
                                                         <div class="table-actions" style="text-align: left">
                                                             
                                                             <a><i id="{{$pro->pn_ma}}" class="ik ik-edit-2 f-16 mr-15 edit text-green"></i></a>
-                                                            <a> <i class="ik ik-trash-2 f-16 mr-15 delete text-red" id="{{$pro->sp_ma}}"></i></a>
+                                                            <a> <i class="ik ik-trash-2 f-16 mr-15 delete text-red" id="{{$pro->pn_ma}}"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -376,19 +376,34 @@
         //xoa phieu nhap
 
         $(document).on('click','.delete', function(){
-            ctsp_ma = $(this).attr('id');
-            console.log('ctsp_ma',ctsp_ma);
+            pn_ma = $(this).attr('id');
+            console.log('clicked delete');
+            console.log(pn_ma,'pn_ma');
+             sp_ma = $.trim(($(this).parent()).parent().parent().parent().children().eq(1).text());
+            console.log(sp_ma,'sp_ma');
+             ms_ma = $.trim(($(this).parent()).parent().parent().parent().children().eq(3).attr('class'));
+            console.log(ms_ma,'ms_ma');
+             kc_ma = $.trim(($(this).parent()).parent().parent().parent().children().eq(4).attr('class'));
+            console.log(kc_ma,'kc_ma');
             $('#deleteModal').modal('show');
 
         });
 
         $('#ok_delete_btn').click(function(){
+             
+                        
             $.ajax({
-                url: '<?php echo url('delete-goods');?>/'+ctsp_ma,
+                url: '<?php echo url('delete-goods');?>/',
                 type: 'get',
+                data:{
+                            pn_ma: pn_ma,
+                            sp_ma: sp_ma,
+                            ms_ma: ms_ma,
+                            kc_ma: kc_ma,
+                        },
                 success: function(data)
                 {
-                    window.location.replace("<?php echo url('/manage-goods-receipt');?>");
+                    window.location.replace("<?php echo url('/view-receipt');?>/"+pn_ma);
                 }
             });
         });

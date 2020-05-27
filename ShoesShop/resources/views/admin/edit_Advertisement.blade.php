@@ -44,11 +44,11 @@
                         {{csrf_field()}}
                         <div class="form-group">
                                 <label for="exampleInputName1">Mã quảng cáo</label>
-                                <input type="text" class="form-control" id="exampleInputName1" value="{{$ad->qc_ma}}" disabled="disabled">
+                                <input type="text" class="form-control" id="exampleInputName1" value="{{$ad->qc_ma}}" disabled="disabled" >
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputName1">Chủ đề quảng cáo</label>
-                                <input type="text" name="ad_topic" class="form-control" id="exampleInputName1" value="{{$ad->qc_chuDe}}">
+                                <input type="text" name="ad_topic" class="form-control" id="exampleInputName1" value="{{$ad->qc_chuDe}}" required="">
                             </div>
                             
                             <div class="form-group">
