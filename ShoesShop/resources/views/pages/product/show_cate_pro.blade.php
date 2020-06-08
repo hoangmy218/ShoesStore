@@ -13,9 +13,9 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-md-8 col-lg-10 order-md-last">
+              <div class="col-md-8 col-lg-10 order-md-last">
                   
-                    <div class="row">
+                <div class="row">
                   @foreach($list_cate_pro as $key => $product)
                     <?php 
                       $time = \Carbon\Carbon::now('Asia/Ho_Chi_Minh');
@@ -117,7 +117,7 @@
                     @endif
                   @endforeach
                         
-                    </div>
+                </div>
                     {{-- Phan trang --}}
                     <div class="row mt-5">
                       <div class="col text-right">
@@ -126,8 +126,7 @@
                      
                     </div>
                   </div>
-                </div>
-
+                
                <div class="col-md-4 col-lg-2">
                     <div class="sidebar">
                         <div class="sidebar-box-2">

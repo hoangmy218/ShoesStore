@@ -105,6 +105,7 @@ class HomeController extends Controller
                 ->join('phieunhap','phieunhap.pn_ma','=','cochitietphieunhap.pn_ma')
                 ->join('khuyenmai','khuyenmai.km_ma','=','sanpham.km_ma')
                 ->join('thuonghieu', 'thuonghieu.th_ma','=','sanpham.th_ma')
+                ->where('sp_trangThai','=',0)
                 ->select()
                 ->orderby('phieunhap.pn_ngayNhap','desc')
                 ->groupby('hinhanh.sp_ma')
