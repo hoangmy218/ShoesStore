@@ -124,7 +124,7 @@ class HomeController extends Controller
         $dm_array= array();
         $dm=0;
         foreach ($list_category as $key => $danhmuc){
-            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->count();
+            $sl_dm = db::table('sanpham')->where('dm_ma',$danhmuc->dm_ma)->where('sp_trangThai',0)->count();
             $dm_array[$dm] = $sl_dm;
             $dm++;
         }
@@ -135,7 +135,7 @@ class HomeController extends Controller
         $th_array= array();
         $th=0;
         foreach ($list_brand as $key => $thuonghieu){
-            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->count();
+            $sl_th = db::table('sanpham')->where('th_ma',$thuonghieu->th_ma)->where('sp_trangThai',0)->count();
             $th_array[$th] = $sl_th;
             $th++;
         }
@@ -301,7 +301,7 @@ class HomeController extends Controller
         $time_month = \Carbon\Carbon::now()->month;
         
        // Đếm sản phẩm theo danh mục
-        $list_category = DB::table('danhmuc')->select('dm_ma')->get();
+        $list_category = DB::table('danhmuc')->select('dm_ma')->where('sp_trangThai',0)->get();
         $count_dm = count($list_category);
         $dm_array= array();
         $dm=0;
@@ -312,7 +312,7 @@ class HomeController extends Controller
         }
 
         // Đếm sản phẩm theo thương hiệu
-        $list_brand = DB::table('thuonghieu')->select('th_ma')->get();
+        $list_brand = DB::table('thuonghieu')->select('th_ma')->where('sp_trangThai',0)->get();
         $count_th = count($list_brand);
         $th_array= array();
         $th=0;
