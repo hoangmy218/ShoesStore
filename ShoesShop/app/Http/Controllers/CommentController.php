@@ -50,7 +50,7 @@ class CommentController extends Controller
             }
             
         } catch (\Illuminate\Database\QueryException $e) {
-            Session::put('fail_message','Bạn vừa viết bình luận của sản phẩm này xong !');
+            Session::put('fail_message','Bình luận không thành công!');
         }
         return back(); 
     }   
