@@ -42,7 +42,7 @@ class CommentController extends Controller
                 $data->trangThai = 0;
                 $data->sp_ma = $id;
                 $data->nd_ma = Session::get('nd_ma');
-                $data->ngayBinhLuan=Carbon::now()->toDateString();
+                $data->ngayBinhLuan=Carbon::now()->toDateTimeString();
                 $data->danhGia= $request->rating;
                 $data->save();
 

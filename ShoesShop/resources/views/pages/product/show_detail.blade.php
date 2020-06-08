@@ -394,7 +394,7 @@
 								   		<div class="desc">
 								   			<h4>
 								   				<span class="text-left">{{$comment->nd_ten}}</span>
-								   				<span class="text-right">{{date('d/m/Y',strtotime($comment->ngayBinhLuan))}}</span>
+								   				<span class="text-right">{{date('d/m/Y h:i',strtotime($comment->ngayBinhLuan))}}</span>
 								   				
 								   			</h4>
 								   			<p class="star" >
@@ -756,7 +756,7 @@
 		    //dan gia trị vào input rating
 			function setRating(rating) {
 
-			    // $('#rating-input').val(rating);
+			    $('#rating-input').val(rating);
 
 			    var valueclicked = $('#rating-input').val();//value input
 			    console.log(valueclicked,'sl rating');

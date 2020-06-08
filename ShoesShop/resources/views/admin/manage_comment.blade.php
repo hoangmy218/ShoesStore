@@ -81,7 +81,7 @@
                                                         <td>{{$ds_binhluan->nd_ten}}</td>
                                                         
                                                         <td>{{$ds_binhluan->noiDung}}</td>
-                                                        <td>{{date('d-m-Y',strtotime($ds_binhluan->ngayBinhLuan))}}</td>
+                                                        <td>{{date('d-m-Y h:i',strtotime($ds_binhluan->ngayBinhLuan))}}</td>
                                                         <td>
                                                             <input type="hidden" name="bl_sp_ma" id="spma" value="{{$ds_binhluan->sp_ma}}">
                                                             <input type="hidden" name="bl_nd_ma" id="ndma" value="{{$ds_binhluan->nd_ma}}">
