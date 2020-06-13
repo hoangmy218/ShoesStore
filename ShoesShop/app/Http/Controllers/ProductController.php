@@ -504,6 +504,8 @@ class ProductController extends Controller
     {
         $this->authLogin();
         try {
+
+            
             $receipt_good = DB::Table('cochitietphieunhap') 
                 ->leftJoin('cochitietsanpham', function($join)
                          {

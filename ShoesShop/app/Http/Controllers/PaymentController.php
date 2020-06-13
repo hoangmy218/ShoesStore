@@ -248,19 +248,20 @@ class PaymentController extends Controller
                     $order_detail_data['SoLuongDat'] = $v_content->qty; 
                     try {
                         $insert_orderdetail_id = DB::table('cochitietdonhang')->insertGetId($order_detail_data);
-                        if ($insert_orderdetail_id != NULL){
+                        //if ($insert_orderdetail_id != NULL){
+
                            $ctsp_ton =  DB::table('cochitietsanpham')
                              ->where([['cochitietsanpham.kc_ma',$v_content->options->size],
                                 ['cochitietsanpham.ms_ma',$v_content->options->mausac],
                                 ['cochitietsanpham.sp_ma',$v_content->id]])
                              ->first();
-
+                            $slt = $ctsp_ton->soLuongTon - $v_content->qty;
                             DB::table('cochitietsanpham')
                                 ->where([['cochitietsanpham.kc_ma',$v_content->options->size],
                                 ['cochitietsanpham.ms_ma',$v_content->options->mausac],
                                 ['cochitietsanpham.sp_ma',$v_content->id]])
-                                ->update(['soLuongTon' => $ctsp_ton->soLuongTon - $v_content->qty]);
-                        }             
+                                ->update(['soLuongTon' => $slt]);
+                        //}             
                     } catch (\Illuminate\Database\QueryException $e) {
                         Session::put('fail_message1','Đặt hàng không thành công!');
                         Redirect::to('/payment');
